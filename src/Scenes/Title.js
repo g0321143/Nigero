@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 
-import { Block_Column, Canvas } from '../GlobalStyles';
+import { Game, Block_Column, Canvas } from '../GlobalStyles';
 import Button from '../Components/Button';
 
 import playButton from '../Assets/Images/ENTER_PLAY.png';
@@ -17,7 +17,6 @@ function Box(props) {
 
     // このコンポーネントをレンダリングループに登録し、フレームごとにメッシュを回転させる
     useFrame((state, delta) => (ref.current.rotation.x += 0.01));
-
 
     // ビューを返すと、これらは通常のThreejsの要素をJSXで表現したものです。
     return (
@@ -35,12 +34,12 @@ function Box(props) {
 }
 
 export default function Title() {
-
+    
     const [scene, setScene] = useState('title');
     console.log(scene);
-
+    
     return (
-        <>
+        <Game>
             <Block_Column>
                 <Button
                     handler={() => setScene('select')}
@@ -62,7 +61,7 @@ export default function Title() {
                 <Box position={[-1.2, 0, 0]} />
                 <Box position={[1.2, 0, 0]} />
             </Canvas>
-        </>
+        </Game>
     );
 }
 
