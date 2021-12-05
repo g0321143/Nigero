@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
-import { useFrame } from '@react-three/fiber'
+import {useFrame}  from '@react-three/fiber'
 
+import store from '../Store';
 import { Game, Block_Column, Canvas } from '../GlobalStyles';
 import Button from '../Components/Button';
 
@@ -35,20 +36,17 @@ function Box(props) {
 
 export default function Title() {
     
-    const [scene, setScene] = useState('title');
-    console.log(scene);
-    
     return (
         <Game>
             <Block_Column>
                 <Button
-                    handler={() => setScene('select')}
+                    handler={() => store.setScene('select')}
                     src={playButton}
                     width={'300px'}
                     height={'80px'}
                 />
                 <Button
-                    handler={() => setScene('option')}
+                    handler={() => store.setScene('option')}
                     src={optionButton}
                     width={'300px'}
                     height={'80px'}
