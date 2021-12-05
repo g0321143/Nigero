@@ -31,13 +31,13 @@ export const CodeFAB = styled.div`
   }
 `;
 
-export const Canvas = styled(c)`
+export const Canvas_Three = styled(c)`
   position: absolute !important;
   top: 0;
   left: 0;
 `;
 
-export const Game = styled.div`
+export const Game_Canvas = styled.div`
     position: absolute;
     top: 0;
     left: 0;
@@ -77,8 +77,8 @@ export const Block_Left_End = styled.div`
     height: 100%;
     
     flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-end;
+    align-items: flex-end;
+    justify-content: flex-start;
 `;
 
 export const Block_Right = styled.div`

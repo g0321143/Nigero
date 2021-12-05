@@ -1,7 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React from 'react'
+
 import store from './Store';
+
 import Title from './Scenes/Title';
 import Select from './Scenes/Select';
+import Option from './Scenes/Option';
+import Game from './Scenes/Game';
 
 class App extends React.Component {
     constructor(props) {
@@ -47,6 +51,7 @@ class App extends React.Component {
         switch(scene){
             case 'title': return <Title/>;
             case 'select': return <Select/>;
+            case 'option': return <Option/>;
             case 'game': return <Game/>;
             default: console.error(`${scene} does not exist.`); return <Title/>
         }

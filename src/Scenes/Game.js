@@ -1,15 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { useFrame } from '@react-three/fiber'
+import {useFrame}  from '@react-three/fiber'
 
 import store from '../Store';
-import { Game_Canvas, Block_Right, Block_Left_End, Block_Left_Top, Canvas_Three } from '../GlobalStyles';
+import { Game_Canvas, Block_Right, Canvas_Three } from '../GlobalStyles';
 import Button from '../Components/Button';
 
 import backButton from '../Assets/Images/GO_BACKWARD.png';
-import hintButton from '../Assets/Images/HINT_ICON.png';
-import homeButton from '../Assets/Images/HOME_ICON.png';
-import shopButton from '../Assets/Images/ITEM_SHOP.png';
-import playButton from '../Assets/Images/PLAY_ICON.png';
 
 function Box(props) {
     // この参照により、THREE.Meshオブジェクトに直接アクセスできます
@@ -37,46 +33,19 @@ function Box(props) {
     )
 }
 
-export default function Select() {
+export default function Game() {
 
     return (
         <Game_Canvas>
+            <h1>ゲーム画面　未実装</h1>
             <Block_Right>
                 <Button
-                    handler={() => store.setScene('game')}
-                    src={playButton}
-                    width={'80px'}
-                    height={'80px'}
-                />
-                <Button
-                    handler={() => store.setScene('title')}
+                    handler={() => store.setScene('select')}
                     src={backButton}
                     width={'80px'}
                     height={'80px'}
                 />
             </Block_Right>
-            <Block_Left_End>
-                <Button
-                    handler={() => store.setScene('select')}
-                    src={homeButton}
-                    width={'80px'}
-                    height={'80px'}
-                />
-                <Button
-                    handler={() => store.setScene('select')}
-                    src={shopButton}
-                    width={'80px'}
-                    height={'80px'}
-                />
-            </Block_Left_End>
-            <Block_Left_Top>
-                <Button
-                    handler={() => store.setScene('select')}
-                    src={hintButton}
-                    width={'80px'}
-                    height={'80px'}
-                />
-            </Block_Left_Top>
             <Canvas_Three>
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />

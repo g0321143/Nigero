@@ -1,5 +1,5 @@
 {
-  "name": "sample05",
+  "name": "Nigero",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scryipts eject"
   },
   "keywords": [],
   "author": "",

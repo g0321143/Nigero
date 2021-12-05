@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 import {useFrame}  from '@react-three/fiber'
 
 import store from '../Store';
-import { Game, Block_Column, Canvas } from '../GlobalStyles';
+import { Game_Canvas, Block_Column, Canvas_Three } from '../GlobalStyles';
 import Button from '../Components/Button';
 
 import playButton from '../Assets/Images/ENTER_PLAY.png';
@@ -37,7 +37,7 @@ function Box(props) {
 export default function Title() {
     
     return (
-        <Game>
+        <Game_Canvas>
             <Block_Column>
                 <Button
                     handler={() => store.setScene('select')}
@@ -52,14 +52,14 @@ export default function Title() {
                     height={'80px'}
                 />
             </Block_Column>
-            <Canvas>
+            <Canvas_Three>
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <pointLight position={[-10, -10, -10]} />
                 <Box position={[-1.2, 0, 0]} />
                 <Box position={[1.2, 0, 0]} />
-            </Canvas>
-        </Game>
+            </Canvas_Three>
+        </Game_Canvas>
     );
 }
 
