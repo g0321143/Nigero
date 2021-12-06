@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 import {useFrame}  from '@react-three/fiber'
 
-import store from '../Store';
-import { Game_Canvas, Block_Right, Canvas_Three } from '../GlobalStyles';
-import Button from '../Components/Button';
+import Store from '../Utils/Store';
+import { Game_Canvas, Block_Right, Canvas_Three } from '../Utils/GlobalStyles';
+import Button from '../Utils/Button';
 
 import backButton from '../Assets/Images/GO_BACKWARD.png';
 
@@ -40,7 +40,7 @@ export default function Game() {
             <h1>ゲーム画面　未実装</h1>
             <Block_Right>
                 <Button
-                    handler={() => store.setScene('select')}
+                    handler={() => Store.setScene('select')}
                     src={backButton}
                     width={'80px'}
                     height={'80px'}

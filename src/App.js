@@ -1,6 +1,6 @@
 import React from 'react'
 
-import store from './Store';
+import Store from './Utils/Store';
 
 import Title from './Scenes/Title';
 import Select from './Scenes/Select';
@@ -16,7 +16,7 @@ class App extends React.Component {
     }
 
     onChangeStore = () => {
-        const scene = store.getState();
+        const scene = Store.getState();
         this.setState({ scene });
     };
 
@@ -25,19 +25,18 @@ class App extends React.Component {
      * 'scene_changed'イベントを検知して，this.onChangeStoreを実行します．
      */
     componentDidMount() {
-        store.on('scene_changed', this.onChangeStore);
-        console.log("doomに插入");
+        Store.on('scene_changed', this.onChangeStore);
     }
 
     /**
      * コンポーネントが DOM から削除されるときに呼び出されます．
      */
     componentWillUnmount() {
-        store.off('scene_changed', this.onChangeStore);
-        console.log("doomから削除");
+        Store.off('scene_changed', this.onChangeStore);
     }
 
     render() {
+
         return (
             <div className="App">
                 {this.renderComponent()}

@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 
-import store from '../Store';
-import { Game_Canvas, Block_Right, Block_Left_End, Block_Left_Top, Canvas_Three } from '../GlobalStyles';
-import Button from '../Components/Button';
+import Store from '../Utils/Store';
+import { Game_Canvas, Block_Right, Block_Left_End, Block_Left_Top, Canvas_Three } from '../Utils/GlobalStyles';
+import Button from '../Utils/Button';
 
 import backButton from '../Assets/Images/GO_BACKWARD.png';
 import hintButton from '../Assets/Images/HINT_ICON.png';
@@ -43,13 +43,13 @@ export default function Select() {
         <Game_Canvas>
             <Block_Right>
                 <Button
-                    handler={() => store.setScene('game')}
+                    handler={() => Store.setScene('game')}
                     src={playButton}
                     width={'80px'}
                     height={'80px'}
                 />
                 <Button
-                    handler={() => store.setScene('title')}
+                    handler={() => Store.setScene('title')}
                     src={backButton}
                     width={'80px'}
                     height={'80px'}
@@ -57,13 +57,13 @@ export default function Select() {
             </Block_Right>
             <Block_Left_End>
                 <Button
-                    handler={() => store.setScene('select')}
+                    handler={() => Store.setScene('select')}
                     src={homeButton}
                     width={'80px'}
                     height={'80px'}
                 />
                 <Button
-                    handler={() => store.setScene('select')}
+                    handler={() => Store.setScene('select')}
                     src={shopButton}
                     width={'80px'}
                     height={'80px'}
@@ -71,7 +71,7 @@ export default function Select() {
             </Block_Left_End>
             <Block_Left_Top>
                 <Button
-                    handler={() => store.setScene('select')}
+                    handler={() => Store.setScene('select')}
                     src={hintButton}
                     width={'80px'}
                     height={'80px'}

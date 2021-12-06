@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
 import {useFrame}  from '@react-three/fiber'
+import { ContactShadows, Environment, useGLTF, OrbitControls } from "@react-three/drei"
 
-import store from '../Store';
-import { Game_Canvas, Block_Column, Canvas_Three } from '../GlobalStyles';
-import Button from '../Components/Button';
+import Store from '../Utils/Store';
+import { Game_Canvas, Block_Column, Canvas_Three } from '../Utils/GlobalStyles';
+import Button from '../Utils/Button';
 
 import playButton from '../Assets/Images/ENTER_PLAY.png';
 import optionButton from '../Assets/Images/ENTER_OPTION.png';
@@ -40,15 +41,15 @@ export default function Title() {
         <Game_Canvas>
             <Block_Column>
                 <Button
-                    handler={() => store.setScene('select')}
+                    handler={() => Store.setScene('select')}
                     src={playButton}
-                    width={'300px'}
+                    width={'200px'}
                     height={'80px'}
                 />
                 <Button
-                    handler={() => store.setScene('option')}
+                    handler={() => Store.setScene('option')}
                     src={optionButton}
-                    width={'300px'}
+                    width={'200px'}
                     height={'80px'}
                 />
             </Block_Column>
