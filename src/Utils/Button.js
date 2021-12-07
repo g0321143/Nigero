@@ -7,6 +7,8 @@ const ChooserButton = styled.div`
   
   width: ${props => props.width};
   height: ${props => props.height};
+  
+  margin: ${props => props.margin};
 
   background-image: url(${props => props.src});
   background-size: contain;
@@ -21,9 +23,9 @@ const ChooserButton = styled.div`
   }
 `;
 
-function Button({ handler, src, width, height }) {
+function Button({ handler, src, width, height, margin }) {
     return (
-        <ChooserButton onClick={handler} src={src} width={width} height={height}/>
+        <ChooserButton onClick={handler} src={src} width={width} height={height} margin={margin}/>
     );
 }
 
@@ -32,14 +34,16 @@ Button.propTypes = {
     src: PropTypes.string,
     width: PropTypes.string,
     height: PropTypes.string,
+    margin: PropTypes.string,
     handler: PropTypes.func
 };
 
 // props ごとのデフォルトの値
 Button.defaultProps = {
     src: '',
-    width: '200px',
-    height: '200px',
+    width: '10%',
+    height: '10%',
+    margin: '5%',
     handler: () => { }
 };
 

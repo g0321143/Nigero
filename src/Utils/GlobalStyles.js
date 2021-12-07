@@ -40,7 +40,7 @@ export const Game_Canvas = styled.div`
     background-color: #e6df97;
 `;
 
-export const Block_Column = styled.div`
+export const Block_Column_End = styled.div`
     position: absolute;
     display:flex;
     
@@ -88,7 +88,7 @@ export const Block_Left_End = styled.div`
     justify-content: flex-start;
 `;
 
-export const Block_Right = styled.div`
+export const Block_Right_End = styled.div`
     position: absolute;
     display:flex;
     

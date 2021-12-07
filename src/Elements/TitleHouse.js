@@ -6,11 +6,11 @@ import colors from '../Constants/Color';
 
 function House(props) {
     const { scene } = useGLTF("./Models/House.glb");
-    scene.traverse((object) => {
-        if (object.isMesh) {
-            console.log(object.name);
-        }
-    });
+    // scene.traverse((object) => {
+    //     if (object.isMesh) {
+    //         console.log(object.name);
+    //     }
+    // });
 
     return (
         <>
@@ -21,15 +21,15 @@ function House(props) {
 
 function Tree(props) {
     const { scene } = useGLTF("./Models/Tree.glb");
-    scene.traverse((object) => {
-        if (object.isMesh) {
-            console.log(object.name);
-        }
-    });
+    // scene.traverse((object) => {
+    //     if (object.isMesh) {
+    //         console.log(object.name);
+    //     }
+    // });
 
     return (
         <>
-            <primitive object={scene} scale={1} position={[2, 0, 3]}/>
+            <primitive object={scene} scale={1} position={props.position}/>
         </>
     )
 }
@@ -43,7 +43,7 @@ export default function TitleHouse() {
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <Stage>
                     <House />
-                    <Tree />
+                    <Tree position={[2,0.22,2]}/>
                 </Stage>
             </Suspense>
         </Canvas>

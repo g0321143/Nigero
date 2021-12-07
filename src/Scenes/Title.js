@@ -1,61 +1,79 @@
-import React, { useRef, useState } from 'react'
-import { useFrame, Canvas } from '@react-three/fiber'
-import { Stage, PerspectiveCamera, useGLTF, OrbitControls } from "@react-three/drei";
+import React from 'react'
 
 import Store from '../Utils/Store';
-import { Game_Canvas, Block_Column } from '../Utils/GlobalStyles';
+import { Game_Canvas, Block_Left_Top, Block_Column_End, Block_Left_End, Block_Right_End } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
+import Coin from '../Utils/Coin'
 import TitleHouse from '../Elements/TitleHouse';
 
-import playButton from '../Assets/Images/ENTER_PLAY.png';
-import optionButton from '../Assets/Images/ENTER_OPTION.png';
+import playButton from '../Assets/Images/Play.png';
+import optionButton from '../Assets/Images/Option.png';
+import homeButton from '../Assets/Images/HomeIcon.png';
+import shopButton from '../Assets/Images/ItemShop.png';
+import languageButton from '../Assets/Images/Language.png';
+import soundButton from '../Assets/Images/Sound.png';
+import hintButton from '../Assets/Images/HintIcon.png';
 
-function Box(props) {
-    // この参照により、THREE.Meshオブジェクトに直接アクセスできます
-    const ref = useRef();
-
-    // hoveredおよびclickedイベントの状態を保持する
-    const [hovered, hover] = useState(false);
-    const [clicked, click] = useState(false);
-
-    // このコンポーネントをレンダリングループに登録し、フレームごとにメッシュを回転させる
-    useFrame((state, delta) => (ref.current.rotation.x += 0.01));
-
-    //const { scene } = useGLTF("../Assets/Models/House.glb");
-
-    // ビューを返すと、これらは通常のThreejsの要素をJSXで表現したものです。
-    return (
-        <mesh
-            {...props}
-            ref={ref}
-            scale={clicked ? 1.5 : 1}
-            onClick={(event) => click(!clicked)}
-            onPointerOver={(event) => hover(true)}
-            onPointerOut={(event) => hover(false)}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-        </mesh>
-    )
-}
 
 export default function Title() {
 
     return (
         <Game_Canvas>
-            <Block_Column>
+            <Coin />
+            <Block_Left_Top>
+                <Button
+                    src={languageButton}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
+                />
+                <Button
+                    src={soundButton}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
+                />
+            </Block_Left_Top>
+            <Block_Left_End>
+                <Button
+                    handler={() => Store.setScene('itemShop')}
+                    src={shopButton}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
+                />
+                <Button
+                    handler={() => Store.setScene('buildingShop')}
+                    src={homeButton}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
+                />
+            </Block_Left_End>
+            <Block_Column_End>
                 <Button
                     handler={() => Store.setScene('select')}
                     src={playButton}
-                    width={'30%'}
-                    height={'15%'}
+                    width={'20%'}
+                    height={'10%'}
+                    margin={'1%'}
                 />
                 <Button
                     handler={() => Store.setScene('option')}
                     src={optionButton}
-                    width={'30%'}
-                    height={'15%'}
+                    width={'20%'}
+                    height={'10%'}
+                    margin={'1%'}
                 />
-            </Block_Column>
+            </Block_Column_End>
+            <Block_Right_End>
+                <Button
+                    src={hintButton}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
+                />
+            </Block_Right_End>
             <TitleHouse />
         </Game_Canvas>
     );

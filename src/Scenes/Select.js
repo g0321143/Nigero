@@ -2,15 +2,16 @@ import React, { useRef, useState } from 'react'
 import { useFrame, Canvas } from '@react-three/fiber'
 
 import Store from '../Utils/Store';
-import {setCookie, getCookie, deleteCookie } from '../Utils/Cookie';
-import { Game_Canvas, Block_Right, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
+import {addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
+import { Game_Canvas, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
+import Coin from '../Utils/Coin'
 
-import backButton from '../Assets/Images/GO_BACKWARD.png';
-import hintButton from '../Assets/Images/HINT_ICON.png';
-import homeButton from '../Assets/Images/HOME_ICON.png';
-import shopButton from '../Assets/Images/ITEM_SHOP.png';
-import playButton from '../Assets/Images/PLAY_ICON.png';
+import backButton from '../Assets/Images/Backward.png';
+import hintButton from '../Assets/Images/HintIcon.png';
+import homeButton from '../Assets/Images/HomeIcon.png';
+import shopButton from '../Assets/Images/ItemShop.png';
+import playButton from '../Assets/Images/PlayIcon.png';
 
 function Box(props) {
     // この参照により、THREE.Meshオブジェクトに直接アクセスできます
@@ -42,40 +43,46 @@ export default function Select() {
 
     return (
         <Game_Canvas>
-            <Block_Right>
+            <Coin/>
+            <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('title')}
                     src={backButton}
-                    width={'10%'}
-                    height={'20%'}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
                 />
                 <Button
                     handler={() => Store.setScene('game')}
                     src={playButton}
-                    width={'10%'}
-                    height={'20%'}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
                 />
-            </Block_Right>
+            </Block_Right_End>
             <Block_Left_End>
                 <Button
-                    handler={() => console.log(getCookie("count"))}
+                    handler={() => subCookie("coin", 255)}
                     src={shopButton}
-                    width={'10%'}
-                    height={'20%'}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
                 />
                 <Button
-                    handler={() => setCookie("count", 25)}
+                    handler={() => addCookie("coin", 256)}
                     src={homeButton}
-                    width={'10%'}
-                    height={'20%'}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
                 />
             </Block_Left_End>
             <Block_Left_Top>
                 <Button
-                    handler={() => deleteCookie("count")}
+                    handler={() => deleteCookie("coin")}
                     src={hintButton}
-                    width={'10%'}
-                    height={'20%'}
+                    width={'6%'}
+                    height={'10%'}
+                    margin={'1%'}
                 />
             </Block_Left_Top>
             <Canvas>

@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react'
-import { useFrame, Canvas }  from '@react-three/fiber'
+import { useFrame, Canvas } from '@react-three/fiber'
 
 import Store from '../Utils/Store';
-import { Game_Canvas, Block_Right, Canvas_Three } from '../Utils/GlobalStyles';
+import { Game_Canvas, Block_Right_End, Block_Column_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 
 import backButton from '../Assets/Images/GO_BACKWARD.png';
@@ -37,15 +37,17 @@ export default function Game() {
 
     return (
         <Game_Canvas>
-            <h1>ゲーム画面　未実装</h1>
-            <Block_Right>
+            <Block_Column_Top>
+                {"ゲーム画面未実装　Game screen not implemented"}
+            </Block_Column_Top>
+            <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('select')}
                     src={backButton}
                     width={'80px'}
                     height={'80px'}
                 />
-            </Block_Right>
+            </Block_Right_End>
             <Canvas>
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />

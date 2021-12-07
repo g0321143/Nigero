@@ -6,6 +6,7 @@ import Title from './Scenes/Title';
 import Select from './Scenes/Select';
 import Option from './Scenes/Option';
 import Game from './Scenes/Game';
+import { getCookie, setCookie } from './Utils/Cookie';
 
 class App extends React.Component {
    
@@ -14,6 +15,10 @@ class App extends React.Component {
         this.state = {
             scene: 'title'
         };
+        
+        if(getCookie("coin") == ""){
+            setCookie("coin", 0);
+        }
     }
 
     onChangeStore = () => {
