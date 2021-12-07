@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { useFrame, Canvas } from '@react-three/fiber'
 
 import Store from '../Utils/Store';
-import { Game_Canvas, Block_Right, Block_Left_End, Block_Left_Top, Canvas_Three } from '../Utils/GlobalStyles';
+import {setCookie, getCookie, deleteCookie } from '../Utils/Cookie';
+import { Game_Canvas, Block_Right, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 
 import backButton from '../Assets/Images/GO_BACKWARD.png';
@@ -43,47 +44,47 @@ export default function Select() {
         <Game_Canvas>
             <Block_Right>
                 <Button
-                    handler={() => Store.setScene('game')}
-                    src={playButton}
-                    width={'80px'}
-                    height={'80px'}
-                />
-                <Button
                     handler={() => Store.setScene('title')}
                     src={backButton}
-                    width={'80px'}
-                    height={'80px'}
+                    width={'10%'}
+                    height={'20%'}
+                />
+                <Button
+                    handler={() => Store.setScene('game')}
+                    src={playButton}
+                    width={'10%'}
+                    height={'20%'}
                 />
             </Block_Right>
             <Block_Left_End>
                 <Button
-                    handler={() => Store.setScene('select')}
-                    src={homeButton}
-                    width={'80px'}
-                    height={'80px'}
+                    handler={() => console.log(getCookie("count"))}
+                    src={shopButton}
+                    width={'10%'}
+                    height={'20%'}
                 />
                 <Button
-                    handler={() => Store.setScene('select')}
-                    src={shopButton}
-                    width={'80px'}
-                    height={'80px'}
+                    handler={() => setCookie("count", 25)}
+                    src={homeButton}
+                    width={'10%'}
+                    height={'20%'}
                 />
             </Block_Left_End>
             <Block_Left_Top>
                 <Button
-                    handler={() => Store.setScene('select')}
+                    handler={() => deleteCookie("count")}
                     src={hintButton}
-                    width={'80px'}
-                    height={'80px'}
+                    width={'10%'}
+                    height={'20%'}
                 />
             </Block_Left_Top>
-            <Canvas_Three>
+            <Canvas>
                 <ambientLight intensity={0.5} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <pointLight position={[-10, -10, -10]} />
                 <Box position={[-1.2, 0, 0]} />
                 <Box position={[1.2, 0, 0]} />
-            </Canvas_Three>
+            </Canvas>
         </Game_Canvas>
     );
 }

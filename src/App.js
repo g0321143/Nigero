@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Store from './Utils/Store';
 
@@ -8,6 +8,7 @@ import Option from './Scenes/Option';
 import Game from './Scenes/Game';
 
 class App extends React.Component {
+   
     constructor(props) {
         super(props);
         this.state = {
@@ -35,8 +36,11 @@ class App extends React.Component {
         Store.off('scene_changed', this.onChangeStore);
     }
 
+    /**
+     * ここに描画したコンポーネントを記述します．
+     * @returns レンダリング結果
+     */
     render() {
-
         return (
             <div className="App">
                 {this.renderComponent()}
@@ -44,15 +48,19 @@ class App extends React.Component {
         );
     }
 
-    renderComponent(){
+    /**
+     * sceneによって描画するコンポーネントを切り替えます．
+     * @returns 描画するコンポーネント
+     */
+    renderComponent() {
         const { scene } = this.state.scene;
 
-        switch(scene){
-            case 'title': return <Title/>;
-            case 'select': return <Select/>;
-            case 'option': return <Option/>;
-            case 'game': return <Game/>;
-            default: console.error(`${scene} does not exist.`); return <Title/>
+        switch (scene) {
+            case 'title': return <Title />;
+            case 'select': return <Select />;
+            case 'option': return <Option />;
+            case 'game': return <Game />;
+            default: console.error(`"${scene}" は存在しない画面です.`); return <Title />
         }
     }
 }

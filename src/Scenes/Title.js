@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react'
-import {useFrame}  from '@react-three/fiber'
-import { ContactShadows, Environment, useGLTF, OrbitControls } from "@react-three/drei"
+import { useFrame, Canvas } from '@react-three/fiber'
+import { Stage, PerspectiveCamera, useGLTF, OrbitControls } from "@react-three/drei";
 
 import Store from '../Utils/Store';
-import { Game_Canvas, Block_Column, Canvas_Three } from '../Utils/GlobalStyles';
+import { Game_Canvas, Block_Column } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
+import TitleHouse from '../Elements/TitleHouse';
 
 import playButton from '../Assets/Images/ENTER_PLAY.png';
 import optionButton from '../Assets/Images/ENTER_OPTION.png';
@@ -19,6 +20,8 @@ function Box(props) {
 
     // このコンポーネントをレンダリングループに登録し、フレームごとにメッシュを回転させる
     useFrame((state, delta) => (ref.current.rotation.x += 0.01));
+
+    //const { scene } = useGLTF("../Assets/Models/House.glb");
 
     // ビューを返すと、これらは通常のThreejsの要素をJSXで表現したものです。
     return (
@@ -36,30 +39,24 @@ function Box(props) {
 }
 
 export default function Title() {
-    
+
     return (
         <Game_Canvas>
             <Block_Column>
                 <Button
                     handler={() => Store.setScene('select')}
                     src={playButton}
-                    width={'200px'}
-                    height={'80px'}
+                    width={'30%'}
+                    height={'15%'}
                 />
                 <Button
                     handler={() => Store.setScene('option')}
                     src={optionButton}
-                    width={'200px'}
-                    height={'80px'}
+                    width={'30%'}
+                    height={'15%'}
                 />
             </Block_Column>
-            <Canvas_Three>
-                <ambientLight intensity={0.5} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                <pointLight position={[-10, -10, -10]} />
-                <Box position={[-1.2, 0, 0]} />
-                <Box position={[1.2, 0, 0]} />
-            </Canvas_Three>
+            <TitleHouse />
         </Game_Canvas>
     );
 }

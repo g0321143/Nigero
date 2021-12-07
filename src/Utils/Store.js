@@ -22,7 +22,7 @@ class Store extends EventEmitter {
      */
     setScene(scene) {
         this.scene = scene;
-        console.log(`scene=${scene}`);
+        console.log(`scene = ${scene}`);
         this.emit('scene_changed');
     }
 }
