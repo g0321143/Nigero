@@ -47,7 +47,7 @@ export default function Select() {
             <Coin />
             <Block_Right_End>
                 <Score
-                    width={'9%'}
+                    width={'200px'}
                     height={'200px'}
                     star1={true}
                     star2={true}

@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect  } from 'react'
-import {useFrame}  from '@react-three/fiber'
+import {useFrame, Canvas}  from '@react-three/fiber'
 
-import store from '../Store';
-import { Game_Canvas, Block_Right, Canvas_Three, Block_Column } from '../GlobalStyles';
-import Button from '../Components/Button';
-import Score from '../Components/Score';
+import store from '../Utils/Store';
+import { Game_Canvas, Block_Right_End,  Block_Column_Top } from '../Utils/GlobalStyles';
+import Button from '../Utils/Button';
+import Score from '../Utils/Score';
 
 import { useGLTF } from '@react-three/drei'
 import { Suspense } from 'react'
@@ -129,7 +129,7 @@ export default function Game() {
             
             
             
-            <Canvas_Three>
+            <Canvas>
                 <Suspense fallback={null}>
                     <ambientLight intensity={0.5} />
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
@@ -137,7 +137,7 @@ export default function Game() {
                     <Model position-x={1} position-y={-10} position-z={-20} scale={[1, 1, 1]} url="/models/0.Overall.glb" />
                     <Box position={[1.2, 0, 0]} />                    
                 </Suspense>
-            </Canvas_Three>
+            </Canvas>
         {flag ? <Playing/> : <Clear/>}
         </Game_Canvas>
     );
