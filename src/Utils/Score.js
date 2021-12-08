@@ -9,7 +9,7 @@ const Block = styled.div`
     display:flex;
     
     width: ${(props) => props.width};
-    height: ${props => props.height};
+    height: ${(props) => props.height};
 
     flex-direction: row;
     align-items: center;
@@ -20,8 +20,8 @@ const Block = styled.div`
 const Star = styled.div`
   display:flex;
   
-  width: ${props => props.height};
-  height: ${props => props.height};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
 
   background-image: url(${(props) => props.isShine ? starOn : starOff});
   background-size: contain;

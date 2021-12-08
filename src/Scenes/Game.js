@@ -29,7 +29,7 @@ function Clear(){
     );
 }
 /*******    ココ↓の引数がNaNになります．．．    *******/
-function Playing(time){
+function Playing({time}){
     //const [time, settime] = useState(5000);
 
     return(

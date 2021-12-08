@@ -3,7 +3,7 @@ import { useFrame, Canvas } from '@react-three/fiber'
 
 import Store from '../Utils/Store';
 import { addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
-import { Game_Canvas, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
+import { Game_Canvas, Block_Column_Top, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 import Coin from '../Utils/Coin'
 import Score from '../Utils/Score';
@@ -45,7 +45,7 @@ export default function Select() {
     return (
         <Game_Canvas>
             <Coin />
-            <Block_Right_End>
+            <Block_Column_Top>
                 <Score
                     width={'200px'}
                     height={'200px'}
@@ -53,6 +53,8 @@ export default function Select() {
                     star2={true}
                     star3={true}
                 />
+            </Block_Column_Top>
+            <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('title')}
                     src={backButton}

@@ -9,28 +9,6 @@ export default createGlobalStyle`
   }
 `;
 
-export const CodeFAB = styled.div`
-  position: fixed;
-  height: 24px;
-  width: 24px;
-  bottom: 16px;
-  right: 16px;
-  padding: 12px;
-  border-radius: 50%;
-  margin-bottom: 0px;
-  background-color: #fff;
-  background-image: url(${props => props.src});
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity: 0.9;
-  z-index: 999;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-  :hover {
-    cursor: pointer;
-    opacity: 1;
-  }
-`;
-
 export const Game_Canvas = styled.div`
     position: absolute;
     top: 0;
