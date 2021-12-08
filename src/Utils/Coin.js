@@ -48,7 +48,9 @@ const CoinFont = styled.div`
   justify-content: flex-end;
   align-items: center;
   text-shadow: 1px 1px 2px silver;
+  
   user-select: none;
+  user-drag: none;
   
   z-index: 999;
 `;

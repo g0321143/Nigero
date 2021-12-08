@@ -22,13 +22,13 @@ export default function Title() {
             <Coin />
             <Block_Left_Top>
                 <Button
-                    src={languageButton}
+                    src={soundButton}
                     width={'6%'}
                     height={'10%'}
                     margin={'1%'}
                 />
                 <Button
-                    src={soundButton}
+                    src={languageButton}
                     width={'6%'}
                     height={'10%'}
                     margin={'1%'}
