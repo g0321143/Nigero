@@ -2,10 +2,11 @@ import React, { useRef, useState } from 'react'
 import { useFrame, Canvas } from '@react-three/fiber'
 
 import Store from '../Utils/Store';
-import {addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
+import { addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
 import { Game_Canvas, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 import Coin from '../Utils/Coin'
+import Score from '../Utils/Score';
 
 import backButton from '../Assets/Images/Backward.png';
 import hintButton from '../Assets/Images/HintIcon.png';
@@ -43,8 +44,15 @@ export default function Select() {
 
     return (
         <Game_Canvas>
-            <Coin/>
+            <Coin />
             <Block_Right_End>
+                <Score
+                    width={'9%'}
+                    height={'200px'}
+                    star1={true}
+                    star2={true}
+                    star3={true}
+                />
                 <Button
                     handler={() => Store.setScene('title')}
                     src={backButton}
