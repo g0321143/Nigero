@@ -8,25 +8,15 @@ useGLTF.preload('./Models/House.glb');
 
 function Floor(props) {
 
-    const boxRef = useRef();
-    useFrame(() => {
-        boxRef.current.rotation.y += 0.004;
-        boxRef.current.rotation.x += 0.004;
-        boxRef.current.rotation.z += 0.004;
-    });
-
     return (
         <group>
-            <Box castShadow receiveShadow ref={boxRef} position={[0, 0.5, 0]}>
-                <meshStandardMaterial attach="material" color="white" />
-            </Box>
             <Plane
-            castShadow
+                castShadow
                 rotation={[-Math.PI / 2, 0, 0]}
-                position={[0, -1, 0]}
+                position={[0, -0.2, 0]}
                 args={[1000, 1000]}
             >
-                <meshStandardMaterial attach="material" color="white" />
+                <meshStandardMaterial attach="material" color={colors.grayishYellowGreen} />
             </Plane>
         </group>
     )
@@ -178,13 +168,13 @@ export default function TitleHouse() {
             <Canvas colorManagement shadowMap camera={{ position: [-3, 2, 5], fov: 90 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <ambientLight intensity={0.1} />
-                <fog attach="fog" args={["white", 0, 40]} />
-                <directionalLight
-                    intensity={0.5}
+                <spotLight
                     castShadow
-                    shadow-mapSize-height={512}
-                    shadow-mapSize-width={512}
-                /><Floor />
+                    intensity={0.5}
+                    args={[0xffffff, 1, 100]}
+                    position={[10, 10, 1]}
+                />
+                <Floor />
                 <House position={[0, 0, 0]} />
                 <Tree position={[0, 0.1, 0]} scale={[1, 1, 1]} />
                 <Tree position={[1, 0.1, 0.1]} scale={[1, 1.2, 1]} />
