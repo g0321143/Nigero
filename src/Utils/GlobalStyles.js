@@ -12,7 +12,7 @@ export const Game_Canvas = styled.div`
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 100vw;
     aspect-ratio: 16 / 9;
     background-color: #e6df97;
 `;

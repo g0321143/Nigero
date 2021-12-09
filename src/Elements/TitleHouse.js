@@ -14,14 +14,12 @@ useGLTF.preload('./Models/Tree.glb');
 function Floor(props) {
 
     return (
-        <group
-            castShadow={true}
-            receiveShadow={true}
-        >
+        <group>
             <Plane
                 rotation={[-Math.PI / 2, 0, 0]}
-                position={[0, -0.2, 0]}
+                position={[0, -0.5, 0]}
                 args={[1000, 1000]}
+                receiveShadow
             >
                 <meshStandardMaterial attach="material" color={colors.grayishYellowGreen} />
             </Plane>
@@ -39,9 +37,8 @@ function House(props) {
             if (object.name == 'House_2') {
                 house.push(
                     <mesh
-                        receiveShadow
+                        castShadow
                         scale={object.scale}
-                        position={object.position}
                         rotation={object.rotation}
                         geometry={object.geometry}
                     >
@@ -51,9 +48,8 @@ function House(props) {
             } else {
                 house.push(
                     <mesh
-                        receiveShadow={true}
+                        castShadow
                         scale={object.scale}
-                        position={object.position}
                         rotation={object.rotation}
                         geometry={object.geometry}
                     >
@@ -81,7 +77,6 @@ function Rock(props) {
         <group {...props} dispose={null}>
             <mesh
                 castShadow
-                receiveShadow
                 scale={nodes.Cube014.scale}
                 geometry={nodes.Cube014.geometry}
             >
@@ -98,7 +93,6 @@ function Fence1(props) {
         <group {...props} dispose={null}>
             <mesh
                 castShadow
-                receiveShadow
                 scale={nodes.Cube031.scale}
                 rotation={nodes.Cube031.rotation}
                 position={nodes.Cube031.position}
@@ -108,7 +102,6 @@ function Fence1(props) {
             </mesh>
             <mesh
                 castShadow
-                receiveShadow
                 scale={nodes.Cube032.scale}
                 rotation={nodes.Cube031.rotation}
                 position={nodes.Cube032.position}
@@ -127,7 +120,6 @@ function Fence2(props) {
         <group {...props} dispose={null}>
             <mesh
                 castShadow
-                receiveShadow
                 scale={nodes.Cube027.scale}
                 rotation={nodes.Cube027.rotation}
                 position={nodes.Cube027.position}
@@ -137,7 +129,6 @@ function Fence2(props) {
             </mesh>
             <mesh
                 castShadow
-                receiveShadow
                 scale={nodes.Cube028.scale}
                 rotation={nodes.Cube028.rotation}
                 position={nodes.Cube028.position}
@@ -156,7 +147,6 @@ function Tree(props) {
         <group {...props} dispose={null}>
             <mesh
                 castShadow
-                receiveShadow
                 scale={nodes.Cylinder001.scale}
                 position={nodes.Cylinder001.position}
                 geometry={nodes.Cylinder001.geometry}
@@ -170,47 +160,56 @@ function Tree(props) {
 export default function TitleHouse() {
 
     return (
-        <Suspense fallback={null}>
-            <Canvas colorManagement shadowMap camera={{ position: [4, 3, -3], fov: 45 }}>
+        <Suspense fallback={"Loading"}>
+            <Canvas shadows camera={{ position: [4, 3, -2], fov: 45 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-                <ambientLight castShadow={false} intensity={0.5} />
-                <spotLight
-                    castShadow={true}
-                    intensity={1}
-                    args={[0xffffff, 1, 100]}
-                    position={[10, 10, 1]}
+                <ambientLight intensity={0.5} />
+                <directionalLight
+                    castShadow
+                    position={[2.5, 8, 5]}
+                    intensity={0.8}
+                    shadow-mapSize-width={1024}
+                    shadow-mapSize-height={1024}
+                    shadow-camera-far={50}
+                    shadow-camera-left={-10}
+                    shadow-camera-right={10}
+                    shadow-camera-top={10}
+                    shadow-camera-bottom={-10}
                 />
-                <axesHelper scale={5} />
-                <Floor />
-                <House position={[0, 0, 0]} />
-                <Tree position={[0, 0.1, 0]} scale={[1, 1, 1]} />
-                <Tree position={[1, 0.1, 0.1]} scale={[1, 1.2, 1]} />
-                <Tree position={[2.3, 0.1, 0.1]} scale={[1, 0.8, 1]} />
-                <Tree position={[2.5, 0.1, -0.8]} scale={[1, 1, 1]} />
-                <Tree position={[2.7, 0.1, -2]} scale={[1, 0.8, 1]} />
-                <Tree position={[0.5, 0.1, -5]} scale={[1, 0.8, 1]} />
-                <Tree position={[0, 0.1, -5.4]} scale={[1, 0.6, 1]} />
-                <Tree position={[-2, 0.1, -5.4]} scale={[1, 0.8, 1]} />
-                <Tree position={[-3, 0.1, -5.4]} scale={[1, 1, 1]} />
-                <Tree position={[-2, 0.1, -3.4]} scale={[1, 0.8, 1]} />
-                <Tree position={[-3, 0.1, -3.6]} scale={[1, 1, 1]} />
-                <Tree position={[-1, 0.1, -6.5]} scale={[1, 1, 1]} />
-                <Rock position={[-0.4, 0, 4]} scale={1} rotation={[0, 0, 0]} />
-                <Rock position={[-0.4, 0, 3.6]} scale={1.5} rotation={[0, 0.5, 0]} />
-                <Rock position={[-0.1, 0, 2.4]} scale={0.8} rotation={[0, 0.2, 0]} />
-                <Rock position={[-0.3, 0, 2.4]} scale={1} rotation={[0, 0.1, 0]} />
-                <Rock position={[1.4, 0, 2]} scale={0.7} rotation={[0, 0.7, 0]} />
-                <Rock position={[0, 0, 1.4]} scale={1} rotation={[0, 0, 0]} />
-                <Rock position={[-1.6, 0, -0.6]} scale={1} rotation={[0, 0.9, 0]} />
-                <Rock position={[-1.8, 0, -0.7]} scale={0.6} rotation={[0, 0.1, 0]} />
-                <Rock position={[-0.2, 0, -1.5]} scale={1} rotation={[0, 0.5, 0]} />
-                <Rock position={[0, 0, -1.5]} scale={0.5} rotation={[0, 0, 0]} />
-                <Rock position={[-2.6, 0, -1.5]} scale={1} rotation={[0, 0.2, 0]} />
-                <Fence1 position={[0, 0, 0]} />
-                <Fence1 position={[-3, 0, -1.5]} />
-                <Fence2 position={[0, 0, 0]} />
-                <Fence2 position={[0, 0, 3]} />
-
+                <group position={[0, -1, 0]}>
+                    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+                        <planeBufferGeometry attach="geometry" args={[100, 100]} />
+                        <shadowMaterial attach="material" transparent opacity={0.4} />
+                    </mesh>
+                    <House position={[0, -0.5, 0]} />
+                    <Tree position={[0, -0.25, 0]} scale={[1, 1, 1]} />
+                    <Tree position={[1, -0.2, 0.1]} scale={[1, 1.2, 1]} />
+                    <Tree position={[2.3, -0.3, 0.1]} scale={[1, 0.8, 1]} />
+                    <Tree position={[2.5, -0.25, -0.8]} scale={[1, 1, 1]} />
+                    <Tree position={[2.7, -0.3, -2]} scale={[1, 0.8, 1]} />
+                    <Tree position={[0.5, -0.3, -5]} scale={[1, 0.8, 1]} />
+                    <Tree position={[0, -0.4, -5.4]} scale={[1, 0.6, 1]} />
+                    <Tree position={[-2, -0.33, -5.4]} scale={[1, 0.8, 1]} />
+                    <Tree position={[-3, -0.25, -5.4]} scale={[1, 1, 1]} />
+                    <Tree position={[-2, -0.3, -3.4]} scale={[1, 0.8, 1]} />
+                    <Tree position={[-3, -0.25, -3.6]} scale={[1, 1, 1]} />
+                    <Tree position={[-1, -0.25, -6.5]} scale={[1, 1, 1]} />
+                    <Rock position={[-0.4, -0.43, 4]} scale={1} rotation={[0, 0, 0]} />
+                    <Rock position={[-0.4, -0.41, 3.6]} scale={1.5} rotation={[0, 0.5, 0]} />
+                    <Rock position={[-0.1, -0.45, 2.4]} scale={0.8} rotation={[0, 0.2, 0]} />
+                    <Rock position={[-0.3, -0.43, 2.4]} scale={1} rotation={[0, 0.1, 0]} />
+                    <Rock position={[1.4, -0.46, 2]} scale={0.7} rotation={[0, 0.7, 0]} />
+                    <Rock position={[0, -0.43, 1.4]} scale={1} rotation={[0, 0, 0]} />
+                    <Rock position={[-1.6, -0.43, -0.6]} scale={1} rotation={[0, 0.9, 0]} />
+                    <Rock position={[-1.8, -0.48, -0.7]} scale={0.6} rotation={[0, 0.1, 0]} />
+                    <Rock position={[-0.2, -0.43, -1.5]} scale={1} rotation={[0, 0.5, 0]} />
+                    <Rock position={[0, -0.46, -1.5]} scale={0.5} rotation={[0, 0, 0]} />
+                    <Rock position={[-2.6, -0.43, -1.5]} scale={1} rotation={[0, 0.2, 0]} />
+                    <Fence1 position={[0, -0.42, 0]} />
+                    <Fence1 position={[-3, -0.42, -1.5]} />
+                    <Fence2 position={[0, -0.42, 0]} />
+                    <Fence2 position={[0, -0.42, 3]} />
+                </group>
 
             </Canvas>
         </Suspense>

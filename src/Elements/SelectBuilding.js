@@ -1,6 +1,6 @@
 import React, { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Plane, Stage, useGLTF, OrbitControls } from "@react-three/drei";
+import { Plane, PerspectiveCamera, useGLTF, OrbitControls } from "@react-three/drei";
 
 import colors from '../Constants/Color';
 
@@ -37,33 +37,12 @@ function Box(props) {
 }
 
 function BuildingGroup(props) {
-
-    // 半径
-    const radius = 7;
-    // 間隔（角度）
-    const angle = 2 * Math.PI / 5
-
+    
     return (
-        <group>
+        <group position={[0, 2, 0]}>
             <Box position={[-5,0,0]}/>
-            <Room position={[0,0,0]} />
+            <Room position={[-1.5,0,0]} />
             <Box position={[5,0,0]}/>
-        </group>
-    )
-}
-
-function Floor(props) {
-
-    return (
-        <group>
-            <Plane
-                castShadow
-                rotation={[-Math.PI / 2, 0, 0]}
-                position={[0, -1, 0]}
-                args={[1000, 1000]}
-            >
-                <meshStandardMaterial attach="material" color={colors.grayishYellowGreen} />
-            </Plane>
         </group>
     )
 }
@@ -98,49 +77,13 @@ function Room(props) {
 }
 
 
-function Rock(props) {
-    const { scene, nodes } = useGLTF("./Models/Rock.glb");
-
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                castShadow
-                receiveShadow
-                scale={nodes.Cube014.scale}
-                geometry={nodes.Cube014.geometry}
-            >
-                <meshStandardMaterial color={'#F3D393'} />
-            </mesh>
-        </group>
-    )
-}
-
-
-function Tree(props) {
-    const { scene, nodes } = useGLTF("./Models/Tree.glb");
-
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                castShadow
-                receiveShadow
-                scale={nodes.Cylinder001.scale}
-                position={nodes.Cylinder001.position}
-                geometry={nodes.Cylinder001.geometry}
-            >
-                <meshStandardMaterial color={'#F3D393'} />
-            </mesh>
-        </group>
-    )
-}
-
 export default function SelectBuilding() {
 
     return (
         <Suspense fallback={null}>
-            <Canvas colorManagement shadowMap camera={{ position: [4, 3, -3], fov: 45 }}>
+            <Canvas camera={{ position: [0, 5, -5], fov: 90 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-
+        
                 <ambientLight intensity={0.8} />
                 <axesHelper scale={5} />
                 <BuildingGroup />
