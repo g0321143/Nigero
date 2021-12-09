@@ -7,6 +7,8 @@ import { Game_Canvas, Block_Column_Top, Block_Right_End, Block_Left_End, Block_L
 import Button from '../Utils/Button';
 import Coin from '../Utils/Coin'
 import Score from '../Utils/Score';
+import SelectBuilding from '../Elements/SelectBuilding';
+import { Arrow_r, Arrow_l } from '../Utils/ArrowStyles';
 
 import backButton from '../Assets/Images/Backward.png';
 import hintButton from '../Assets/Images/HintIcon.png';
@@ -40,10 +42,13 @@ function Box(props) {
     )
 }
 
+
 export default function Select() {
 
     return (
         <Game_Canvas>
+            <Arrow_r/>
+            <Arrow_l/>
             <Coin />
             <Block_Column_Top>
                 <Score
@@ -95,13 +100,7 @@ export default function Select() {
                     margin={'1%'}
                 />
             </Block_Left_Top>
-            <Canvas>
-                <ambientLight intensity={0.5} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                <pointLight position={[-10, -10, -10]} />
-                <Box position={[-1.2, 0, 0]} />
-                <Box position={[1.2, 0, 0]} />
-            </Canvas>
+            <SelectBuilding />
         </Game_Canvas>
     );
 }

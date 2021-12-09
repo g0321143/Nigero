@@ -5,13 +5,20 @@ import { Box, Plane, PerspectiveCamera, useGLTF, OrbitControls } from "@react-th
 import colors from '../Constants/Color';
 
 useGLTF.preload('./Models/House.glb');
+useGLTF.preload('./Models/Rock.glb');
+useGLTF.preload('./Models/Fence1.glb');
+useGLTF.preload('./Models/Fence2.glb');
+useGLTF.preload('./Models/Tree.glb');
+
 
 function Floor(props) {
 
     return (
-        <group>
+        <group
+            castShadow={true}
+            receiveShadow={true}
+        >
             <Plane
-                castShadow
                 rotation={[-Math.PI / 2, 0, 0]}
                 position={[0, -0.2, 0]}
                 args={[1000, 1000]}
@@ -44,8 +51,7 @@ function House(props) {
             } else {
                 house.push(
                     <mesh
-                        castShadow
-                        receiveShadow
+                        receiveShadow={true}
                         scale={object.scale}
                         position={object.position}
                         rotation={object.rotation}
@@ -165,15 +171,16 @@ export default function TitleHouse() {
 
     return (
         <Suspense fallback={null}>
-            <Canvas colorManagement shadowMap camera={{ position: [-3, 2, 5], fov: 90 }}>
+            <Canvas colorManagement shadowMap camera={{ position: [4, 3, -3], fov: 45 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-                <ambientLight intensity={0.1} />
+                <ambientLight castShadow={false} intensity={0.5} />
                 <spotLight
-                    castShadow
-                    intensity={0.5}
+                    castShadow={true}
+                    intensity={1}
                     args={[0xffffff, 1, 100]}
                     position={[10, 10, 1]}
                 />
+                <axesHelper scale={5} />
                 <Floor />
                 <House position={[0, 0, 0]} />
                 <Tree position={[0, 0.1, 0]} scale={[1, 1, 1]} />

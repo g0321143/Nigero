@@ -1,5 +1,4 @@
 import styled, { createGlobalStyle } from 'styled-components';
-import { Canvas as c } from '@react-three/fiber';
 
 export default createGlobalStyle`
   body {
