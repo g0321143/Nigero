@@ -13,6 +13,7 @@ import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
 import languageButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-09.png';
 import soundButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-07.png';
 import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
+import cautionButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-08.png';
 
 
 export default function Title() {
@@ -20,18 +21,24 @@ export default function Title() {
     return (
         <Game_Canvas>
             <Money />
-            <Block_Left_Top>
+            <Block_Left_Top top={"3%"}>
                 <Button
                     src={soundButton}
-                    width={'6%'}
-                    height={'10%'}
-                    margin={'1%'}
+                    width={'3%'}
+                    height={'5%'}
+                    margin={'0.5%'}
+                />
+                <Button
+                    src={cautionButton}
+                    width={'3%'}
+                    height={'5%'}
+                    margin={'0.5%'}
                 />
                 <Button
                     src={languageButton}
-                    width={'6%'}
-                    height={'10%'}
-                    margin={'1%'}
+                    width={'3%'}
+                    height={'5%'}
+                    margin={'0.5%'}
                 />
             </Block_Left_Top>
             <Block_Left_End>

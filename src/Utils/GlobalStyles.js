@@ -1,10 +1,11 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import Color from '../Constants/Color';
 
 export default createGlobalStyle`
   body {
     margin: 0;
     background: white;
-    font-family: "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif";
+    font-family: "Swis721 BlkCn BT";
   }
 `;
 
@@ -14,7 +15,7 @@ export const Game_Canvas = styled.div`
     left: 0;
     width: 100vw;
     aspect-ratio: 16 / 9;
-    background-color: #e6df97;
+    background-color: ${Color.grayishYellowGreen};
 `;
 
 export const Block_Column_End = styled.div`
@@ -22,7 +23,9 @@ export const Block_Column_End = styled.div`
     display:flex;
     
     width: 100%;
-    height: 100%;
+    height: 97%;
+
+    End: 3%;
 
     flex-direction: column;
     align-items: center;
@@ -34,7 +37,9 @@ export const Block_Column_Top = styled.div`
     display:flex;
     
     width: 100%;
-    height: 100%;
+    height: 97%;
+
+    Top: 3%;
 
     flex-direction: column;
     align-items: center;
@@ -45,8 +50,11 @@ export const Block_Left_Top = styled.div`
     position: absolute;
     display:flex;
     
-    width: 100%;
-    height: 100%;
+    width: 97%;
+    height: 97%;
+
+    Top: 3%;
+    left: 3%;
     
     flex-direction: row;
     align-items: flex-start;
@@ -57,8 +65,11 @@ export const Block_Left_End = styled.div`
     position: absolute;
     display:flex;
     
-    width: 100%;
-    height: 100%;
+    width: 97%;
+    height: 97%;
+
+    End: 3%;
+    left: 3%;
     
     flex-direction: row;
     align-items: flex-end;
@@ -69,8 +80,11 @@ export const Block_Right_End = styled.div`
     position: absolute;
     display:flex;
     
-    width: 100%;
-    height: 100%;
+    width: 97%;
+    height: 97%;
+
+    End: 3%;
+    right: 3%;
     
     flex-direction: row;
     align-items: flex-end;

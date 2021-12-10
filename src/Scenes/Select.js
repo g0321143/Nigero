@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react'
-import styled from 'styled-components';
 
 import Store from '../Utils/Store';
 import { addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
@@ -13,50 +12,12 @@ import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
 import homeButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-04.png';
 import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
 import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-02.png';
-import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
-import HouseButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
-
-const CoinIcon = styled.div`
-    position: absolute;
-
-    width: 3vw;
-    height: 3vw;
-
-    top: 80%;
-    left: 40%;
-
-    background-image: url(${CoinImage});
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 1;
-    z-index: 999;
-`;
-
-const BuildingButton = styled.div`
-    position: absolute;
-
-    width: 15vw;
-    height: 10vw;
-
-    top: 60%;
-    left: 42%;
-
-    background-image: url(${(props) => props.src});
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 1;
-    z-index: 999;
-`;
 
 export default function Select() {
 
     return (
         <Game_Canvas>
             <Coin />
-            <CoinIcon />
-            <BuildingButton src={HouseButton} />
             <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('title')}

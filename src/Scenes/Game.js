@@ -1,4 +1,6 @@
 import React, { Suspense, useRef, useState, useEffect } from 'react'
+import ReactDOM from 'react-dom';
+import Countdown from 'react-countdown';
 import { useFrame } from '@react-three/fiber'
 
 import Store from '../Utils/Store';
@@ -13,11 +15,9 @@ import Money from '../Utils/Money'
 import GameStage from '../Elements/GameStage';
 
 
-import ReactDOM from 'react-dom';
-import Countdown from 'react-countdown';
-
 function Clear() {
-    return (<group>
+    return (
+    <>
         <Money />
         <Block_Column_End>
             <Score
@@ -28,7 +28,7 @@ function Clear() {
                 star3={true}
             />
         </Block_Column_End>
-    </group>);
+    </>);
 }
 
 

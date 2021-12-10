@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Color from '../Constants/Color';
 
 import { getCookie } from './Cookie';
 
@@ -20,29 +21,33 @@ const Block = styled.div`
 `;
 
 const CoinIcon = styled.div`
-  display:flex;
-  
-  width: 8%;
-  height: 10%;
-  margin: 2%;
+    position: absolute;
 
-  background-image: url(${CoinImage});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity: 1;
-  z-index: 999;
+    width: 3vw;
+    height: 3vw;
+
+    top: 4%;
+    right: 19%;
+
+    background-image: url(${CoinImage});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 1;
+    z-index: 999;
 `;
 
 const CoinFont = styled.div`
-  display:flex;
-  
-  width: 10%;
-  height: 10%;
-  margin: 2%;
+  position: absolute;
+
+  width: 3vw;
+  height: 3vw;
+
+  top: 3%;
+  right: 8%;
 
   font-size: 3vw;
-  color: #B9B179;
+  color: ${Color.slightlyGrayishYellow};
   font-weight: bold;
   justify-content: flex-end;
   align-items: center;
@@ -63,10 +68,10 @@ function Money() {
   });
 
   return (
-    <Block>
+    <>
       <CoinIcon />
       <CoinFont>{money}</CoinFont>
-    </Block>
+    </>
   );
 }
 
