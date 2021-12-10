@@ -1,10 +1,11 @@
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense, useRef, forwardRef, useState } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from "@react-three/drei";
+import { gsap, Linear } from "gsap";
 
-import colors from '../Constants/Color';
+import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
 
-function Box(props) {
+const Box = forwardRef((props, fref) =>  {
     // この参照により、THREE.Meshオブジェクトに直接アクセスできます
     const ref = useRef();
 
@@ -25,7 +26,7 @@ function Box(props) {
     return (
         <mesh
             {...props}
-            ref={ref}
+            ref={fref, ref}
             scale={clicked ? 1.5 : 1}
             onClick={(event) => click(!clicked)}
             onPointerOver={(event) => hover(true)}
@@ -34,27 +35,12 @@ function Box(props) {
             <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
         </mesh>
     )
-}
+});
 
-function BuildingGroup(props) {
-    
-    return (
-        <group position={[0, 2, 0]}>
-            <Box position={[-5,0,0]}/>
-            <Room position={[-1.5,0,0]} />
-            <Box position={[5,0,0]}/>
-        </group>
-    )
-}
-
-function Room(props) {
+const Room = forwardRef((props, fref) =>  {
     const { scene } = useGLTF('./Models/Room.glb');
 
     const ref = useRef();
-
-    // hoveredおよびclickedイベントの状態を保持する
-    const [hovered, hover] = useState(false);
-    const [clicked, click] = useState(false);
 
     useFrame((state, delta) => {
         const t = state.clock.getElapsedTime();
@@ -68,26 +54,55 @@ function Room(props) {
     return (
         <primitive
             {...props}
-            ref={ref}
+            ref={fref, ref}
             object={scene}
-            scale={clicked ? 0.5 : 0.3}
-            onClick={(event) => click(!clicked)}
+            scale={0.3}
         />
     )
-}
+});
 
 
-export default function SelectBuilding() {
+export default function SelectBuilding(props){
+
+    const BUILDING_MAX = 3;
+    const BUILDING_MIN = 1;
+
+    const buildingsRef = useRef();
+    const building1Ref = useRef();
+    const roomRef = useRef();
+    const building3Ref = useRef();
+
+    const [building, setBuilding] = useState(1);
+    
+    console.log(building);
+
+    const changeBuilding = () => {
+        gsap.to(buildingsRef.current.position,
+            { x: building * 5, ease: Linear.easeOut }).duration(0.5);
+    };
 
     return (
         <Suspense fallback={null}>
+            <ArrowRight handler={() => {
+                setBuilding(Math.min((building + 1), BUILDING_MAX));
+                changeBuilding();
+            }} />
+           <ArrowLeft handler={() => {
+                setBuilding(Math.max((building - 1), BUILDING_MIN));
+                changeBuilding();
+            }} />
             <Canvas camera={{ position: [0, 5, -5], fov: 90 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-        
+
                 <ambientLight intensity={0.8} />
                 <axesHelper scale={5} />
-                <BuildingGroup />
+                <group ref={buildingsRef} position={[0, 2, 0]}>
+                    <Box fref={building1Ref} position={[-5, 0, 0]} />
+                    <Room fref={roomRef} position={[-1.5, 0, 0]} />
+                    <Box fref={building3Ref} position={[5, 0, 0]} />
+                </group>
             </Canvas>
         </Suspense>
     );
-};
+}
+

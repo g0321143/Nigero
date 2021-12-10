@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import Arrow_Right from '../Assets/Images/Arrow_Right.png';
-import Arrow_Left from '../Assets/Images/Arrow_Left.png';
+import ArrowRightImage from '../Assets/Images/Arrow_Right.png';
+import ArrowLeftImage from '../Assets/Images/Arrow_Left.png';
 
-export const Arrow_r = styled.div`
+const Arrow_r = styled.div`
     position: absolute;
 
     width: 5vw;
@@ -11,7 +11,7 @@ export const Arrow_r = styled.div`
     top: 45%;
     right: 10%;
 
-    background-image: url(${Arrow_Right});
+    background-image: url(${ArrowRightImage});
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -25,7 +25,7 @@ export const Arrow_r = styled.div`
     }
 `;
 
-export const Arrow_l = styled.div`
+const Arrow_l = styled.div`
     position: absolute;
 
     width: 5vw;
@@ -34,7 +34,7 @@ export const Arrow_l = styled.div`
     top: 45%;
     left: 10%;
 
-    background-image: url(${Arrow_Left});
+    background-image: url(${ArrowLeftImage});
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
@@ -47,3 +47,17 @@ export const Arrow_l = styled.div`
         transform: scale(1.1);
     }
 `;
+
+
+export function ArrowRight({ handler }) {
+    return (
+        <Arrow_r onClick={handler}/>
+    );
+}
+
+
+export function ArrowLeft({ handler }) {
+    return (
+        <Arrow_l onClick={handler}/>
+    );
+}

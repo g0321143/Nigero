@@ -2,7 +2,7 @@ import React, { Suspense } from "react";
 import { Canvas } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from "@react-three/drei";
 
-useGLTF.preload("./Models/0.Overall.glb");
+useGLTF.preload("./Models/Overall.glb");
 
 function Model({ url, ...props }) {
     const { scene } = useGLTF(url)
@@ -17,7 +17,7 @@ export default function TitleHouse() {
 
     return (
         <Suspense fallback={null}>
-            <Canvas colorManagement shadowMap camera={{ position: [-3, 2, 5], fov: 90 }}>
+            <Canvas shadowMap camera={{ position: [-3, 2, 5], fov: 90 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <ambientLight intensity={0.1} />
                 <fog attach="fog" args={["white", 0, 40]} />
@@ -27,7 +27,7 @@ export default function TitleHouse() {
                     shadow-mapSize-height={512}
                     shadow-mapSize-width={512}
                 />
-                <Model position-x={-3} position-y={-1} position-z={-2} rotation-x={1} rotation-y={-0.3} rotation-z={0.55} scale={[1, 1, 1]} url="./Models/0.Overall.glb" />
+                <Model position={[-3, -1, -2]} rotation={[1, -0.3, 0.55]} scale={[1, 1, 1]} url="./Models/Overall.glb" />
             </Canvas>
         </Suspense>
     );

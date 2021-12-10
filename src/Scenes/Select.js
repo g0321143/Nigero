@@ -6,9 +6,7 @@ import { addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
 import { Game_Canvas, Block_Column_Top, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 import Coin from '../Utils/Money'
-import Score from '../Utils/Score';
 import SelectBuilding from '../Elements/SelectBuilding';
-import { Arrow_r, Arrow_l } from '../Utils/ArrowStyles';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
@@ -56,20 +54,9 @@ export default function Select() {
 
     return (
         <Game_Canvas>
-            <Arrow_r/>
-            <Arrow_l/>
-            <Coin/>
+            <Coin />
             <CoinIcon />
-            <BuildingButton src={HouseButton}/>
-            <Block_Column_Top>
-                <Score
-                    width={'200px'}
-                    height={'200px'}
-                    star1={true}
-                    star2={true}
-                    star3={true}
-                />
-            </Block_Column_Top>
+            <BuildingButton src={HouseButton} />
             <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('title')}
