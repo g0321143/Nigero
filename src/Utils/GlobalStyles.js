@@ -4,13 +4,12 @@ import Color from '../Constants/Color';
 export default createGlobalStyle`
   body {
     margin: 0;
-    background: white;
     font-family: "Swis721 BlkCn BT";
   }
 `;
 
 export const Game_Canvas = styled.div`
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100vw;

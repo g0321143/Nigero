@@ -3,8 +3,9 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import { gsap } from "gsap";
 import styled from 'styled-components';
-import Color from "../Constants/Color";
 
+import Color from "../Constants/Color";
+import { Block_Column_Top } from "../Utils/GlobalStyles";
 import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
 
 import HouseButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
@@ -13,79 +14,71 @@ import TallBuildingButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.pn
 import unlockButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-20.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
-const CoinIcon = styled.div`
+
+const BlockBuildingButton = styled(Block_Column_Top)`
+    justify-content: center;
+`;
+
+const BuildingButton = styled.img`
     position: absolute;
+    display: flex;
 
-    width: 3vw;
-    height: 3vw;
+    height: 5vw;
 
-    top: 80%;
-    left: 40%;
+    top: 10%;
 
-    background-image: url(${CoinImage});
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 1;
+    margin : 0 auto;
+
+    url(${(props) => props.src});
     z-index: 999;
 `;
 
-const CoinFont = styled.div`
+const UsedButton = styled.img`
     position: absolute;
+    display: flex;
 
-    width: 6vw;
-    height: 3vw;
+    width: 15vw;
 
-    top: 79%;
-    left: 45%;
+    top: 70%;
 
+    margin : 0 auto;
+
+    url(${(props) => props.src});
+    z-index: 999;
+`;
+
+const BuildingCoin = styled.div`
+    position: absolute;
+    
     font-size: 3vw;
+    text-align: center;
     color: ${Color.slightlyGrayishYellow};
     font-weight: bold;
-    justify-content: flex-end;
-    align-items: center;
-    text-align: center;
-    text-shadow: 1px 1px 2px silver;
     
     user-select: none;
     user-drag: none;
-    
+
+    top: 80%;
+    left: 0;
+    right: 0;
+    margin: auto;
+
     z-index: 999;
+
+    &::before{
+        content: "";
+        display: inline-block;
+        background: url(${CoinImage});
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 4vw;
+        height: 4vw;
+        margin-right: 1vw;
+        vertical-align: middle;
+    }
 `;
 
-const BuildingButton = styled.div`
-    position: absolute;
-
-    width: 15vw;
-    height: 10vw;
-
-    top: 10%;
-    left: 42%;
-
-    background-image: url(${(props) => props.src});
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 1;
-    z-index: 999;
-`;
-
-const UsedButton = styled.div`
-    position: absolute;
-
-    width: 15vw;
-    height: 10vw;
-
-    top: 65%;
-    left: 42%;
-
-    background-image: url(${(props) => props.src});
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 1;
-    z-index: 999;
-`;
 
 function House(props) {
     const { scene } = useGLTF('./Models/House.glb');
@@ -190,19 +183,19 @@ export default function SelectBuilding(props) {
 
     return (
         <Suspense fallback={null}>
-            <UsedButton src={usedList[building]} />
-            <BuildingButton src={buildingImageList[building]} />
-            <CoinIcon />
-            <CoinFont>{buildingCostList[building]}</CoinFont>
+            <BlockBuildingButton>
+                <UsedButton src={usedList[building]} />
+                <BuildingButton src={buildingImageList[building]} />
+            </BlockBuildingButton>
+            <BuildingCoin>{buildingCostList[building]}</BuildingCoin>
             <ArrowRight handler={() => moveRightBuilding()} />
             <ArrowLeft handler={() => moveLeftBuilding()} />
             <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <ambientLight intensity={1} />
-                <axesHelper scale={5} />
                 <group ref={buildingsRef} position={[0, 2.5, 0]} rotation={[0, 0, 0]}>
                     <House position={[radius * Math.sin(Math.PI / 2), -1, radius * Math.cos(Math.PI / 2) - 0.9]} rotation={[0, Math.PI / 4, 0]} />
-                    <Room position={[radius * Math.sin(Math.PI) - 1, 0, radius * Math.cos(Math.PI)]} />
+                    <Room position={[radius * Math.sin(Math.PI) - 1, 0, radius * Math.cos(Math.PI)]} rotation={[0, Math.PI / 2, 0]}/>
                     <House position={[radius * Math.sin(-Math.PI / 2), -1, radius * Math.cos(-Math.PI / 2) + 0.9]} rotation={[0, 5 * Math.PI / 4, 0]} />
                 </group>
             </Canvas>

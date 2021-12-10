@@ -159,11 +159,20 @@ function Tree(props) {
     )
 }
 
+function CameraAnimation() {
+    // This one makes the camera move in and out
+    useFrame(({ clock, camera }) => {
+        camera.position.x = Math.abs(2 * Math.cos(clock.getElapsedTime() * 0.05));
+        camera.position.z = -Math.abs(2 * Math.sin(clock.getElapsedTime() * 0.05));
+    })
+    return null
+}
+
 export default function TitleHouse() {
 
     return (
         <Suspense fallback={"Loading"}>
-            <Canvas shadows camera={{ position: [4, 3, -2], fov: 45 }}>
+            <Canvas shadows camera={{ position: [4, 2, -2], fov: 45 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <ambientLight intensity={0.5} />
                 <directionalLight
@@ -184,7 +193,7 @@ export default function TitleHouse() {
                         <shadowMaterial attach="material" transparent opacity={0.4} />
                     </mesh>
                     <House position={[0, -0.5, 0]} />
-                    <MailBox position={[0.5, -0.2, -0.8]}/>
+                    <MailBox position={[0.5, -0.2, -0.8]} />
                     <Tree position={[0, -0.25, 0]} scale={[1, 1, 1]} />
                     <Tree position={[1, -0.2, 0.1]} scale={[1, 1.2, 1]} />
                     <Tree position={[2.3, -0.3, 0.1]} scale={[1, 0.8, 1]} />
@@ -213,7 +222,7 @@ export default function TitleHouse() {
                     <Fence2 position={[0, -0.42, 0]} />
                     <Fence2 position={[0, -0.42, 3]} />
                 </group>
-
+                <CameraAnimation />
             </Canvas>
         </Suspense>
     );

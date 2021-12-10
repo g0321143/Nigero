@@ -5,6 +5,7 @@ import { addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
 import { Game_Canvas, Block_Column_Top, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 import Coin from '../Utils/Money'
+import HeaderText from '../Utils/HeaderText';
 import SelectBuilding from '../Elements/SelectBuilding';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
@@ -18,6 +19,7 @@ export default function Select() {
     return (
         <Game_Canvas>
             <Coin />
+            <HeaderText text={"SELECT BUILDING"}/>
             <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('title')}

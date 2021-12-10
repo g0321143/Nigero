@@ -19,7 +19,7 @@ import cautionButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-08.png';
 export default function Title() {
 
     return (
-        <Game_Canvas>
+        <Game_Canvas className='GameCanvas'>
             <Money />
             <Block_Left_Top top={"3%"}>
                 <Button
