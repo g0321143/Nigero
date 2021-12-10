@@ -1,175 +1,17 @@
-import React, { Suspense, useRef, useState } from "react";
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Box, Plane, PerspectiveCamera, useGLTF, OrbitControls } from "@react-three/drei";
+import React, { Suspense } from "react";
+import { Canvas } from '@react-three/fiber';
+import { useGLTF, OrbitControls } from "@react-three/drei";
 
-import colors from '../Constants/Color';
-//url = "/models/0.Overall.glb";
-useGLTF.preload("./Models/House.glb");
+useGLTF.preload("./Models/0.Overall.glb");
 
-function Floor(props) {
-
-    const boxRef = useRef();
-    useFrame(() => {
-        boxRef.current.rotation.y += 0.004;
-        boxRef.current.rotation.x += 0.004;
-        boxRef.current.rotation.z += 0.004;
-    });
-
-    return (
-        <group>
-            <Box castShadow receiveShadow ref={boxRef} position={[0, 0.5, 0]}>
-                <meshStandardMaterial attach="material" color="white" />
-            </Box>
-            <Plane
-            castShadow
-                rotation={[-Math.PI / 2, 0, 0]}
-                position={[0, -1, 0]}
-                args={[1000, 1000]}
-            >
-                <meshStandardMaterial attach="material" color="white" />
-            </Plane>
-        </group>
-    )
+function Model({ url, ...props }) {
+    const { scene } = useGLTF(url)
+    // useGLTF is async, but by the time it returns the data is present.
+    // Next time it is called with the same cache key (url)
+    // it returns immediately because suspense and caching are the same.
+    return <primitive object={scene} {...props} />
 }
 
-function House(props) {
-    const { scene } = useGLTF("./Models/House.glb");
-
-    let house = [];
-
-    scene.traverse((object) => {
-        if (object.isMesh) {
-            if (object.name == 'House_2') {
-                house.push(
-                    <mesh
-                        receiveShadow
-                        scale={object.scale}
-                        position={object.position}
-                        rotation={object.rotation}
-                        geometry={object.geometry}
-                    >
-                        <meshStandardMaterial color={'white'} />
-                    </mesh>
-                );
-            } else {
-                house.push(
-                    <mesh
-                        castShadow
-                        receiveShadow
-                        scale={object.scale}
-                        position={object.position}
-                        rotation={object.rotation}
-                        geometry={object.geometry}
-                    >
-                        <meshStandardMaterial color={'#F3D393'} />
-                    </mesh>
-                );
-            }
-        }
-    });
-
-
-    return (
-        <group {...props} dispose={null}>
-            {house[0]}
-            {house[1]}
-        </group>
-    )
-}
-
-
-function Rock(props) {
-    const { scene, nodes } = useGLTF("./Models/Rock.glb");
-
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                castShadow
-                receiveShadow
-                scale={nodes.Cube014.scale}
-                geometry={nodes.Cube014.geometry}
-            >
-                <meshStandardMaterial color={'#F3D393'} />
-            </mesh>
-        </group>
-    )
-}
-
-function Fence1(props) {
-    const { nodes } = useGLTF("./Models/Fence1.glb");
-
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                castShadow
-                receiveShadow
-                scale={nodes.Cube031.scale}
-                rotation={nodes.Cube031.rotation}
-                position={nodes.Cube031.position}
-                geometry={nodes.Cube031.geometry}
-            >
-                <meshStandardMaterial color={'#F3D393'} />
-            </mesh>
-            <mesh
-                castShadow
-                receiveShadow
-                scale={nodes.Cube032.scale}
-                rotation={nodes.Cube031.rotation}
-                position={nodes.Cube032.position}
-                geometry={nodes.Cube032.geometry}
-            >
-                <meshStandardMaterial color={'#F3D393'} />
-            </mesh>
-        </group>
-    )
-}
-
-function Fence2(props) {
-    const { scene, nodes } = useGLTF("./Models/Fence2.glb");
-
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                castShadow
-                receiveShadow
-                scale={nodes.Cube027.scale}
-                rotation={nodes.Cube027.rotation}
-                position={nodes.Cube027.position}
-                geometry={nodes.Cube027.geometry}
-            >
-                <meshStandardMaterial color={'#F3D393'} />
-            </mesh>
-            <mesh
-                castShadow
-                receiveShadow
-                scale={nodes.Cube028.scale}
-                rotation={nodes.Cube028.rotation}
-                position={nodes.Cube028.position}
-                geometry={nodes.Cube028.geometry}
-            >
-                <meshStandardMaterial color={'#F3D393'} />
-            </mesh>
-        </group>
-    )
-}
-
-function Tree(props) {
-    const { scene, nodes } = useGLTF("./Models/Tree.glb");
-
-    return (
-        <group {...props} dispose={null}>
-            <mesh
-                castShadow
-                receiveShadow
-                scale={nodes.Cylinder001.scale}
-                position={nodes.Cylinder001.position}
-                geometry={nodes.Cylinder001.geometry}
-            >
-                <meshStandardMaterial color={'#F3D393'} />
-            </mesh>
-        </group>
-    )
-}
 
 export default function TitleHouse() {
 
@@ -184,9 +26,10 @@ export default function TitleHouse() {
                     castShadow
                     shadow-mapSize-height={512}
                     shadow-mapSize-width={512}
-                /><Floor />
-                <House position={[0, 0, 0]} />
+                />
+                <Model position-x={-3} position-y={-1} position-z={-2} rotation-x={1} rotation-y={-0.3} rotation-z={0.55} scale={[1, 1, 1]} url="./Models/0.Overall.glb" />
             </Canvas>
         </Suspense>
     );
 };
+
