@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import Store from './Utils/Store';
+import Store, {EV_SCENE_CHANGED, EV_BUILDING_CHANGED, EV_DIFFICULTY_CHANGED} from './Utils/Store';
 
 import Title from './Scenes/Title';
 import Select from './Scenes/Select';
@@ -31,14 +31,14 @@ class App extends React.Component {
      * 'scene_changed'イベントを検知して，this.onChangeStoreを実行します．
      */
     componentDidMount() {
-        Store.on('scene_changed', this.onChangeStore);
+        Store.on(EV_SCENE_CHANGED, this.onChangeStore);
     }
 
     /**
      * コンポーネントが DOM から削除されるときに呼び出されます．
      */
     componentWillUnmount() {
-        Store.off('scene_changed', this.onChangeStore);
+        Store.off(EV_SCENE_CHANGED, this.onChangeStore);
     }
 
     /**

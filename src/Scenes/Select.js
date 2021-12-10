@@ -59,7 +59,7 @@ export default function Select() {
                     margin={'1%'}
                 />
             </Block_Left_Top>
-            <SelectBuilding />
+            <SelectBuilding handler={() => deleteCookie("coin")}/>
         </Game_Canvas>
     );
 }

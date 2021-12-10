@@ -1,7 +1,7 @@
 import React, { Suspense, useRef, forwardRef, useState } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from "@react-three/drei";
-import { gsap, Linear } from "gsap";
+import { gsap } from "gsap";
 import styled from 'styled-components';
 import Color from "../Constants/Color";
 
@@ -174,7 +174,6 @@ export default function SelectBuilding(props) {
 
         gsap.to(buildingsRef.current.rotation, {
             y: buildingsRef.current.rotation.y - Math.PI / 2,
-            ease: Linear.easeOut,
             duration: 0.5
         });
     };
@@ -185,7 +184,6 @@ export default function SelectBuilding(props) {
 
         gsap.to(buildingsRef.current.rotation, {
             y: buildingsRef.current.rotation.y + Math.PI / 2,
-            ease: Linear.easeOut,
             duration: 0.5
         });
     };
@@ -200,7 +198,6 @@ export default function SelectBuilding(props) {
             <ArrowLeft handler={() => moveLeftBuilding()} />
             <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
-
                 <ambientLight intensity={1} />
                 <axesHelper scale={5} />
                 <group ref={buildingsRef} position={[0, 2.5, 0]} rotation={[0, 0, 0]}>
