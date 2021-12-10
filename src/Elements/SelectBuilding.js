@@ -1,6 +1,6 @@
 import React, { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Plane, PerspectiveCamera, useGLTF, OrbitControls } from "@react-three/drei";
+import { useGLTF, OrbitControls } from "@react-three/drei";
 
 import colors from '../Constants/Color';
 

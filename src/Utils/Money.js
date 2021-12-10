@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import Store from '../Utils/Store';
-import { getCookie } from '../Utils/Cookie';
+import { getCookie } from './Cookie';
 
-import CoinImage from '../Assets/Images/Coin.png';
+import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 const Block = styled.div`
     position: absolute;
@@ -55,21 +54,21 @@ const CoinFont = styled.div`
   z-index: 999;
 `;
 
-function Coin() {
+function Money() {
 
-    const [coin, setCoin] = useState(0);
+  const [money, setMoney] = useState(0);
 
-    useEffect(() => {
-        setCoin(getCookie("coin"));
-      });
+  useEffect(() => {
+    setMoney(getCookie("money"));
+  });
 
-    return (
-        <Block>
-            <CoinIcon />
-            <CoinFont>{coin}</CoinFont>
-        </Block>
-    );
+  return (
+    <Block>
+      <CoinIcon />
+      <CoinFont>{money}</CoinFont>
+    </Block>
+  );
 }
 
 
-export default Coin;
+export default Money;

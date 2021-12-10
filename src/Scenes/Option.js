@@ -4,7 +4,7 @@ import Store from '../Utils/Store';
 import { Game_Canvas, Block_Right_End, Block_Column_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 
-import backButton from '../Assets/Images/GO_BACKWARD.png';
+import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 
 
 export default function Option() {

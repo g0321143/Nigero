@@ -9,20 +9,22 @@ useGLTF.preload('./Models/Rock.glb');
 useGLTF.preload('./Models/Fence1.glb');
 useGLTF.preload('./Models/Fence2.glb');
 useGLTF.preload('./Models/Tree.glb');
+useGLTF.preload('./Models/MailBox.glb');
 
 
-function Floor(props) {
+
+function MailBox(props) {
+    const { scene, nodes } = useGLTF("./Models/MailBox.glb");
 
     return (
-        <group>
-            <Plane
-                rotation={[-Math.PI / 2, 0, 0]}
-                position={[0, -0.5, 0]}
-                args={[1000, 1000]}
-                receiveShadow
+        <group {...props} dispose={null}>
+            <mesh
+                castShadow
+                scale={nodes.Cube047.scale}
+                geometry={nodes.Cube047.geometry}
             >
-                <meshStandardMaterial attach="material" color={colors.grayishYellowGreen} />
-            </Plane>
+                <meshStandardMaterial color={'#F3D393'} />
+            </mesh>
         </group>
     )
 }
@@ -176,12 +178,13 @@ export default function TitleHouse() {
                     shadow-camera-top={10}
                     shadow-camera-bottom={-10}
                 />
-                <group position={[0, -1, 0]}>
+                <group position={[0, -0.5, 0]}>
                     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
                         <planeBufferGeometry attach="geometry" args={[100, 100]} />
                         <shadowMaterial attach="material" transparent opacity={0.4} />
                     </mesh>
                     <House position={[0, -0.5, 0]} />
+                    <MailBox position={[0.5, -0.2, -0.8]}/>
                     <Tree position={[0, -0.25, 0]} scale={[1, 1, 1]} />
                     <Tree position={[1, -0.2, 0.1]} scale={[1, 1.2, 1]} />
                     <Tree position={[2.3, -0.3, 0.1]} scale={[1, 0.8, 1]} />

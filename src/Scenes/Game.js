@@ -6,9 +6,9 @@ import { Game_Canvas, Block_Right_End, Block_Column_End, Block_Column_Top, Block
 import Button from '../Utils/Button';
 import Score from '../Utils/Score';
 
-import backButton from '../Assets/Images/GO_BACKWARD.png';
+import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 
-import Coin from '../Utils/Coin'
+import Coin from '../Utils/Money'
 import GameStage from '../Elements/GameStage';
 
 

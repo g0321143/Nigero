@@ -16,8 +16,8 @@ class App extends React.Component {
             scene: 'title'
         };
         
-        if(getCookie("coin") == ""){
-            setCookie("coin", 0);
+        if(getCookie("money") == ""){
+            setCookie("money", 0);
         }
     }
 

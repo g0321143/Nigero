@@ -1,47 +1,56 @@
 import React, { useRef, useState } from 'react'
-import { useFrame, Canvas } from '@react-three/fiber'
+import styled from 'styled-components';
 
 import Store from '../Utils/Store';
 import { addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
 import { Game_Canvas, Block_Column_Top, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
-import Coin from '../Utils/Coin'
+import Coin from '../Utils/Money'
 import Score from '../Utils/Score';
 import SelectBuilding from '../Elements/SelectBuilding';
 import { Arrow_r, Arrow_l } from '../Utils/ArrowStyles';
 
-import backButton from '../Assets/Images/Backward.png';
-import hintButton from '../Assets/Images/HintIcon.png';
-import homeButton from '../Assets/Images/HomeIcon.png';
-import shopButton from '../Assets/Images/ItemShop.png';
-import playButton from '../Assets/Images/PlayIcon.png';
+import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
+import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
+import homeButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-04.png';
+import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
+import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-02.png';
+import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
+import HouseButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
 
-function Box(props) {
-    // この参照により、THREE.Meshオブジェクトに直接アクセスできます
-    const ref = useRef();
+const CoinIcon = styled.div`
+    position: absolute;
 
-    // hoveredおよびclickedイベントの状態を保持する
-    const [hovered, hover] = useState(false);
-    const [clicked, click] = useState(false);
+    width: 3vw;
+    height: 3vw;
 
-    // このコンポーネントをレンダリングループに登録し、フレームごとにメッシュを回転させる
-    useFrame((state, delta) => (ref.current.rotation.x += 0.01));
+    top: 80%;
+    left: 40%;
 
-    // ビューを返すと、これらは通常のThreejsの要素をJSXで表現したものです。
-    return (
-        <mesh
-            {...props}
-            ref={ref}
-            scale={clicked ? 1.5 : 1}
-            onClick={(event) => click(!clicked)}
-            onPointerOver={(event) => hover(true)}
-            onPointerOut={(event) => hover(false)}>
-            <boxGeometry args={[1, 1, 1]} />
-            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
-        </mesh>
-    )
-}
+    background-image: url(${CoinImage});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 1;
+    z-index: 999;
+`;
 
+const BuildingButton = styled.div`
+    position: absolute;
+
+    width: 15vw;
+    height: 10vw;
+
+    top: 60%;
+    left: 42%;
+
+    background-image: url(${(props) => props.src});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 1;
+    z-index: 999;
+`;
 
 export default function Select() {
 
@@ -49,7 +58,9 @@ export default function Select() {
         <Game_Canvas>
             <Arrow_r/>
             <Arrow_l/>
-            <Coin />
+            <Coin/>
+            <CoinIcon />
+            <BuildingButton src={HouseButton}/>
             <Block_Column_Top>
                 <Score
                     width={'200px'}
@@ -77,14 +88,14 @@ export default function Select() {
             </Block_Right_End>
             <Block_Left_End>
                 <Button
-                    handler={() => subCookie("coin", 255)}
+                    handler={() => subCookie("money", 255)}
                     src={shopButton}
                     width={'6%'}
                     height={'10%'}
                     margin={'1%'}
                 />
                 <Button
-                    handler={() => addCookie("coin", 256)}
+                    handler={() => addCookie("money", 256)}
                     src={homeButton}
                     width={'6%'}
                     height={'10%'}

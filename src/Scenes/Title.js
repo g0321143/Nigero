@@ -3,23 +3,23 @@ import React from 'react'
 import Store from '../Utils/Store';
 import { Game_Canvas, Block_Left_Top, Block_Column_End, Block_Left_End, Block_Right_End } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
-import Coin from '../Utils/Coin'
+import Money from '../Utils/Money'
 import TitleHouse from '../Elements/TitleHouse';
 
-import playButton from '../Assets/Images/Play.png';
-import optionButton from '../Assets/Images/Option.png';
-import homeButton from '../Assets/Images/HomeIcon.png';
-import shopButton from '../Assets/Images/ItemShop.png';
-import languageButton from '../Assets/Images/Language.png';
-import soundButton from '../Assets/Images/Sound.png';
-import hintButton from '../Assets/Images/HintIcon.png';
+import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
+import optionButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-11.png';
+import homeButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-04.png';
+import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
+import languageButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-09.png';
+import soundButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-07.png';
+import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
 
 
 export default function Title() {
 
     return (
         <Game_Canvas>
-            <Coin />
+            <Money />
             <Block_Left_Top>
                 <Button
                     src={soundButton}

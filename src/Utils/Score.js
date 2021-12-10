@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
-import starOff from '../Assets/Images/StarOff.png';
-import starOn from '../Assets/Images/StarOn.png';
+import starOff from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-25.png';
+import starOn from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-24.png';
 
 const Block = styled.div`
     display:flex;
