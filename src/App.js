@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import Store, {EV_SCENE_CHANGED, EV_BUILDING_CHANGED, EV_DIFFICULTY_CHANGED} from './Utils/Store';
+import Store, {EV_SCENE_CHANGED} from './Utils/Store';
 
 import Title from './Scenes/Title';
 import Select from './Scenes/Select';
@@ -13,7 +13,9 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            scene: 'title'
+            scene: 'title',
+            building: "",
+            stage: 0,
         };
         
         if(getCookie("money") == ""){
@@ -22,8 +24,8 @@ class App extends React.Component {
     }
 
     onChangeStore = () => {
-        const scene = Store.getState();
-        this.setState({ scene });
+        const state = Store.getState();
+        this.setState(state);
     };
 
     /**
@@ -58,7 +60,8 @@ class App extends React.Component {
      * @returns 描画するコンポーネント
      */
     renderComponent() {
-        const { scene } = this.state.scene;
+        const scene = this.state.scene;
+        console.log(this.state);
 
         switch (scene) {
             case 'title': return <Title />;

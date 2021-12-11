@@ -5,14 +5,18 @@ import { gsap } from "gsap";
 import styled from 'styled-components';
 
 import Color from "../Constants/Color";
+import HeaderText from '../Utils/HeaderText';
 import { Block_Column_Top } from "../Utils/GlobalStyles";
 import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
+import Button from '../Utils/Button';
 
 import HouseButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
 import SchoolButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-18.png';
 import TallBuildingButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.png';
 import unlockButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-20.png';
+import useButton from '../Assets/Images/USE-31.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
+import { LoadingManager } from "three";
 
 
 const BlockBuildingButton = styled(Block_Column_Top)`
@@ -122,7 +126,7 @@ function House(props) {
     )
 }
 
-const Room = forwardRef((props, fref) => {
+function Room(props) {
     const { scene } = useGLTF('./Models/Room.glb');
 
     const ref = useRef();
@@ -139,12 +143,12 @@ const Room = forwardRef((props, fref) => {
     return (
         <primitive
             {...props}
-            ref={fref, ref}
+            ref={ref}
             object={scene}
             scale={0.3}
         />
-    )
-});
+    );
+}
 
 
 export default function SelectBuilding(props) {
@@ -155,7 +159,8 @@ export default function SelectBuilding(props) {
     const radius = 7;
 
     const buildingImageList = [TallBuildingButton, HouseButton, SchoolButton];
-    const usedList = [unlockButton, unlockButton, unlockButton];
+    const usedList = [unlockButton, useButton, unlockButton];
+    const playaibleList = [false, true, false];
     const buildingCostList = ["100,000", "FREE", "123,456"];
 
     const buildingsRef = useRef();
@@ -182,12 +187,19 @@ export default function SelectBuilding(props) {
     };
 
     return (
-        <Suspense fallback={null}>
+        <Suspense fallback={"Loading"}>
+            <HeaderText text={"SELECT BUILDING"} />
             <BlockBuildingButton>
-                <UsedButton src={usedList[building]} />
                 <BuildingButton src={buildingImageList[building]} />
             </BlockBuildingButton>
-            <BuildingCoin>{buildingCostList[building]}</BuildingCoin>
+            {!playaibleList[building] && (
+                <>
+                    <BuildingCoin>{buildingCostList[building]}</BuildingCoin>
+                    <BlockBuildingButton>
+                        <UsedButton src={usedList[building]} />
+                    </BlockBuildingButton>
+                </>
+            )}
             <ArrowRight handler={() => moveRightBuilding()} />
             <ArrowLeft handler={() => moveLeftBuilding()} />
             <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
@@ -195,7 +207,7 @@ export default function SelectBuilding(props) {
                 <ambientLight intensity={1} />
                 <group ref={buildingsRef} position={[0, 2.5, 0]} rotation={[0, 0, 0]}>
                     <House position={[radius * Math.sin(Math.PI / 2), -1, radius * Math.cos(Math.PI / 2) - 0.9]} rotation={[0, Math.PI / 4, 0]} />
-                    <Room position={[radius * Math.sin(Math.PI) - 1, 0, radius * Math.cos(Math.PI)]} rotation={[0, Math.PI / 2, 0]}/>
+                    <Room position={[radius * Math.sin(Math.PI) - 1, 0, radius * Math.cos(Math.PI)]} rotation={[0, Math.PI / 2, 0]} />
                     <House position={[radius * Math.sin(-Math.PI / 2), -1, radius * Math.cos(-Math.PI / 2) + 0.9]} rotation={[0, 5 * Math.PI / 4, 0]} />
                 </group>
             </Canvas>

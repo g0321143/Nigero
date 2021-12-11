@@ -1,19 +1,21 @@
 const { EventEmitter } = require("events");
 
 export const EV_SCENE_CHANGED = 'scene_changed';
-export const EV_BUILDING_CHANGED = 'building_changed';
-export const EV_DIFFICULTY_CHANGED = 'difficulty_changed';
 
 class Store extends EventEmitter {
+
+    state = {
+        scene: "title",
+        building: "",
+        stage: 0,
+    }
 
     /**
      * 現在のシーンを取得します．
      * @returns 現在のシーン
      */
     getState() {
-        return {
-            scene: this.scene,
-        };
+        return this.state;
     }
 
     /**
@@ -23,44 +25,32 @@ class Store extends EventEmitter {
      * @param {string} scene 
      */
     setScene(scene) {
-        this.scene = scene;
+        this.state.scene = scene;
         console.log(`scene = ${scene}`);
         this.emit(EV_SCENE_CHANGED);
     }
 
     /**
      * 現在の建物と難易度を取得します．
-     * @returns 現在のステージと難易度
+     * @returns 現在の建物とステージ
      */
     getStage() {
         return {
             building: this.building,
-            difficulty: this.difficulty,
+            stage: this.stage,
         };
     }
 
     /**
-     * ゲームに使用する建物を設定する関数です．
-     * 呼び出すと自作の'building_changed'イベントが呼び出されます．
-     * Select.jsでこのイベントの発生を検知して，難易度選択画面へ切り替わります．
-     * @param {string} building 
+     * ステージ選択画面からゲーム画面に移動する時に呼ぶ関数です．
+     * 建物とステージを入力して，ゲーム画面に遷移させます．
+     * @param {String} building 
+     * @param {Number} stage 
      */
-    setBuilding(building) {
-        this.building = building;
-        console.log(`building = ${building}`);
-        this.emit(EV_BUILDING_CHANGED);
-    }
-
-    /**
-     * ゲームに使用する建物を設定する関数です．
-     * 呼び出すと自作の'difficulty_changed'イベントが呼び出されます．
-     * Select.jsでこのイベントの発生を検知して，ゲーム画面へ切り替わります．
-     * @param {string} building 
-     */
-    setDifficulty(difficulty) {
-        this.difficulty = difficulty;
-        console.log(`difficulty = ${difficulty}`);
-        this.emit(EV_DIFFICULTY_CHANGED);
+    startGame(building, stage) {
+        this.state.building = building;
+        this.state.stage = stage;
+        this.setScene('game');
     }
 }
 

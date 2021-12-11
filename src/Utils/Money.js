@@ -6,57 +6,36 @@ import { getCookie } from './Cookie';
 
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
-const Block = styled.div`
+const BuildingCoin = styled.div`
     position: absolute;
-    display:flex;
     
-    width: 100%;
-    height: 100%;
-
-    font-size: 30px;
+    font-size: 3vw;
+    text-align: end;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
     
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: flex-end;
-`;
+    user-select: none;
+    user-drag: none;
 
-const CoinIcon = styled.div`
-    position: absolute;
+    top: 3%;
+    left: 0;
+    right: 3%;
+    margin: auto;
 
-    width: 3vw;
-    height: 3vw;
-
-    top: 4%;
-    right: 19%;
-
-    background-image: url(${CoinImage});
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 1;
     z-index: 999;
-`;
 
-const CoinFont = styled.div`
-  position: absolute;
-
-  width: 3vw;
-  height: 3vw;
-
-  top: 3%;
-  right: 8%;
-
-  font-size: 3vw;
-  color: ${Color.slightlyGrayishYellow};
-  font-weight: bold;
-  justify-content: flex-end;
-  align-items: center;
-  text-shadow: 1px 1px 2px silver;
-  
-  user-select: none;
-  user-drag: none;
-  
-  z-index: 999;
+    &::before{
+        content: "";
+        display: inline-block;
+        background: url(${CoinImage});
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 4vw;
+        height: 4vw;
+        margin-right: 1vw;
+        vertical-align: middle;
+    }
 `;
 
 function Money() {
@@ -69,8 +48,7 @@ function Money() {
 
   return (
     <>
-      <CoinIcon />
-      <CoinFont>{money}</CoinFont>
+      <BuildingCoin>{money}</BuildingCoin>
     </>
   );
 }

@@ -7,7 +7,7 @@ import Store from '../Utils/Store';
 import Text from '../Utils/Text';
 import { Game_Canvas, Block_Right_End, Block_Column_End } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
-import Score from '../Utils/Score';
+import StarScore from '../Utils/StarScore';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 
@@ -20,7 +20,7 @@ function Clear() {
     <>
         <Money />
         <Block_Column_End>
-            <Score
+            <StarScore
                 width={'200px'}
                 height={'200px'}
                 star1={true}
