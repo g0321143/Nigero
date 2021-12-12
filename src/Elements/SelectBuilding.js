@@ -1,22 +1,20 @@
-import React, { Suspense, useRef, forwardRef, useState } from "react";
+import React, { Suspense, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF, OrbitControls } from "@react-three/drei";
 import { gsap } from "gsap";
 import styled from 'styled-components';
 
+import Store from '../Utils/Store';
 import Color from "../Constants/Color";
 import HeaderText from '../Utils/HeaderText';
 import { Block_Column_Top } from "../Utils/GlobalStyles";
 import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
-import Button from '../Utils/Button';
 
 import HouseButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
 import SchoolButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-18.png';
 import TallBuildingButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.png';
 import unlockButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-20.png';
-import useButton from '../Assets/Images/USE-31.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
-import { LoadingManager } from "three";
 
 
 const BlockBuildingButton = styled(Block_Column_Top)`
@@ -153,15 +151,35 @@ function Room(props) {
 
 export default function SelectBuilding(props) {
 
+    // このコンポーネント消える時に選択されている建物を登録
+    useEffect(() => 
+        () => Store.setBuilding(buildingList[building].name), []
+    );
+
     const BUILDING_MAX = 2;
     const BUILDING_MIN = 0;
 
     const radius = 7;
 
-    const buildingImageList = [TallBuildingButton, HouseButton, SchoolButton];
-    const usedList = [unlockButton, useButton, unlockButton];
-    const playaibleList = [false, true, false];
-    const buildingCostList = ["100,000", "FREE", "123,456"];
+    const buildingList = [
+        {
+            name: "TallBuilding",
+            nameImage: TallBuildingButton,
+            isPlay: false,
+            cost: "100,000"
+        },
+        {
+            name: "House",
+            nameImage: HouseButton,
+            isPlay: true,
+            cost: "FREE"
+        },
+        {
+            name: "School",
+            nameImage: SchoolButton,
+            isPlay: false,
+            cost: "302,800"
+        }];
 
     const buildingsRef = useRef();
     const [building, setBuilding] = useState(1);
@@ -190,13 +208,13 @@ export default function SelectBuilding(props) {
         <Suspense fallback={"Loading"}>
             <HeaderText text={"SELECT BUILDING"} />
             <BlockBuildingButton>
-                <BuildingButton src={buildingImageList[building]} />
+                <BuildingButton src={buildingList[building].nameImage} />
             </BlockBuildingButton>
-            {!playaibleList[building] && (
+            {!buildingList[building].isPlay && (
                 <>
-                    <BuildingCoin>{buildingCostList[building]}</BuildingCoin>
+                    <BuildingCoin>{buildingList[building].cost}</BuildingCoin>
                     <BlockBuildingButton>
-                        <UsedButton src={usedList[building]} />
+                        <UsedButton src={unlockButton} />
                     </BlockBuildingButton>
                 </>
             )}

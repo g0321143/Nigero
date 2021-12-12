@@ -30,7 +30,7 @@ export default function Select() {
                     margin={'1%'}
                 />
                 <Button
-                    handler={() => stageSelected ? Store.startGame('room', 1) : stageSelect(!stageSelected)}
+                    handler={() => stageSelected ? Store.setScene('game') : stageSelect(!stageSelected)}
                     src={playButton}
                     width={'6%'}
                     height={'10%'}

@@ -4,6 +4,7 @@ export default {
     dimGrayishGreen: '#587e65',
     grayishYellowGreen: '#7e8460',
     slightlyGrayishYellow: '#f6ebc4',
+    softYellow: '#e3c584',
     strongOrange: '#de7f53',
     softOrange: '#e9a37f',
     lightGrayishOrange: '#f8c9af',

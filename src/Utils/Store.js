@@ -31,6 +31,24 @@ class Store extends EventEmitter {
     }
 
     /**
+     * ゲームで使用する建物を登録する関数です．
+     * @param {string} building 
+     */
+    setBuilding(building) {
+        this.state.building = building;
+        console.log(`building = ${building}`);
+    }
+
+    /**
+     * ゲームで使用するステージを登録する関数です．
+     * @param {string} stage 
+     */
+    setStage(stage) {
+        this.state.stage = stage;
+        console.log(`stage = ${stage}`);
+    }
+
+    /**
      * 現在の建物と難易度を取得します．
      * @returns 現在の建物とステージ
      */

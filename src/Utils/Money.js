@@ -47,9 +47,7 @@ function Money() {
   });
 
   return (
-    <>
       <BuildingCoin>{money}</BuildingCoin>
-    </>
   );
 }
 

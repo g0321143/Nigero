@@ -6,12 +6,11 @@ import starOff from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-25.png';
 import starOn from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-24.png';
 
 const UnorderedList = styled.ul`
-    position: absolute;
-
-    width: ${(props) => props.width};
 
     display:flex;
     justify-content: center;
+    padding 0;
+    margin 0;
 
     user-select: none;
     user-drag: none;
@@ -24,8 +23,6 @@ const List = styled.li`
 
 const Star = styled.img` 
     width: ${(props) => props.width};
-    height: ${(props) => props.width};
-    margin: 0;
 `;
 
 function StarScore({ width, star1, star2, star3 }) {
