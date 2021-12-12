@@ -156,11 +156,14 @@ export default function SelectBuilding(props) {
         () => Store.setBuilding(buildingList[building].name), []
     );
 
+    // 表示する建物の数
     const BUILDING_MAX = 2;
     const BUILDING_MIN = 0;
 
+    // 回転させる円の半径
     const radius = 7;
 
+    // 表示する建物の情報
     const buildingList = [
         {
             name: "TallBuilding",
@@ -184,6 +187,7 @@ export default function SelectBuilding(props) {
     const buildingsRef = useRef();
     const [building, setBuilding] = useState(1);
 
+    // 右矢印を押した時の処理
     const moveRightBuilding = () => {
         if (building == BUILDING_MAX) return;
         setBuilding(building + 1);
@@ -194,6 +198,7 @@ export default function SelectBuilding(props) {
         });
     };
 
+    // 左矢印を押した時の処理
     const moveLeftBuilding = () => {
         if (building == BUILDING_MIN) return;
         setBuilding(building - 1);

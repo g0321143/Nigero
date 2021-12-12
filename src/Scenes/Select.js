@@ -16,6 +16,7 @@ import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-02.png';
 
 export default function Select() {
 
+    // 建物かステージ選択画面の状態の保持
     const [stageSelected, stageSelect] = useState(false);
 
     return (
