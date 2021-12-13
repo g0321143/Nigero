@@ -5,7 +5,7 @@ import { useFrame } from '@react-three/fiber'
 import { useGLTF, OrbitControls } from "@react-three/drei";
 
 
-import Store from '../Utils/Store';
+import Store, { EV_RESET_GAME } from '../Utils/Store';
 import Text from '../Utils/Text';
 import { Game_Canvas, Block_Right_End, Block_Column_End, Block_Left_Top, Block_Column_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
@@ -28,23 +28,25 @@ import Color from "../Constants/Color";
 
 
 function Clear() {
-    return (<group>
-        <Money />
-        <TimeText fontsize={"5vw"} top={"5%"} left={"35%"}>{":COMPLETE:"}</TimeText>
-        <Block_Column_End>
-            <StarScore
-                width={'200px'}
-                height={'200px'}
-                star1={true}
-                star2={true}
-                star3={true}
-            />
-        </Block_Column_End>
-        <ChooserButton  onClick={() => Store.setScene('select')} src={nextButton} top={"25%"} left={"80%"}/>
-        <ChooserButton  onClick={() => Store.setScene('game')} src={retyrButton} top={"35%"} left={"80%"}/>
-        <ChooserButton  onClick={() => Store.setScene('select')} src={tipsButton} top={"45%"} left={"80%"}/>
-        
-    </group>);
+
+    return (
+        <>
+            <Money />
+            <TimeText fontsize={"5vw"} top={"5%"} left={"35%"}>{":COMPLETE:"}</TimeText>
+            <Block_Column_End>
+                <StarScore
+                    width={'200px'}
+                    height={'200px'}
+                    star1={true}
+                    star2={true}
+                    star3={true}
+                />
+            </Block_Column_End>
+            <ChooserButton onClick={() => Store.setScene('select')} src={nextButton} top={"25%"} left={"80%"} />
+            <ChooserButton onClick={() => Store.resetGame()} src={retyrButton} top={"35%"} left={"80%"} />
+            <ChooserButton onClick={() => Store.setScene('select')} src={tipsButton} top={"45%"} left={"80%"} />
+        </>
+    );
 }
 
 function Playing(){
@@ -61,7 +63,7 @@ function Model() {
 
     return (
         <>
-            <MissonBox src={mission}/>
+            <MissonBox src={mission} />
             <TimeText fontsize={"0.8vw"} top={"35.3%"} left={"6%"}>{"Securing of personal security"}</TimeText>
             <TimeText fontsize={"1vw"} top={"39.3%"} left={"6%"}>{"Check of the fall"}</TimeText>
             <TimeText fontsize={"1vw"} top={"43.5%"} left={"6%"}>{"ほげ～"}</TimeText>
@@ -80,15 +82,15 @@ function Model() {
     );
 }
 
-function Check(){
+function Check() {
     const flag1 = true;
     const flag2 = true;
     const flag3 = true;
-    return(
+    return (
         <>
-            {flag1 ? <CheckBox src={checkmark} top={"32%"} left={"14.5%"}/> : null}
-            {flag2 ? <CheckBox src={checkmark} top={"36.5%"} left={"14.5%"}/> : null}
-            {flag3 ? <CheckBox src={checkmark} top={"41%"} left={"14.5%"}/> : null}
+            {flag1 ? <CheckBox src={checkmark} top={"32%"} left={"14.5%"} /> : null}
+            {flag2 ? <CheckBox src={checkmark} top={"36.5%"} left={"14.5%"} /> : null}
+            {flag3 ? <CheckBox src={checkmark} top={"41%"} left={"14.5%"} /> : null}
         </>
     );
 }
@@ -102,7 +104,6 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
         return (
             <>
                 <Clear />
-                <Model />
             </>
         );
     } else {
@@ -112,23 +113,53 @@ const renderer = ({ hours, minutes, seconds, completed }) => {
             <>
                 <Text text={String(time)} />
                 <Playing />
-                <Model />
             </>
         );
     }
 };
 
 
-export default function Game() {
+export default class Game extends React.Component {
 
-    return (
-        <Game_Canvas>
-            <Countdown
-                date={Date.now() + 1000}
-                renderer={renderer}
-            />
-        </Game_Canvas>
-    );
+    constructor(props) {
+        super(props);
+        this.state = {
+            key: false
+        };
+    }
+
+    onChangeStore = () => {
+        this.state.key = !this.state.key;
+        console.log(this.state.key);
+    };
+
+    /**
+     * コンポーネントがマウントされた（ツリーに挿入された）直後に呼び出されます．
+     * 'scene_changed'イベントを検知して，this.onChangeStoreを実行します．
+     */
+    componentDidMount() {
+        Store.on(EV_RESET_GAME, this.onChangeStore);
+    }
+
+    /**
+     * コンポーネントが DOM から削除されるときに呼び出されます．
+     */
+    componentWillUnmount() {
+        Store.off(EV_RESET_GAME, this.onChangeStore);
+    }
+
+    render() {
+        return (
+            <Game_Canvas >
+                <Model />
+                <Countdown
+                    date={Date.now() + 1000}
+                    renderer={renderer}
+                    key={this.state.key}
+                />
+            </Game_Canvas>
+        );
+    }
 }
 
 const ChooserButton = styled.div`
