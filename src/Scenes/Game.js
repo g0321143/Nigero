@@ -2,6 +2,8 @@ import React, { Suspense, useRef, useState, useEffect } from 'react'
 import ReactDOM from 'react-dom';
 import Countdown from 'react-countdown';
 import { useFrame } from '@react-three/fiber'
+import { useGLTF, OrbitControls } from "@react-three/drei";
+
 
 import Store from '../Utils/Store';
 import Text from '../Utils/Text';
@@ -44,6 +46,7 @@ function Clear() {
         
     </group>);
 }
+
 function Playing(){
     return(
         <group>

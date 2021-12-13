@@ -13,6 +13,18 @@ function Model({ url, ...props }) {
 }
 
 
+function Player(props) {
+    const { scene } = useGLTF('./Models/RobotExpressive.glb');
+
+    return (
+        <primitive
+            object={scene}
+            scale={0.3}
+        />
+    );
+}
+
+
 export default function TitleHouse() {
 
     return (
@@ -28,6 +40,7 @@ export default function TitleHouse() {
                     shadow-mapSize-width={512}
                 />
                 <Model position={[-3, -1, -2]} rotation={[1, -0.3, 0.55]} scale={[1, 1, 1]} url="./Models/Overall.glb" />
+                <Player />
             </Canvas>
         </Suspense>
     );
