@@ -70,6 +70,6 @@ export function getCookie(name) {
     const num =  Number( str ); // 数値に変換できない場合はNaNが返る
     if(isNaN( num )) return false;
 
-    setCookie(name, value-num);
+    setCookie(name, num - value);
     return true;
 }
