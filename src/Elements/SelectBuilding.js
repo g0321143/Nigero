@@ -225,7 +225,7 @@ export default function SelectBuilding(props) {
             )}
             <ArrowRight handler={() => moveRightBuilding()} />
             <ArrowLeft handler={() => moveLeftBuilding()} />
-            <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
+            <Canvas camera={{ position: [0, 3.5, -10], fov: 90 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <ambientLight intensity={1} />
                 <group ref={buildingsRef} position={[0, 2.5, 0]} rotation={[0, 0, 0]}>
