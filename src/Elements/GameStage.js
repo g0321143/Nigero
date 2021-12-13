@@ -5,6 +5,7 @@ import { useGLTF, OrbitControls, Plane } from "@react-three/drei";
 import { gsap, Linear } from "gsap";
 
 useGLTF.preload("./Models/Overall.glb");
+useGLTF.preload("./Models/RobotExpressive.glb");
 
 function Model({ url, ...props }) {
     const { scene } = useGLTF(url)
@@ -52,7 +53,32 @@ function Player(props) {
 }
 
 
-export default function TitleHouse() {
+export default function GameStage() {
+
+    const { scene } = useGLTF('./Models/RobotExpressive.glb');
+
+    var xx = 0;
+    var zz = 1;
+
+    const handleDoubleClick = (e) => {
+        const p = e.point;
+        var inner = xx * (p.x - scene.position.x) + zz * (p.z - scene.position.z);
+        var outer = xx * (p.z - scene.position.z) - zz * (p.x - scene.position.x);
+        var sqe = Math.sqrt(xx * xx + zz * zz);
+        var sqv = Math.sqrt((p.x - scene.position.x) * (p.x - scene.position.x) + (p.z - scene.position.z) * (p.z - scene.position.z));
+        var vcos = inner / (sqe * sqv);
+      
+        console.log(outer);
+        xx = p.x - scene.position.x;
+        zz = p.z - scene.position.z;
+      
+        if (outer < 0) {
+            gsap.to(scene.rotation, { y: scene.rotation.y + Math.acos(vcos), ease: Linear.easeOut }).duration(0.01);
+        } else {
+            gsap.to(scene.rotation, { y: scene.rotation.y - Math.acos(vcos), ease: Linear.easeOut }).duration(0.01);
+        }
+        gsap.to(scene.position, { x: p.x, z: p.z, ease: Linear.easeOut }).duration(1);
+    };
 
     return (
         <Suspense fallback={null}>
@@ -66,8 +92,8 @@ export default function TitleHouse() {
                     shadow-mapSize-height={512}
                     shadow-mapSize-width={512}
                 />
-                <Model position={[-3, -1, -2]} scale={[1, 1, 1]} url="./Models/Overall.glb" />
-                <Player />
+                <Model position={[-3, -1, -2]} scale={[1, 1, 1]} url="./Models/Overall.glb"  onClick={handleDoubleClick} />
+                <primitive object={scene} position={[0, 0, 0]} scale={0.2} />
             </Canvas>
         </Suspense>
     );

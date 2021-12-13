@@ -151,12 +151,12 @@ export default class Game extends React.Component {
     render() {
         return (
             <Game_Canvas >
-                <Model />
                 <Countdown
                     date={Date.now() + 1000}
                     renderer={renderer}
                     key={this.state.key}
                 />
+                <Model />
             </Game_Canvas>
         );
     }
