@@ -111,9 +111,7 @@ const StageBlock = styled(Block_Column_Top)`
     user-drag: none;
 
     z-index: 500;
-    &:hover{
-        background: ${(props) => props.isSelect ? Color.deepRed : Color.softOrange};
-    }
+    
 `;
 
 const TestBox = styled.div`
