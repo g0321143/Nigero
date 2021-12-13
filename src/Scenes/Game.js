@@ -39,7 +39,7 @@ function Clear() {
             />
         </Block_Column_End>
         <ChooserButton  onClick={() => Store.setScene('select')} src={nextButton} top={"25%"} left={"80%"}/>
-        <ChooserButton  onClick={() => Store.setScene('select')} src={retyrButton} top={"35%"} left={"80%"}/>
+        <ChooserButton  onClick={() => Store.setScene('game')} src={retyrButton} top={"35%"} left={"80%"}/>
         <ChooserButton  onClick={() => Store.setScene('select')} src={tipsButton} top={"45%"} left={"80%"}/>
         
     </group>);
@@ -62,7 +62,7 @@ function Model() {
             <TimeText fontsize={"0.8vw"} top={"35.3%"} left={"6%"}>{"Securing of personal security"}</TimeText>
             <TimeText fontsize={"1vw"} top={"39.3%"} left={"6%"}>{"Check of the fall"}</TimeText>
             <TimeText fontsize={"1vw"} top={"43.5%"} left={"6%"}>{"ほげ～"}</TimeText>
-            <Check flag1={"true"}/>
+            <Check />
             <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('select')}
@@ -77,11 +77,15 @@ function Model() {
     );
 }
 
-function Check(flag1){
-    
+function Check(){
+    const flag1 = true;
+    const flag2 = true;
+    const flag3 = true;
     return(
         <>
             {flag1 ? <CheckBox src={checkmark} top={"32%"} left={"14.5%"}/> : null}
+            {flag2 ? <CheckBox src={checkmark} top={"36.5%"} left={"14.5%"}/> : null}
+            {flag3 ? <CheckBox src={checkmark} top={"41%"} left={"14.5%"}/> : null}
         </>
     );
 }
