@@ -17,7 +17,7 @@ export default function TitleHouse() {
 
     return (
         <Suspense fallback={null}>
-            <Canvas shadowMap camera={{ position: [-3, 2, 5], fov: 90 }}>
+            <Canvas shadowMap camera={{ position: [-3, 2, 5], fov: 45 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <ambientLight intensity={0.1} />
                 <fog attach="fog" args={["white", 0, 40]} />

@@ -1,6 +1,7 @@
 const { EventEmitter } = require("events");
 
 export const EV_SCENE_CHANGED = 'scene_changed';
+export const EV_RESET_GAME = 'reset_game';
 
 class Store extends EventEmitter {
 
@@ -69,6 +70,16 @@ class Store extends EventEmitter {
         this.state.building = building;
         this.state.stage = stage;
         this.setScene('game');
+    }
+
+    /**
+     * 画面を切り替える関数です．
+     * 呼び出すと自作の'scene_changed'イベントが呼び出されます．
+     * App.jsでこのイベントの発生を検知して，画面が切り替わります．
+     * @param {string} scene 
+     */
+    resetGame() {
+        this.emit(EV_RESET_GAME);
     }
 }
 
