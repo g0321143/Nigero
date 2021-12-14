@@ -38,8 +38,8 @@ function Clear() {
                     width={'200px'}
                     height={'200px'}
                     star1={true}
-                    star2={true}
-                    star3={true}
+                    star2={false}
+                    star3={false}
                 />
             </Block_Column_End>
             <ChooserButton onClick={() => Store.setScene('select')} src={nextButton} top={"25%"} left={"80%"} />
@@ -60,6 +60,10 @@ function Playing(){
 
 function Model() {
 
+    useEffect(() => {
+        console.log("Mount item");
+        return () => console.log("Unmount item");
+      }, []);
 
     return (
         <>
@@ -124,12 +128,12 @@ export default class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            key: false
+            key: 0
         };
     }
 
     onChangeStore = () => {
-        this.state.key = !this.state.key;
+        this.state.key = this.state.key + 1;
         console.log(this.state.key);
     };
 
@@ -152,9 +156,8 @@ export default class Game extends React.Component {
         return (
             <Game_Canvas >
                 <Countdown
-                    date={Date.now() + 1000}
+                    date={Date.now() + 10000}
                     renderer={renderer}
-                    key={this.state.key}
                 />
                 <Model />
             </Game_Canvas>

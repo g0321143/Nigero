@@ -1,13 +1,15 @@
 export default {
     // NORMAL SITUATION
     darkGrayishGreen: '#f6ebc4',
-    dimGrayishGreen: '#587e65',
+    dimGrayishGreen: '#506155',
     grayishYellowGreen: '#7e8460',
     slightlyGrayishYellow: '#f6ebc4',
     softYellow: '#e3c584',
     strongOrange: '#de7f53',
     softOrange: '#e9a37f',
+    softRed: '#f47174',
     lightGrayishOrange: '#f8c9af',
+    darkGreen: '#41634b',
   
     // ERTHQUAKE SITUATION
     vividRed: '#bc002d',
