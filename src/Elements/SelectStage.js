@@ -10,7 +10,7 @@ import { Block_Column_Top } from "../Utils/GlobalStyles";
 import overheadImage from "../Assets/Images/overhead.png"
 
 
-export default function SelectStage({ handler }) {
+export default function SelectStage() {
 
     // 選択されているステージを保存
     const [selectNum, selectedNum] = useState(0);

@@ -27,7 +27,7 @@ import Color from "../Constants/Color";
 
 
 
-function Clear() {
+function Clear({ handler }) {
 
     return (
         <>
@@ -43,16 +43,16 @@ function Clear() {
                 />
             </Block_Column_End>
             <ChooserButton onClick={() => Store.setScene('select')} src={nextButton} top={"25%"} left={"80%"} />
-            <ChooserButton onClick={() => Store.resetGame()} src={retyrButton} top={"35%"} left={"80%"} />
+            <ChooserButton onClick={handler} src={retyrButton} top={"35%"} left={"80%"} />
             <ChooserButton onClick={() => Store.setScene('select')} src={tipsButton} top={"45%"} left={"80%"} />
         </>
     );
 }
 
-function Playing(){
-    return(
+function Playing() {
+    return (
         <group>
-            <ItemBox src={item}/>
+            <ItemBox src={item} />
         </group>
     );
 }
@@ -63,7 +63,7 @@ function Model() {
     useEffect(() => {
         console.log("Mount item");
         return () => console.log("Unmount item");
-      }, []);
+    }, []);
 
     return (
         <>
@@ -101,68 +101,43 @@ function Check() {
 
 
 
-// Renderer callback with condition
-const renderer = ({ hours, minutes, seconds, completed }) => {
-    if (completed) {
-        // Render a completed state
-        return (
-            <>
-                <Clear />
-            </>
-        );
-    } else {
-        // Render a countdown
-        const time = minutes * 60 + seconds;
-        return (
-            <>
-                <Text text={String(time)} />
-                <Playing />
-            </>
-        );
-    }
-};
+export default function Game() {
+    
+    // このkeyを更新すると<Countdown />が新しく生成されます
+    const [key, setkey] = useState(false);
 
+    // Renderer callback with condition
+    const renderer = ({ hours, minutes, seconds, completed }) => {
 
-export default class Game extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            key: 0
-        };
-    }
-
-    onChangeStore = () => {
-        this.state.key = this.state.key + 1;
-        console.log(this.state.key);
+        if (completed) {
+            // Render a completed state
+            return (
+                <>
+                    <Clear handler={() => setkey(!key)} />
+                </>
+            );
+        } else {
+            // Render a countdown
+            const time = minutes * 60 + seconds;
+            return (
+                <>
+                    <Text text={String(time)} />
+                    <Playing />
+                </>
+            );
+        }
     };
 
-    /**
-     * コンポーネントがマウントされた（ツリーに挿入された）直後に呼び出されます．
-     * 'scene_changed'イベントを検知して，this.onChangeStoreを実行します．
-     */
-    componentDidMount() {
-        Store.on(EV_RESET_GAME, this.onChangeStore);
-    }
-
-    /**
-     * コンポーネントが DOM から削除されるときに呼び出されます．
-     */
-    componentWillUnmount() {
-        Store.off(EV_RESET_GAME, this.onChangeStore);
-    }
-
-    render() {
-        return (
-            <Game_Canvas >
-                <Countdown
-                    date={Date.now() + 5000}
-                    renderer={renderer}
-                />
-                <Model />
-            </Game_Canvas>
-        );
-    }
+    return (
+        <Game_Canvas >
+            <Countdown
+                date={Date.now() + 5000}
+                renderer={renderer}
+                key={key}
+            />
+            <Model />
+        </Game_Canvas>
+    );
 }
 
 const ChooserButton = styled.div`
