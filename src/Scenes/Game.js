@@ -38,8 +38,8 @@ function Clear() {
                     width={'200px'}
                     height={'200px'}
                     star1={true}
-                    star2={true}
-                    star3={true}
+                    star2={false}
+                    star3={false}
                 />
             </Block_Column_End>          
             <Setting onClick={() => Store.setScene('select')} src={nextButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'}/>
@@ -60,6 +60,10 @@ function Playing(){
 
 function Model() {
 
+    useEffect(() => {
+        console.log("Mount item");
+        return () => console.log("Unmount item");
+      }, []);
 
     return (
         <>
@@ -139,13 +143,17 @@ export default class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+<<<<<<< HEAD
             key: false,
             limit: 100000
+=======
+            key: 0
+>>>>>>> 741f6cdc147e35a4559bee082745603187282e34
         };
     }
 
     onChangeStore = () => {
-        this.state.key = !this.state.key;
+        this.state.key = this.state.key + 1;
         console.log(this.state.key);
     };
 
@@ -171,7 +179,10 @@ export default class Game extends React.Component {
                 <Countdown
                     date={Date.now() + this.state.limit}
                     renderer={renderer}
+<<<<<<< HEAD
                     key={this.state.key}        
+=======
+>>>>>>> 741f6cdc147e35a4559bee082745603187282e34
                 />
                 <Model />
             </Game_Canvas>
