@@ -143,12 +143,8 @@ export default class Game extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-<<<<<<< HEAD
-            key: false,
+            key: 0,
             limit: 100000
-=======
-            key: 0
->>>>>>> 741f6cdc147e35a4559bee082745603187282e34
         };
     }
 
@@ -179,10 +175,6 @@ export default class Game extends React.Component {
                 <Countdown
                     date={Date.now() + this.state.limit}
                     renderer={renderer}
-<<<<<<< HEAD
-                    key={this.state.key}        
-=======
->>>>>>> 741f6cdc147e35a4559bee082745603187282e34
                 />
                 <Model />
             </Game_Canvas>
