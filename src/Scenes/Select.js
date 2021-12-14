@@ -13,10 +13,10 @@ import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
 import homeButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-04.png';
 import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
 
-export default function Select() {
+export default function Select({isSelectedBuilding}) {
 
     // 建物かステージ選択画面の状態の保持
-    const [stageSelected, stageSelect] = useState(false);
+    const [stageSelected, stageSelect] = useState(isSelectedBuilding);
 
     return (
         <Game_Canvas>

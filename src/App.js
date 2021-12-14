@@ -61,11 +61,13 @@ class App extends React.Component {
      */
     renderComponent() {
         const scene = this.state.scene;
+        const isSelectedBuilding = () => this.state.building === '' ? false : true;
         console.log(this.state);
+        
 
         switch (scene) {
             case 'title': return <Title />;
-            case 'select': return <Select />;
+            case 'select': return <Select isSelectedBuilding={isSelectedBuilding}/>;
             case 'option': return <Option />;
             case 'game': return <Game />;
             default: console.error(`"${scene}" は存在しない画面です.`); return <Title />

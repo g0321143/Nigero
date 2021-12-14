@@ -42,9 +42,9 @@ function Clear({ handler }) {
                     star3={false}
                 />
             </Block_Column_End>
-            <Setting onClick={() => Store.setScene('select')} src={nextButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
+            <Setting onClick={() => Store.resetStage()} src={nextButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
             <Setting onClick={handler} src={retyrButton} top={"35%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
-            <Setting onClick={() => Store.setScene('select')} src={tipsButton} top={"45%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
+            <Setting onClick={() => Store.resetbuilding()} src={tipsButton} top={"45%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
         </>
     );
 }
@@ -69,7 +69,7 @@ function Model() {
             <Check />
             <Block_Right_End>
                 <Button
-                    handler={() => Store.setScene('select')}
+                    handler={() => Store.resetStage()}
                     src={backButton}
                     width={'10%'}
                     height={'10%'}
@@ -114,7 +114,7 @@ export default function Game() {
     /*limit: 制限時間
     ココを変更するときはconst renderer 内のlimitも変更
 
-    追記　->  リトライボタンの修正に伴いスコープが変わったので，
+    追記　->  リトライボタンの修正に伴いlimitのスコープが変わったので，
     　　　　　両方変更しなくても良くなったはず...
     */
     const [limit, setlimit] = useState(100000);
@@ -155,26 +155,26 @@ export default function Game() {
 }
 
 const Setting = styled.div`
-  display:flex;
-  position: absolute;
-  width: ${props => props.width};
-  height: ${props => props.height};
-  
-  margin: ${props => props.margin};
-  top: ${(props) => props.top};
-  left: ${(props) => props.left};
+    display:flex;
+    position: absolute;
+    width: ${props => props.width};
+    height: ${props => props.height};
+    
+    margin: ${props => props.margin};
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
 
-  background-image: url(${props => props.src});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity: ${(props) => props.opacity};
-  z-index: 999;
+    background-image: url(${props => props.src});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: ${(props) => props.opacity};
+    z-index: 999;
 
-  :hover {
-    cursor: pointer;
-    opacity: 1;
-  }
+    :hover {
+        cursor: pointer;
+        opacity: 1;
+    }
 `;
 
 const AnyText = styled.div`
