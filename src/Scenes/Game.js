@@ -152,7 +152,7 @@ export default class Game extends React.Component {
         return (
             <Game_Canvas >
                 <Countdown
-                    date={Date.now() + 1000}
+                    date={Date.now() + 5000}
                     renderer={renderer}
                     key={this.state.key}
                 />
