@@ -14,6 +14,7 @@ import HouseButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
 import SchoolButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-18.png';
 import TallBuildingButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.png';
 import unlockButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-20.png';
+import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 
@@ -47,6 +48,12 @@ const UsedButton = styled.img`
 
     url(${(props) => props.src});
     z-index: 999;
+    opacity: 0.9;
+
+    :hover {
+        cursor: pointer;
+        opacity: 1;
+    }
 `;
 
 const BuildingCoin = styled.div`
@@ -149,10 +156,10 @@ function Room(props) {
 }
 
 
-export default function SelectBuilding(props) {
+export default function SelectBuilding({handler}) {
 
     // このコンポーネント消える時に選択されている建物を登録
-    useEffect(() => 
+    useEffect(() =>
         () => Store.setBuilding(buildingList[building].name), []
     );
 
@@ -217,6 +224,13 @@ export default function SelectBuilding(props) {
             <BlockBuildingButton>
                 <BuildingButton src={buildingList[building].nameImage} />
             </BlockBuildingButton>
+            {buildingList[building].isPlay && (
+                <>
+                   <BlockBuildingButton>
+                        <UsedButton src={playButton} onClick={handler}/>
+                    </BlockBuildingButton>
+                </>
+            )}
             {!buildingList[building].isPlay && (
                 <>
                     <BuildingCoin>{buildingList[building].cost}</BuildingCoin>

@@ -10,24 +10,26 @@ import { Block_Column_Top } from "../Utils/GlobalStyles";
 import overheadImage from "../Assets/Images/overhead.png"
 
 
-export default function SelectStage(props) {
+export default function SelectStage({ handler }) {
 
     // 選択されているステージを保存
-    const [selectNum, selectedNum] = useState(1);
+    const [selectNum, selectedNum] = useState(0);
 
-    // selectNumがアップデートした時に選択されているステージを登録
-    useEffect(() =>
-        Store.setStage(selectNum), [selectNum]
-    );
+    const selectStage = (Num) => {
+        Store.setStage(Num);
+        Store.setScene('game');
+    }
+
 
     return (
         <Suspense fallback={null}>
             <HeaderText text={"SELECT STAGE"} />
             <SelestStageBlock>
-                <StageBlock  isSelect={selectNum == 1 ? true : false}>
+                <StageBlock isSelect={selectNum == 1 ? true : false}>
                     <CircleNum>{"1"}</CircleNum>
-                    <TestBox
-                        onClick={() => selectedNum(1)}
+                    <OverheadBox
+                        content={"Magnitude 4"}
+                        onClick={() => selectStage(1)}
                     />
                     <StarScore width={"4vw"} star1={true} star2={false} star3={true} />
                     <TimeText fontsize={"2.5vw"} >{"4:00"}</TimeText>
@@ -35,8 +37,9 @@ export default function SelectStage(props) {
 
                 <StageBlock isSelect={selectNum == 2 ? true : false}>
                     <CircleNum>{"2"}</CircleNum>
-                    <TestBox
-                        onClick={() => selectedNum(2)}
+                    <OverheadBox
+                        content={"Magnitude 6"}
+                        onClick={() => selectStage(2)}
                     />
                     <StarScore width={"4vw"} star1={true} star2={false} star3={false} />
                     <TimeText fontsize={"2.5vw"} >{"3:30"}</TimeText>
@@ -44,8 +47,9 @@ export default function SelectStage(props) {
 
                 <StageBlock isSelect={selectNum == 3 ? true : false}>
                     <CircleNum>{"3"}</CircleNum>
-                    <TestBox
-                        onClick={() => selectedNum(3)}
+                    <OverheadBox
+                        content={"Magnitude 6"}
+                        onClick={() => selectStage(3)}
                     />
                     <StarScore width={"4vw"} star1={true} star2={true} star3={false} />
                     <TimeText fontsize={"2.5vw"} >{"2:30"}</TimeText>
@@ -53,8 +57,9 @@ export default function SelectStage(props) {
 
                 <StageBlock isSelect={selectNum == 4 ? true : false}>
                     <CircleNum>{"4"}</CircleNum>
-                    <TestBox
-                        onClick={() => selectedNum(4)}
+                    <OverheadBox
+                        content={"Magnitude 8"}
+                        onClick={() => selectStage(4)}
                     />
                     <StarScore width={"4vw"} star1={true} star2={true} star3={true} />
                     <TimeText fontsize={"2.5vw"} >{"2:30"}</TimeText>
@@ -101,8 +106,6 @@ const StageBlock = styled(Block_Column_Top)`
 
     top 2vw;
     width: 20vw;
-
-    background: ${(props) => props.isSelect ? Color.darkGreen : 'none'};
     
     margin 0 1vw 0 1vw;
     justify-content: center;
@@ -113,30 +116,35 @@ const StageBlock = styled(Block_Column_Top)`
     z-index: 500;
     
     &:hover{
-        background: ${(props) => props.isSelect ? Color.darkGreen : Color.dimGrayishGreen};
+        background: ${Color.dimGrayishGreen};
     }
 `;
 
-const TestBox = styled.div`
+const OverheadBox = styled.div`
     background: ${Color.softYellow};
     margin: 1vw;
 
     border-radius: 5%;
     width: 18vw;
-    height: 25vw;
+    height: 23vw;
     
+    padding-top: 2vw;
+    font-size: 2vw;
+    text-align: center;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
+
     cursor: pointer;
     
     &:after{
-        content: "";
+        content: "${(props) => props.content}";
         display: inline-block;
         background: url(${overheadImage});
         background-position: center center;
         background-repeat: no-repeat;
         background-size: contain;
         width: 16vw;
-        height: 23vw;
-        margin: 1vw;
+        height: 20vw;
         vertical-align: middle;
     }
 `;

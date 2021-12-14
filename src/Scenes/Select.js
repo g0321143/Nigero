@@ -12,7 +12,6 @@ import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
 import homeButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-04.png';
 import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
-import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-02.png';
 
 export default function Select() {
 
@@ -26,13 +25,6 @@ export default function Select() {
                 <Button
                     handler={() => stageSelected ? stageSelect(!stageSelected) : Store.setScene('title')}
                     src={backButton}
-                    width={'6%'}
-                    height={'10%'}
-                    margin={'1%'}
-                />
-                <Button
-                    handler={() => stageSelected ? Store.setScene('game') : stageSelect(!stageSelected)}
-                    src={playButton}
                     width={'6%'}
                     height={'10%'}
                     margin={'1%'}
@@ -63,7 +55,9 @@ export default function Select() {
                     margin={'1%'}
                 />
             </Block_Left_Top>
-            {stageSelected ? <SelectStage /> : <SelectBuilding />}
+            {stageSelected ?
+                <SelectStage /> :
+                <SelectBuilding handler={() => stageSelect(!stageSelected)}/>}
         </Game_Canvas>
     );
 }

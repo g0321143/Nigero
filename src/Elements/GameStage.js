@@ -16,43 +16,6 @@ function Model({ url, ...props }) {
 }
 
 
-function Player(props) {
-    const { scene } = useGLTF('./Models/RobotExpressive.glb');
-
-    var xx = 0;
-    var zz = 1;
-
-    const handleDoubleClick = (e) => {
-        const p = e.point;
-        var inner = xx * (p.x - scene.position.x) + zz * (p.z - scene.position.z);
-        var outer = xx * (p.z - scene.position.z) - zz * (p.x - scene.position.x);
-        var sqe = Math.sqrt(xx * xx + zz * zz);
-        var sqv = Math.sqrt((p.x - scene.position.x) * (p.x - scene.position.x) + (p.z - scene.position.z) * (p.z - scene.position.z));
-        var vcos = inner / (sqe * sqv);
-      
-        console.log(outer);
-        xx = p.x - scene.position.x;
-        zz = p.z - scene.position.z;
-      
-        if (outer < 0) {
-            gsap.to(scene.rotation, { y: scene.rotation.y + Math.acos(vcos), ease: Linear.easeOut }).duration(0.01);
-        } else {
-            gsap.to(scene.rotation, { y: scene.rotation.y - Math.acos(vcos), ease: Linear.easeOut }).duration(0.01);
-        }
-        gsap.to(scene.position, { x: p.x, z: p.z, ease: Linear.easeOut }).duration(1);
-    };
-    
-    return (
-        <>
-            <primitive object={scene} position={[0, 0, 0]} scale={0.5} />
-            <Plane args={[10, 10]} position={[0, -0.011, 0]} rotation={[-Math.PI / 2, 0, 0]} onClick={handleDoubleClick}>
-                <meshPhongMaterial />
-            </Plane>
-        </>
-    );
-}
-
-
 export default function GameStage() {
 
     const { scene } = useGLTF('./Models/RobotExpressive.glb');
