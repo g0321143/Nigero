@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react'
 
 import Store from '../Utils/Store';
 import { addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
+import { addCoin, subCoin, resetAllData } from '../Utils/LocalStorage';
 import { Game_Canvas, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 import Coin from '../Utils/Money'
@@ -32,14 +33,14 @@ export default function Select({isSelectedBuilding}) {
             </Block_Right_End>
             <Block_Left_End>
                 <Button
-                    handler={() => subCookie("money", 255)}
+                    handler={() => subCoin(255)}
                     src={shopButton}
                     width={'6%'}
                     height={'10%'}
                     margin={'1%'}
                 />
                 <Button
-                    handler={() => addCookie("money", 256)}
+                    handler={() => addCoin(256)}
                     src={homeButton}
                     width={'6%'}
                     height={'10%'}
@@ -48,7 +49,7 @@ export default function Select({isSelectedBuilding}) {
             </Block_Left_End>
             <Block_Left_Top>
                 <Button
-                    handler={() => deleteCookie("money")}
+                    handler={() => resetAllData()}
                     src={hintButton}
                     width={'6%'}
                     height={'10%'}

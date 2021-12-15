@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
 import Store, {EV_SCENE_CHANGED} from './Utils/Store';
+import { initLocalStorage } from './Utils/LocalStorage';
 
 import Title from './Scenes/Title';
 import Select from './Scenes/Select';
@@ -21,6 +22,8 @@ class App extends React.Component {
         if(getCookie("money") == ""){
             setCookie("money", 0);
         }
+
+        initLocalStorage();
     }
 
     onChangeStore = () => {
