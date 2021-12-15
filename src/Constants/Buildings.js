@@ -12,13 +12,61 @@ export default {
             name: 'house',
             price: 0,
             model: './Models/House.glb',
+            stage: [
+                {
+                    stage1:[
+                        {
+                            name: 'Magunitude 4',
+                        }
+                    ],
+                    stage2:[
+                        {
+                            name: 'Magunitude 6',
+                        }
+                    ],
+                    stage3:[
+                        {
+                            name: 'Magunitude 7',
+                        }
+                    ],
+                    stage4:[
+                        {
+                            name: 'Magunitude 8',
+                        }
+                    ],
+                }
+            ],
         }
     ],
     School: [
         {
             name: 'school',
-            price: 0,
+            price: 100000,
             model: './Models/School.glb',
+            stage: [
+                {
+                    stage1:[
+                        {
+                            name: 'Magunitude 4',
+                        }
+                    ],
+                    stage2:[
+                        {
+                            name: 'Magunitude 6',
+                        }
+                    ],
+                    stage3:[
+                        {
+                            name: 'Magunitude 7',
+                        }
+                    ],
+                    stage4:[
+                        {
+                            name: 'Magunitude 8',
+                        }
+                    ],
+                }
+            ],
         }
     ],
 };

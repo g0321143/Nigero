@@ -106,7 +106,7 @@ function ClearTime({ time, limit }) {
 
 
 
-export default function Game() {
+export default function Game({building, stage}) {
 
     // このkeyを更新すると<Countdown />が新しく生成されます
     const [key, setkey] = useState(false);
