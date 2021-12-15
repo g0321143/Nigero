@@ -25,7 +25,7 @@ import GameStage from '../Elements/GameStage';
 import styled from 'styled-components';
 import Color from "../Constants/Color";
 
-
+useGLTF.preload("./Models/RobotExpressive.glb");
 
 function Clear() {
 
@@ -48,11 +48,14 @@ function Clear() {
         </>
     );
 }
-
+/* モデルが表示されない */
 function Playing(){
+    const { scene } = useGLTF('./Models/RobotExpressive.glb');
     return(
         <group>
             <Setting src={item} top={"20%"} left={"80%"} width={'20%'} height={'50%'} opacity={'0.9'}/>
+            
+            <primitive object={scene} position={[0, 0, 0]} scale={1} />
         </group>
     );
 }
@@ -68,9 +71,9 @@ function Model() {
     return (
         <>
             <Setting src={mission} top={"20%"} left={"0%"} width={'20%'} height={'50%'} opacity={'0.9'}/>
-            <AnyText fontsize={"0.8vw"} top={"35.3%"} left={"6%"}>{"Securing of personal security"}</AnyText>
-            <AnyText fontsize={"1vw"} top={"39.3%"} left={"6%"}>{"Check of the fall"}</AnyText>
-            <AnyText fontsize={"1vw"} top={"43.5%"} left={"6%"}>{"ほげ～"}</AnyText>
+            <AnyText fontsize={"1vw"} top={"33%"} left={"5%"}>{"Securing of personal security"}</AnyText>
+            <AnyText fontsize={"1vw"} top={"37.5%"} left={"5%"}>{"Check of the fall"}</AnyText>
+            <AnyText fontsize={"1vw"} top={"41.5%"} left={"5%"}>{"ほげ～"}</AnyText>
             <Check />
             <Block_Right_End>
                 <Button
@@ -117,7 +120,7 @@ const renderer = ({ hours, minutes, seconds, completed}) => {
     const limit = 100000;
 
    
-    if (completed || time <= 99) {
+    if (completed || time <= 0) {
         // Render a completed state
         return (
             <>
@@ -212,7 +215,8 @@ const AnyText = styled.div`
     text-align: center;
     color: ${Color.slightlyGrayishYellow};
     font-weight: bold;
-
+    inline-size: 200px; 
+    text-align: left;
     top: ${(props) => props.top};
     left: ${(props) => props.left};
 
