@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 
 import Store, {EV_SCENE_CHANGED} from './Utils/Store';
+import { initLocalStorage } from './Utils/LocalStorage';
 
 import Title from './Scenes/Title';
 import Select from './Scenes/Select';
 import Option from './Scenes/Option';
 import Game from './Scenes/Game';
-import { getCookie, setCookie } from './Utils/Cookie';
 
 class App extends React.Component {
    
@@ -17,10 +17,8 @@ class App extends React.Component {
             building: "",
             stage: 0,
         };
-        
-        if(getCookie("money") == ""){
-            setCookie("money", 0);
-        }
+
+        initLocalStorage();
     }
 
     onChangeStore = () => {
@@ -61,13 +59,18 @@ class App extends React.Component {
      */
     renderComponent() {
         const scene = this.state.scene;
+        const building = this.state.building;
+        const stage = this.state.stage;
+
+        const isSelectedBuilding = () => this.state.building === '' ? false : true;
         console.log(this.state);
+        
 
         switch (scene) {
             case 'title': return <Title />;
-            case 'select': return <Select />;
+            case 'select': return <Select isSelectedBuilding={isSelectedBuilding}/>;
             case 'option': return <Option />;
-            case 'game': return <Game />;
+            case 'game': return <Game building={building} stage={stage}/>;
             default: console.error(`"${scene}" は存在しない画面です.`); return <Title />
         }
     }

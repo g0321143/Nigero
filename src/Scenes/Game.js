@@ -27,7 +27,7 @@ import Color from "../Constants/Color";
 
 useGLTF.preload("./Models/RobotExpressive.glb");
 
-function Clear() {
+function Clear({ handler }) {
 
     return (
         <>
@@ -41,21 +41,18 @@ function Clear() {
                     star2={false}
                     star3={false}
                 />
-            </Block_Column_End>          
-            <Setting onClick={() => Store.setScene('select')} src={nextButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'}/>
-            <Setting onClick={() => Store.setScene('game')} src={retyrButton} top={"35%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'}/>
-            <Setting onClick={() => Store.setScene('select')} src={tipsButton} top={"45%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'}/>
+            </Block_Column_End>
+            <Setting onClick={() => Store.resetStage()} src={nextButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
+            <Setting onClick={handler} src={retyrButton} top={"35%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
+            <Setting onClick={() => Store.resetbuilding()} src={tipsButton} top={"45%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
         </>
     );
 }
-/* モデルが表示されない */
-function Playing(){
-    const { scene } = useGLTF('./Models/RobotExpressive.glb');
-    return(
+
+function Playing() {
+    return (
         <group>
-            <Setting src={item} top={"20%"} left={"80%"} width={'20%'} height={'50%'} opacity={'0.9'}/>
-            
-            <primitive object={scene} position={[0, 0, 0]} scale={1} />
+            <Setting src={item} top={"20%"} left={"80%"} width={'20%'} height={'50%'} opacity={'0.9'} />
         </group>
     );
 }
@@ -63,21 +60,16 @@ function Playing(){
 
 function Model() {
 
-    useEffect(() => {
-        console.log("Mount item");
-        return () => console.log("Unmount item");
-      }, []);
-
     return (
         <>
-            <Setting src={mission} top={"20%"} left={"0%"} width={'20%'} height={'50%'} opacity={'0.9'}/>
+            <Setting src={mission} top={"20%"} left={"0%"} width={'20%'} height={'50%'} opacity={'0.9'} />
             <AnyText fontsize={"1vw"} top={"33%"} left={"5%"}>{"Securing of personal security"}</AnyText>
             <AnyText fontsize={"1vw"} top={"37.5%"} left={"5%"}>{"Check of the fall"}</AnyText>
             <AnyText fontsize={"1vw"} top={"41.5%"} left={"5%"}>{"ほげ～"}</AnyText>
             <Check />
             <Block_Right_End>
                 <Button
-                    handler={() => Store.setScene('select')}
+                    handler={() => Store.resetStage()}
                     src={backButton}
                     width={'10%'}
                     height={'10%'}
@@ -95,117 +87,94 @@ function Check() {
     const flag3 = true;
     return (
         <>
-            {flag1 ? <Setting src={checkmark} top={"32%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'}/> : null}
-            {flag2 ? <Setting src={checkmark} top={"36.5%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'}/> : null}
-            {flag3 ? <Setting src={checkmark} top={"41%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'}/> : null}
-            
+            {flag1 ? <Setting src={checkmark} top={"32%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+            {flag2 ? <Setting src={checkmark} top={"36.5%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+            {flag3 ? <Setting src={checkmark} top={"41%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+
         </>
     );
 }
 
-function ClearTime({time, limit}){
+function ClearTime({ time, limit }) {
     const [time_s, settime_s] = useState(parseInt((limit - time) % 60));
-    const [usertime_s, setusertime_s] = useState(( '00' + time_s ).slice( -2 ));
+    const [usertime_s, setusertime_s] = useState(('00' + time_s).slice(-2));
     const [time_m, settime_m] = useState(parseInt((limit - time) / 60));
-    const [usertime_m, setusertime_m] = useState(( '00' + time_m ).slice( -2 ));
+    const [usertime_m, setusertime_m] = useState(('00' + time_m).slice(-2));
 
-    return(<AnyText fontsize={"5vw"} top={"70%"} left={"44%"}>{usertime_m + ":" + usertime_s}</AnyText>);
+    return (<AnyText fontsize={"5vw"} top={"70%"} left={"44%"}>{usertime_m + ":" + usertime_s}</AnyText>);
 }
 
 
 
-// Renderer callback with condition
-const renderer = ({ hours, minutes, seconds, completed}) => {
-    const time = minutes * 60 + seconds;
-    const limit = 100000;
+export default function Game({building, stage}) {
 
-   
-    if (completed || time <= 0) {
-        // Render a completed state
-        return (
-            <>
-                <ClearTime time={time} limit={limit/1000}/>
-                <Clear />
-            </>
-        );
-    } else {
-        // Render a countdown
-        return (
-            <>
-                <Text text={String(time)} />
-                <Playing />
-            </>
-        );
-    }
-};
+    // このkeyを更新すると<Countdown />が新しく生成されます
+    const [key, setkey] = useState(false);
 
-
-export default class Game extends React.Component {
     /*limit: 制限時間
-    ココを変更するときはconst renderer 内のlimitも変更*/
-    constructor(props) {
-        super(props);
-        this.state = {
-            key: 0,
-            limit: 100000
-        };
-    }
+    ココを変更するときはconst renderer 内のlimitも変更
 
-    onChangeStore = () => {
-        this.state.key = this.state.key + 1;
-        console.log(this.state.key);
+    追記　->  リトライボタンの修正に伴いlimitのスコープが変わったので，
+    　　　　　両方変更しなくても良くなったはず...
+    */
+    const [limit, setlimit] = useState(100000);
+
+    // Game関数の外にあったrendererをGame関数内に移動しました
+    const renderer = ({ minutes, seconds, completed }) => {
+        const time = minutes * 60 + seconds;
+
+        if (completed) {
+            // Render a completed state
+            return (
+                <>
+                    <ClearTime time={time} limit={limit / 1000} />
+                    <Clear handler={() => setkey(!key)} />
+                </>
+            );
+        } else {
+            // Render a countdown
+            return (
+                <>
+                    <Text text={String(time)} />
+                    <Playing />
+                </>
+            );
+        }
     };
 
-    /**
-     * コンポーネントがマウントされた（ツリーに挿入された）直後に呼び出されます．
-     * 'scene_changed'イベントを検知して，this.onChangeStoreを実行します．
-     */
-    componentDidMount() {
-        Store.on(EV_RESET_GAME, this.onChangeStore);
-    }
-
-    /**
-     * コンポーネントが DOM から削除されるときに呼び出されます．
-     */
-    componentWillUnmount() {
-        Store.off(EV_RESET_GAME, this.onChangeStore);
-    }
-
-    render() {
-        return (
-            <Game_Canvas >
-                
-                <Countdown
-                    date={Date.now() + this.state.limit}
-                    renderer={renderer}
-                />
-                <Model />
-            </Game_Canvas>
-        );
-    }
+    return (
+        <Game_Canvas >
+            <Countdown
+                date={Date.now() + 5000}
+                renderer={renderer}
+                key={key}
+            />
+            <Model />
+        </Game_Canvas>
+    );
 }
 
 const Setting = styled.div`
-  display:flex;
-  position: absolute;
-  width: ${props => props.width};
-  height: ${props => props.height};
-  
-  margin: ${props => props.margin};
-  top: ${(props) => props.top};
-  left: ${(props) => props.left};
+    display:flex;
+    position: absolute;
+    width: ${props => props.width};
+    height: ${props => props.height};
+    
+    margin: ${props => props.margin};
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
 
-  background-image: url(${props => props.src});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  opacity: ${(props) => props.opacity};
-  z-index: 999;
+    background-image: url(${props => props.src});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: ${(props) => props.opacity};
+    z-index: 999;
 
-  :hover {
-    cursor: pointer;
-    opacity: 1;
-  }
+    :hover {
+        cursor: pointer;
+        opacity: 1;
+    }
 `;
 
 const AnyText = styled.div`
