@@ -7,7 +7,6 @@ import Title from './Scenes/Title';
 import Select from './Scenes/Select';
 import Option from './Scenes/Option';
 import Game from './Scenes/Game';
-import { getCookie, setCookie } from './Utils/Cookie';
 
 class App extends React.Component {
    
@@ -18,10 +17,6 @@ class App extends React.Component {
             building: "",
             stage: 0,
         };
-        
-        if(getCookie("money") == ""){
-            setCookie("money", 0);
-        }
 
         initLocalStorage();
     }

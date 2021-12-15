@@ -1,7 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react'
 
 import Store from '../Utils/Store';
-import { addCookie, subCookie, deleteCookie } from '../Utils/Cookie';
 import { addCoin, subCoin, resetAllData } from '../Utils/LocalStorage';
 import { Game_Canvas, Block_Right_End, Block_Left_End, Block_Left_Top } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Color from '../Constants/Color';
 
-import { getCookie } from './Cookie';
 import { getCoin } from './LocalStorage';
 
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
