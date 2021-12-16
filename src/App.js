@@ -19,7 +19,6 @@ class App extends React.Component {
             stage: 0,
         };
 
-        
         initLocalStorage();
     }
 
