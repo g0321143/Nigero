@@ -19,77 +19,6 @@ import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 
-const BlockBuildingButton = styled(Block_Column_Top)`
-    justify-content: center;
-`;
-
-const BuildingButton = styled.img`
-    position: absolute;
-    display: flex;
-
-    height: 5vw;
-
-    top: 10%;
-
-    margin : 0 auto;
-
-    url(${(props) => props.src});
-    z-index: 999;
-`;
-
-const UsedButton = styled.img`
-    position: absolute;
-    display: flex;
-
-    width: 15vw;
-
-    top: 70%;
-
-    margin : 0 auto;
-
-    url(${(props) => props.src});
-    z-index: 999;
-    opacity: 0.9;
-
-    :hover {
-        cursor: pointer;
-        opacity: 1;
-    }
-`;
-
-const BuildingCoin = styled.div`
-    position: absolute;
-    
-    font-size: 3vw;
-    text-align: center;
-    color: ${Color.slightlyGrayishYellow};
-    font-weight: bold;
-    
-    user-select: none;
-    user-drag: none;
-
-    top: 80%;
-    left: 0;
-    right: 0;
-    margin: auto;
-
-    z-index: 999;
-
-    &::before{
-        content: "";
-        display: inline-block;
-        background: url(${CoinImage});
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: contain;
-        width: 4vw;
-        height: 4vw;
-        margin-right: 1vw;
-        vertical-align: middle;
-    }
-`;
-
-
 function House(props) {
     const { scene } = useGLTF('./Models/House.glb');
 
@@ -260,3 +189,73 @@ export default function SelectBuilding({handler}) {
     );
 }
 
+
+const BlockBuildingButton = styled(Block_Column_Top)`
+    justify-content: center;
+`;
+
+const BuildingButton = styled.img`
+    position: absolute;
+    display: flex;
+
+    height: 5vw;
+
+    top: 10%;
+
+    margin : 0 auto;
+
+    url(${(props) => props.src});
+    z-index: 999;
+`;
+
+const UsedButton = styled.img`
+    position: absolute;
+    display: flex;
+
+    width: 15vw;
+
+    top: 70%;
+
+    margin : 0 auto;
+
+    url(${(props) => props.src});
+    z-index: 999;
+    opacity: 0.9;
+
+    :hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+`;
+
+const BuildingCoin = styled.div`
+    position: absolute;
+    
+    font-size: 3vw;
+    text-align: center;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
+    
+    user-select: none;
+    user-drag: none;
+
+    top: 80%;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    z-index: 999;
+
+    &::before{
+        content: "";
+        display: inline-block;
+        background: url(${CoinImage});
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        width: 4vw;
+        height: 4vw;
+        margin-right: 1vw;
+        vertical-align: middle;
+    }
+`;
