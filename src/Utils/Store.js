@@ -39,9 +39,15 @@ class Store extends EventEmitter {
         console.log(`set building : ${building}`);
     }
 
-    resetbuilding(){
-        this.state.building = '';
-        this.state.scene = 'select';
+    /**
+     * 現在登録されている建物を削除して，セレクト画面へ遷移する関数です．
+     */
+    resetbuilding() {
+        this.state = {
+            scene: "select",
+            building: "",
+            stage: 0,
+        }
         console.log('set scene : select');
         this.emit(EV_SCENE_CHANGED);
     }
@@ -66,7 +72,10 @@ class Store extends EventEmitter {
         };
     }
 
-    resetStage(){
+    /**
+     * 現在登録されているステージを削除して，セレクト画面へ遷移する関数です．
+     */
+    resetStage() {
         this.state.stage = '';
         this.state.scene = 'select';
         console.log('set scene : select');

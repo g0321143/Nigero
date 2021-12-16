@@ -18,12 +18,17 @@ export default function Select({isSelectedBuilding}) {
     // 建物かステージ選択画面の状態の保持
     const [stageSelected, stageSelect] = useState(isSelectedBuilding);
 
+    const backfunction = () =>{
+        Store.setScene('title');
+        Store.setBuilding('');
+    }
+
     return (
         <Game_Canvas>
             <Coin />
             <Block_Right_End>
                 <Button
-                    handler={() => stageSelected ? stageSelect(!stageSelected) : Store.setScene('title')}
+                    handler={() => stageSelected ? stageSelect(!stageSelected) : backfunction()}
                     src={backButton}
                     width={'6%'}
                     height={'10%'}

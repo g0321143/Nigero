@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import Store from '../Utils/Store';
 import Color from "../Constants/Color";
 import HeaderText from '../Utils/HeaderText';
+import BuildingList from '../Constants/Buildings';
 import { Block_Column_Top } from "../Utils/GlobalStyles";
 import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
 
@@ -158,10 +159,13 @@ function Room(props) {
 
 export default function SelectBuilding({handler}) {
 
-    // このコンポーネント消える時に選択されている建物を登録
-    useEffect(() =>
-        () => Store.setBuilding(buildingList[building].name), []
-    );
+    // 現在のbuildingNumの建物をセットして，ステージ選択へ遷移する関数]
+    // Playボタンが表示されるたびに，実行されてしまうので，後で直します
+    const setBuilding = () => {
+        Store.setBuilding(buildingList[buildingNum].name);
+
+        return handler;
+    }
 
     // 表示する建物の数
     const BUILDING_MAX = 2;
@@ -193,27 +197,29 @@ export default function SelectBuilding({handler}) {
             cost: "302,800"
         }];
 
-    const buildingsRef = useRef();
-    const [building, setBuilding] = useState(1);
+    const buildingGroupRef = useRef();
+    const [buildingNum, setBuildingNum] = useState(1);
 
     // 右矢印を押した時の処理
     const moveRightBuilding = () => {
-        if (building == BUILDING_MAX) return;
-        setBuilding(building + 1);
+        if (buildingNum == BUILDING_MAX) return;
+        
+        setBuildingNum(buildingNum + 1);
 
-        gsap.to(buildingsRef.current.rotation, {
-            y: buildingsRef.current.rotation.y - Math.PI / 2,
+        gsap.to(buildingGroupRef.current.rotation, {
+            y: buildingGroupRef.current.rotation.y - Math.PI / 2,
             duration: 0.5
         });
     };
 
     // 左矢印を押した時の処理
     const moveLeftBuilding = () => {
-        if (building == BUILDING_MIN) return;
-        setBuilding(building - 1);
+        if (buildingNum == BUILDING_MIN) return;
+        
+        setBuildingNum(buildingNum - 1);
 
-        gsap.to(buildingsRef.current.rotation, {
-            y: buildingsRef.current.rotation.y + Math.PI / 2,
+        gsap.to(buildingGroupRef.current.rotation, {
+            y: buildingGroupRef.current.rotation.y + Math.PI / 2,
             duration: 0.5
         });
     };
@@ -222,18 +228,18 @@ export default function SelectBuilding({handler}) {
         <Suspense fallback={"Loading"}>
             <HeaderText text={"SELECT BUILDING"} />
             <BlockBuildingButton>
-                <BuildingButton src={buildingList[building].nameImage} />
+                <BuildingButton src={buildingList[buildingNum].nameImage} />
             </BlockBuildingButton>
-            {buildingList[building].isPlay && (
+            {buildingList[buildingNum].isPlay && (
                 <>
                    <BlockBuildingButton>
-                        <UsedButton src={playButton} onClick={handler}/>
+                        <UsedButton src={playButton} onClick={setBuilding()}/>
                     </BlockBuildingButton>
                 </>
             )}
-            {!buildingList[building].isPlay && (
+            {!buildingList[buildingNum].isPlay && (
                 <>
-                    <BuildingCoin>{buildingList[building].cost}</BuildingCoin>
+                    <BuildingCoin>{buildingList[buildingNum].cost}</BuildingCoin>
                     <BlockBuildingButton>
                         <UsedButton src={unlockButton} />
                     </BlockBuildingButton>
@@ -244,7 +250,7 @@ export default function SelectBuilding({handler}) {
             <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <ambientLight intensity={1} />
-                <group ref={buildingsRef} position={[0, 2.5, 0]} rotation={[0, 0, 0]}>
+                <group ref={buildingGroupRef} position={[0, 2.5, 0]} rotation={[0, 0, 0]}>
                     <House position={[radius * Math.sin(Math.PI / 2), -1, radius * Math.cos(Math.PI / 2) - 0.9]} rotation={[0, Math.PI / 4, 0]} />
                     <Room position={[radius * Math.sin(Math.PI) - 1, 0, radius * Math.cos(Math.PI)]} rotation={[0, Math.PI / 2, 0]} />
                     <House position={[radius * Math.sin(-Math.PI / 2), -1, radius * Math.cos(-Math.PI / 2) + 0.9]} rotation={[0, 5 * Math.PI / 4, 0]} />
