@@ -97,7 +97,20 @@ const TabSC = styled.div`
     background-color: ${Color.softYellow};
     border-radius: 2vw 0 0 2vw;
     height: 31vw;
-    overflow-y: scroll;
+    overflow-y: scroll; 
+    &::-webkit-scrollbar {
+        width: 2vw;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #ddd;
+        border-radius: 0.5vw;
+        box-shadow:  0 -0.4vw 1vw -0.4vw #6d95ce inset;
+    }
+    &::-webkit-scrollbar-track {
+        border: 0.3vw solid;
+        border-color: ${Color.softYellow};
+        background:  ${Color.slightlyGrayishYellow};
+     }
   }
 `;
 
