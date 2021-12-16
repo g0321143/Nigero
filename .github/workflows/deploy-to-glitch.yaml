@@ -11,5 +11,5 @@ jobs:
       - name: Deploy To Glitch
         uses: g0321143/glitch-sync@master
         with:
-          project-id: '${{ secrets.c93fca49-5d6e-47d1-9e80-676485192327 }}'
-          auth-token: ''${{ secrets.41cbb373-018a-4408-a164-2a2c31589ea4 }}'
+          project-id: '${{ c93fca49-5d6e-47d1-9e80-676485192327 }}'
+          auth-token: ''${{ 41cbb373-018a-4408-a164-2a2c31589ea4 }}'
