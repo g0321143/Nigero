@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 
-import Store, {EV_SCENE_CHANGED} from './Utils/Store';
+import Store, { EV_SCENE_CHANGED } from './Utils/Store';
 import { initLocalStorage } from './Utils/LocalStorage';
 
 import Title from './Scenes/Title';
 import Select from './Scenes/Select';
 import Option from './Scenes/Option';
 import Game from './Scenes/Game';
+import ItemShop from './Scenes/ItemShop';
 
 class App extends React.Component {
-   
+
     constructor(props) {
         super(props);
         this.state = {
@@ -64,14 +65,18 @@ class App extends React.Component {
 
         const isSelectedBuilding = () => this.state.building === '' ? false : true;
         console.log(this.state);
-        
+
 
         switch (scene) {
             case 'title': return <Title />;
-            case 'select': return <Select isSelectedBuilding={isSelectedBuilding}/>;
+            case 'select': return <Select isSelectedBuilding={isSelectedBuilding} />;
             case 'option': return <Option />;
-            case 'game': return <Game building={building} stage={stage}/>;
-            default: console.error(`"${scene}" は存在しない画面です.`); return <Title />
+            case 'itemShop': return <ItemShop />;
+            case 'game': return <Game building={building} stage={stage} />;
+            default: () => {
+                console.error(`"${scene}" は存在しない画面です.`);
+                return <Title />;
+            };
         }
     }
 }
