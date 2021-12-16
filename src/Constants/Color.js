@@ -1,6 +1,6 @@
 export default {
     // NORMAL SITUATION
-    darkGrayishGreen: '#f6ebc4',
+    darkGrayishGreen: '#41634b',
     dimGrayishGreen: '#506155',
     grayishYellowGreen: '#7e8460',
     slightlyGrayishYellow: '#f6ebc4',
