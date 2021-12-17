@@ -7,13 +7,16 @@
  * などで定数を呼び出します
  */
 
+import NightStarJP_Image from '../Assets/Images/Items/NightStarJP.png';
+
 export const Light = {
-    AQUMO_CANDLE: [
+    NightStarJP: [
         {
-            name: 'AQUMO CANDLE',
-            price: 748,
-            image: '',
-            url: ''
+            name: 'NightStarJP',
+            price: '8,778',
+            image: NightStarJP_Image,
+            info: 'this is light',
+            url: 'https://www.daisaku-shoji.co.jp/p_nightstar_jp.html'
         }
     ],
     XXX_Light: [

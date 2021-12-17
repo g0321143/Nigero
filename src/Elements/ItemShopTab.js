@@ -103,12 +103,10 @@ const TabSC = styled.div`
     }
     &::-webkit-scrollbar-thumb {
         background: #ddd;
-        border-radius: 0.5vw;
         box-shadow:  0 -0.4vw 1vw -0.4vw #6d95ce inset;
     }
     &::-webkit-scrollbar-track {
-        border: 0.3vw solid;
-        border-color: ${Color.softYellow};
+        box-shadow:0.2vw 0.1vw 0.5vw 0.1vw #b3aa8f inset;
         background:  ${Color.slightlyGrayishYellow};
      }
   }
