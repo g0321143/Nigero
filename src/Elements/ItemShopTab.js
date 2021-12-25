@@ -108,7 +108,7 @@ const TabSC = styled.div`
     &::-webkit-scrollbar-track {
         box-shadow:0.2vw 0.1vw 0.5vw 0.1vw #b3aa8f inset;
         background:  ${Color.slightlyGrayishYellow};
-     }
+    }
   }
 `;
 
