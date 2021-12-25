@@ -13,22 +13,14 @@ import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
 import homeButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-04.png';
 import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
 
-export default function Select({isSelectedBuilding}) {
-
-    // 建物かステージ選択画面の状態の保持
-    const [stageSelected, stageSelect] = useState(isSelectedBuilding);
-
-    const backfunction = () =>{
-        Store.setScene('title');
-        Store.setBuilding('');
-    }
+export default function Select() {
 
     return (
         <Game_Canvas>
             <Coin />
             <Block_Right_End>
                 <Button
-                    handler={() => stageSelected ? stageSelect(!stageSelected) : backfunction()}
+                    handler={() => Store.setScene('title')}
                     src={backButton}
                     width={'6%'}
                     height={'10%'}
@@ -60,9 +52,7 @@ export default function Select({isSelectedBuilding}) {
                     margin={'1%'}
                 />
             </Block_Left_Top>
-            {stageSelected ?
-                <SelectStage /> :
-                <SelectBuilding handler={() => stageSelect(!stageSelected)}/>}
+            <SelectBuilding />
         </Game_Canvas>
     );
 }

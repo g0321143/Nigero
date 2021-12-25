@@ -5,68 +5,23 @@
  * を記述し，
  * 　Buildings.House.name や Buildings.School.price などで定数を呼び出します
  */
+ import HouseTag from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
+ import TallBuildingTag from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.png';
 
 export default {
-    House: [
-        {
-            name: 'house',
-            price: 0,
-            model: './Models/House.glb',
-            stage: [
-                {
-                    stage1:[
-                        {
-                            name: 'Magunitude 4',
-                        }
-                    ],
-                    stage2:[
-                        {
-                            name: 'Magunitude 6',
-                        }
-                    ],
-                    stage3:[
-                        {
-                            name: 'Magunitude 7',
-                        }
-                    ],
-                    stage4:[
-                        {
-                            name: 'Magunitude 8',
-                        }
-                    ],
-                }
-            ],
-        }
-    ],
-    School: [
-        {
-            name: 'school',
-            price: 100000,
-            model: './Models/School.glb',
-            stage: [
-                {
-                    stage1:[
-                        {
-                            name: 'Magunitude 4',
-                        }
-                    ],
-                    stage2:[
-                        {
-                            name: 'Magunitude 6',
-                        }
-                    ],
-                    stage3:[
-                        {
-                            name: 'Magunitude 7',
-                        }
-                    ],
-                    stage4:[
-                        {
-                            name: 'Magunitude 8',
-                        }
-                    ],
-                }
-            ],
-        }
-    ],
+    house: {
+        name: 'House',
+        id: 'house',
+        price: 'FREE',
+        model: './Models/House.glb',
+        nameTagImage: HouseTag,
+    },
+    tallBuilding:
+    {
+        name: 'Tall Building',
+        id: 'tallBuilding',
+        price: "100,000",
+        model: './Models/TallBuilding.glb',
+        nameTagImage: TallBuildingTag,
+    },
 };

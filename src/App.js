@@ -63,13 +63,12 @@ class App extends React.Component {
         const building = this.state.building;
         const stage = this.state.stage;
 
-        const isSelectedBuilding = () => this.state.building === '' ? false : true;
         console.log(this.state);
 
 
         switch (scene) {
             case 'title': return <Title />;
-            case 'select': return <Select isSelectedBuilding={isSelectedBuilding} />;
+            case 'select': return <Select />;
             case 'option': return <Option />;
             case 'itemShop': return <ItemShop />;
             case 'game': return <Game building={building} stage={stage} />;

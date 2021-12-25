@@ -1,13 +1,11 @@
 import React, { Suspense, useRef, useState, useEffect } from 'react'
-import ReactDOM from 'react-dom';
 import Countdown from 'react-countdown';
-import { useFrame } from '@react-three/fiber'
 import { useGLTF, OrbitControls } from "@react-three/drei";
 
 
-import Store, { EV_RESET_GAME } from '../Utils/Store';
+import Store from '../Utils/Store';
 import Text from '../Utils/Text';
-import { Game_Canvas, Block_Right_End, Block_Column_End, Block_Left_Top, Block_Column_Top } from '../Utils/GlobalStyles';
+import { Game_Canvas, Block_Right_End, Block_Column_End } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 import StarScore from '../Utils/StarScore';
 

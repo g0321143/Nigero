@@ -34,10 +34,10 @@ export default function ItemShop() {
 
     const LightTab = () => (
         <Panel>
-            <ItemPanel onClick={() => clickItemPanel(Light.NightStarJP[0])}>
-                <ItemPrice>{Light.NightStarJP[0].price}</ItemPrice>
-                <ItemImage src={Light.NightStarJP[0].image} />
-                <ItemName>{Light.NightStarJP[0].name}</ItemName>
+            <ItemPanel onClick={() => clickItemPanel(Light.NightStarJP)}>
+                <ItemPrice>{Light.NightStarJP.price}</ItemPrice>
+                <ItemImage src={Light.NightStarJP.image} />
+                <ItemName>{Light.NightStarJP.name}</ItemName>
             </ItemPanel>
             <ItemPanel />
             <ItemPanel />
@@ -109,7 +109,7 @@ export default function ItemShop() {
             </Wrap>
             <Modal isOpen={modalIsOpen} style={modalStyle} onRequestClose={() => setIsOpen(false)}>
                 <ModalDiv1>
-                    <ItemImage src={Light.NightStarJP[0].image} width={"10vw"} />
+                    <ItemImage src={Light.NightStarJP.image} width={"10vw"} />
                     <Button
                         handler={() => setIsOpen(false)}
                         src={playButton}
@@ -235,6 +235,8 @@ const modalStyle = {
 
     overlay: {
         zIndex: 1000,
+        width: "100vw",
+        aspectRatio: "16 / 9",
         position: "fixed",
         top: 0,
         left: 0,
