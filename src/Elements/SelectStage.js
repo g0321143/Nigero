@@ -9,7 +9,7 @@ import { Block_Column_Top } from "../Utils/GlobalStyles";
 
 import overheadImage from "../Assets/Images/overhead.png"
 
-
+// ステージの削減に伴い，ステージ選択画面は削除されました
 export default function SelectStage() {
 
     // 選択されているステージを保存
