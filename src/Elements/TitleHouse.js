@@ -173,7 +173,6 @@ export default function TitleHouse() {
     return (
         <Suspense fallback={"Loading"}>
             <Canvas shadows camera={{ position: [4, 2, -2], fov: 45 }}>
-                <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <ambientLight intensity={0.5} />
                 <directionalLight
                     castShadow
