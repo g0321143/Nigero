@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {  useRef }  from 'react'
 import styled from 'styled-components'
 
 import inventoryImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-27.png';
@@ -11,13 +11,29 @@ import inventoryImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-27.png';
  */
 const Inventory = ({ items }) => {
 
+        // [a-v]と[0-9]の間でランダムな文字列を生成
+        const randomStr = () => Math.random().toString(32).substring(2);
+        // タブのIDを格納する配列
+        const randomId = useRef([]);
+        // レンダリングされた回数
+        const renderCount = useRef(0);
+        // 要素を追加
+        if (renderCount.current === 0) {
+            for (let i = 0, len = items.length; i < len; i++) {
+                randomId.current.push(`tab-${randomStr()}`);
+            }
+            renderCount.current++;
+        }
+
     return (
         <InventorySC>
             <div>
-                {items.map((item) => (
-                    <>
+                {items.map((item, index) => (
+                    <span
+                        key={randomId.current[index]}
+                    >
                         {item}
-                    </>
+                    </span>
                 ))}
             </div>
         </InventorySC>
@@ -64,8 +80,7 @@ const InventorySC = styled.div`
     }
 
     img {
-        margin-top 1.1vw;
-        margin-bottom 0.7vw;
+        margin-top 1vw;
         margin-left: 1.5vw;
         margin-right: 0.9vw;
         object-fit: cover;
