@@ -13,14 +13,17 @@ import StarScore from '../Utils/StarScore';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import mission from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_4-26-26.png';
-import item from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-27.png';
 import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
 import retyrButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-34.png';
 import tipsButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-35.png';
 import checkmark from '../Assets/Images/checked-29.png';
 
+// テスト用
+import itemImage from '../Assets/Images/Items/NightStarJP.png';
+
 import Money from '../Utils/Money'
 import GameStage from '../Elements/GameStage';
+import Inventory from '../Elements/Inventory';
 
 import styled from 'styled-components';
 import Color from "../Constants/Color";
@@ -49,11 +52,34 @@ function Clear({ handler }) {
     );
 }
 
+// ゲームプレイ中に表示するモノ
 function Playing() {
+    const [item1, setItem1] = useState(true);
+    const [item2, setItem2] = useState(true);
+    const [item3, setItem3] = useState(true);
+
+    // アイテムをクリックした時の処理
+    const handleClickItem1 = () => {
+        // ここにアイテムをクリックした時の処理を記述します
+        setItem1(!item1);
+    };
+
+    const handleClickItem2 = () => {
+        setItem2(!item2);
+    };
+    
+    const handleClickItem3 = () => {
+        setItem3(!item3);
+    };
+
     return (
-        <group>
-            <Setting src={item} top={"20%"} left={"80%"} width={'20%'} height={'50%'} opacity={'0.9'} />
-        </group>
+        <Inventory
+            items={[
+                item1 ? <img src={itemImage} onClick={() => handleClickItem1()} /> : null,
+                item2 ? <img src={nextButton} onClick={() => handleClickItem2()} /> : null,
+                item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
+            ]}
+        />
     );
 }
 
@@ -106,7 +132,7 @@ function ClearTime({ time, limit }) {
 
 
 
-export default function Game({building, stage}) {
+export default function Game({ building, stage }) {
 
     // このkeyを更新すると<Countdown />が新しく生成されます
     const [key, setkey] = useState(false);
@@ -115,7 +141,7 @@ export default function Game({building, stage}) {
     ココを変更するときはconst renderer 内のlimitも変更
 
     追記　->  リトライボタンの修正に伴いlimitのスコープが変わったので，
-    　　　　　両方変更しなくても良くなったはず...
+         両方変更しなくても良くなったはず...
     */
     const [limit, setlimit] = useState(100000);
 
@@ -145,7 +171,7 @@ export default function Game({building, stage}) {
     return (
         <Game_Canvas >
             <Countdown
-                date={Date.now() + 5000}
+                date={Date.now() + 500000}
                 renderer={renderer}
                 key={key}
             />
