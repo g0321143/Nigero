@@ -98,7 +98,7 @@ export default function SelectBuilding() {
 
     // このコンポーネントが消える時に現在の建物を登録する
     useEffect( () =>
-        () => Store.setBuilding(IDList[buildingNum].id), [] 
+        () => Store.setBuilding(Buildings[IDList[buildingNum]].id), [] 
      );
 
     // 表示する建物の数
