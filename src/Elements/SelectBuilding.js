@@ -13,9 +13,6 @@ import { getBuilding, getScore } from "../Utils/LocalStorage";
 import { Block_Column_Top } from "../Utils/GlobalStyles";
 import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
 
-import HouseButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
-import SchoolButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-18.png';
-import TallBuildingButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.png';
 import unlockButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-20.png';
 import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
@@ -96,10 +93,11 @@ export default function SelectBuilding() {
     // 現在選択されている建物のインデックス
     const [buildingNum, setBuildingNum] = useState(0);
 
-    // このコンポーネントが消える時に現在の建物を登録する
-    useEffect( () =>
-        () => Store.setBuilding(Buildings[IDList[buildingNum]].id), [] 
-     );
+    // playボタンを押した時の処理
+    const startGame = () => {
+        Store.setBuilding(Buildings[IDList[buildingNum]].id);
+        Store.setScene('game');
+    }
 
     // 表示する建物の数
     const BUILDING_MAX = 2;
@@ -148,7 +146,7 @@ export default function SelectBuilding() {
                 <BuildingButton src={Buildings[IDList[buildingNum]].nameTagImage} />
                 {getBuilding(IDList[buildingNum]) && (
                     <>
-                        <UsedButton src={playButton} onClick={() => Store.setScene('game')} />
+                        <UsedButton src={playButton} onClick={() => startGame()} />
                         <StarScore
                             width={"5vw"}
                             star1={getScore(IDList[buildingNum])[0]}
