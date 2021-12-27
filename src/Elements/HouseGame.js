@@ -79,7 +79,6 @@ export default function HouseGame() {
                         item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
                     ]}
                 />
-                <Playing />
             </>
         );
     }
