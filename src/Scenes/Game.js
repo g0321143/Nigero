@@ -13,24 +13,14 @@ import TallBuildingGame from '../Elements/TallBuildingGame';
  * @param {String} stage 選択されたステージID ※現在使ってません
  */
 export default function Game({ building, stage }) {
-    console.log(building);
 
-    const renderComponent = () => {
-        switch (building) {
-            case Buildings.house.id: return <HouseGame />;
-            case Buildings.tallBuilding.id: return <TallBuildingGame />;
+    switch (building) {
+        case Buildings.house.id: return <HouseGame />;
+        case Buildings.tallBuilding.id: return <TallBuildingGame />;
 
-            default: () => {
-                console.error(`"${building}" は存在しない画面です.`);
-                return Store.setScene('title');
-            };
-        }
-
+        default: () => {
+            console.error(`"${building}" は存在しない画面です.`);
+            return Store.setScene('title');
+        };
     }
-
-    return (
-        <>
-            {renderComponent()}
-        </>
-    );
 }
