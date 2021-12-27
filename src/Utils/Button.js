@@ -23,6 +23,14 @@ const ChooserButton = styled.div`
   }
 `;
 
+/**
+ * 任意の画像を使ったボタンを作成します
+ * @param {function} handler ボタンをクリックした時のハンドルがリターンされます
+ * @param {String} src ボタンの画像です
+ * @param {String} width ボタンの横幅です
+ * @param {String} height ボタンの縦幅です
+ * @param {String} margin ボタンのマージンです
+ */
 function Button({ handler, src, width, height, margin }) {
     return (
         <ChooserButton onClick={handler} src={src} width={width} height={height} margin={margin}/>
