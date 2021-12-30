@@ -1,7 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
 import Countdown from 'react-countdown';
-import { useGLTF, OrbitControls } from "@react-three/drei";
-
 
 import Store from '../Utils/Store';
 import Text from '../Utils/Text';
@@ -26,109 +24,104 @@ import HouseGameStage from './HouseGameStage';
 import styled from 'styled-components';
 import Color from "../Constants/Color";
 
-useGLTF.preload("./Models/RobotExpressive.glb");
-
 
 
 /**
  * ハウスステージのゲーム部分です
- * 以下の3つのコンポーネントにより構成されています．
- * ・ゲーム中のみに使用するコンポーネント <GameComponent />
- * ・クリア後のみに使用するコンポーネント <ClearComponent />
- * ・全シーン共通で使用するコンポーネント <UtilComponent /> 
+ * Countdownコンポーネントはコンポーネントがアップデートされると（useStateの更新とか），
+ * タイマーが初期化されます．
+ * 
+ * なので，HouseGameでは，ゲームコンポーネント，クリアコンポーネントのどちらか一方を使用し，
+ * 共通で使用する箇所はなるべく排除してます
+ * 
  */
 export default function HouseGame() {
 
     // このkeyを更新すると<Countdown />が新しく生成されます
     const [key, setkey] = useState(false);
 
+    /*limit: 制限時間*/
+    const [limit, setlimit] = useState(100000);
+
+    return (
+        <Game_Canvas key={key}>
+            <Countdown
+                date={Date.now() + 5000000}
+                renderer={(props) => {
+                    const time = props.minutes * 60 + props.seconds;
+                    return props.completed ?
+                        <ClearComponent
+                            time={time}
+                            limit={limit}
+                            keyhandler={() => setkey(!key)}
+                        /> :
+                        <GameComponent
+                            time={time}
+                        />
+                }}
+            />
+            <Setting
+                onClick={() => Store.resetStage()}
+                src={backButton}
+                margin={'0%'}
+                top={'85%'}
+                left={"88%"} width={'10%'} height={'10%'} opacity={'0.9'}
+            />
+        </Game_Canvas>
+    );
+}
+
+/**
+     * ゲーム中のみに使用するコンポーネントです
+     */
+const GameComponent = ({ time }) => {
+
+
     // ゲームの進行に必要なフラグを記述します
     const [item1, setItem1] = useState(true);
     const [item2, setItem2] = useState(true);
     const [item3, setItem3] = useState(true);
 
-    /*limit: 制限時間*/
-    const [limit, setlimit] = useState(100000);
+    // アイテムをクリックした時の処理
+    const handleClickItem1 = () => {
+        // ここにアイテムをクリックした時の処理を記述します
+        setItem1(!item1);
+    };
 
-    /**
-     * ゲーム中のみに使用するコンポーネントです
-     */
-    const GameComponent = ({ time }) => {
+    const handleClickItem2 = () => {
+        setItem2(!item2);
+    };
 
-        // アイテムをクリックした時の処理
-        const handleClickItem1 = () => {
-            // ここにアイテムをクリックした時の処理を記述します
-            setItem1(!item1);
-        };
-
-        const handleClickItem2 = () => {
-            setItem2(!item2);
-        };
-
-        const handleClickItem3 = () => {
-            setItem3(!item3);
-        };
-
-        return (
-            <>
-                <Text text={String(time)} />
-                <Inventory
-                    items={[
-                        item1 ? <img src={itemImage} onClick={() => handleClickItem1()} /> : null,
-                        item2 ? <img src={nextButton} onClick={() => handleClickItem2()} /> : null,
-                        item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
-                    ]}
-                />
-            </>
-        );
-    }
-
-    /**
-     * クリア後のみに使用するコンポーネントです
-     */
-    const ClearComponent = ({ time }) => {
-        return (
-            <>
-                <ClearTime time={time} limit={limit / 1000} />
-                <Clear handler={() => setkey(!key)} />
-            </>
-        );
-    }
-
-    /**
-     * 全シーン共通で使用するコンポーネントです
-     */
-    const UtilComponent = () => {
-        return (
-            <>
-                <MissionUI />
-                <Block_Right_End>
-                    <Button
-                        handler={() => Store.resetStage()}
-                        src={backButton}
-                        width={'10%'}
-                        height={'10%'}
-                        margin={'1%'}
-                    />
-                </Block_Right_End>
-                <HouseGameStage />
-            </>
-        );
-    }
+    const handleClickItem3 = () => {
+        setItem3(!item3);
+    };
 
     return (
-        <Game_Canvas key={key}>
-            <Countdown
-                date={Date.now() + 5000}
-                renderer={(props) => {
-                    const time = props.minutes * 60 + props.seconds;
-                    return props.completed ?
-                        <ClearComponent time={time} /> :
-                        <GameComponent time={time} />
-                }}
+        <>
+            <Text text={String(time)} />
+            <MissionUI />
+            <Inventory
+                items={[
+                    item1 ? <img src={itemImage} onClick={() => handleClickItem1()} /> : null,
+                    item2 ? <img src={nextButton} onClick={() => handleClickItem2()} /> : null,
+                    item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
+                ]}
             />
-            <UtilComponent />
-        </Game_Canvas>
+            <HouseGameStage isUseItem1={item1}/>
+        </>
+    );
+}
+
+/**
+    * クリア後のみに使用するコンポーネントです
+    */
+const ClearComponent = ({ time, limit, keyhandler }) => {
+    return (
+        <>
+            <MissionUI />
+            <ClearTime time={time} limit={limit / 1000} />
+            <Clear handler={keyhandler} />
+        </>
     );
 }
 

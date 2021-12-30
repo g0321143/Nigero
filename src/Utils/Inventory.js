@@ -21,7 +21,7 @@ const Inventory = ({ items }) => {
     // 要素を追加
     if (renderCount.current === 0) {
         for (let i = 0, len = items.length; i < len; i++) {
-            randomId.current.push(`tab-${randomStr()}`);
+            randomId.current.push(`inventory-${randomStr()}`);
         }
         renderCount.current++;
     }
@@ -30,11 +30,11 @@ const Inventory = ({ items }) => {
         <InventorySC>
             <div>
                 {items.map((item, index) => (
-                    <span
+                    <div
                         key={randomId.current[index]}
                     >
                         {item}
-                    </span>
+                    </div>
                 ))}
             </div>
         </InventorySC>
@@ -78,12 +78,17 @@ const InventorySC = styled.div`
         flex-wrap: wrap;
         align-content: flex-start;
         justify-content: flex-start;
+
+        div {
+            all: initial;
+        }
     }
 
     img {
         margin-top 1vw;
-        margin-left: 1.5vw;
-        margin-right: 0.9vw;
+        margin-left: 1.6vw;
+        margin-right: 0.5vw;
+        margin-bottom: 0vw;
         object-fit: cover;
         width: 6vw;
         height: 6vw;
