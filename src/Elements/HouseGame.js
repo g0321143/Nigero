@@ -41,7 +41,7 @@ export default function HouseGame() {
     const [key, setkey] = useState(false);
 
     /*limit: 制限時間*/
-    const [limit, setlimit] = useState(100000);
+    const [limit, setlimit] = useState(1000);
 
     return (
         <Game_Canvas key={key}>

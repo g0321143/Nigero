@@ -92,6 +92,9 @@ const InventorySC = styled.div`
         object-fit: cover;
         width: 6vw;
         height: 6vw;
+
+        user-select: none;
+        user-drag: none;
     }
     
 `;

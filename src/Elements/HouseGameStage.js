@@ -1,7 +1,8 @@
 import React, { Suspense, useState, useRef, useEffect } from "react";
 import * as THREE from 'three';
 import { Canvas, useLoader } from '@react-three/fiber';
-import { useGLTF, MapControls, CameraShake, Stats, Plane, Billboard } from "@react-three/drei";
+import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard, useAnimations } from "@react-three/drei";
+import { Physics, Debug, usePlane, useBox, useSphere, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
 
 import Color from "../Constants/Color";
@@ -11,6 +12,7 @@ import itemImage from '../Assets/Images/Items/NightStarJP.png';
 useGLTF.preload("./Models/Structure.glb");
 useGLTF.preload("./Models/RobotExpressive.glb");
 useGLTF.preload("./Models/Lamp.glb");
+useGLTF.preload("./Models/Chair2.glb");
 
 /**
  * ハウスステージで使用する3Dモデルを描画します
@@ -26,7 +28,7 @@ export default function HouseGameStage(props) {
     return (
         <Suspense fallback={"Loading"}>
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
-                <MapControls enablePan={true} enableZoom={true} enableRotate={false} />
+                <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <Stats />
                 <ambientLight intensity={0.2} />
                 <directionalLight
@@ -41,20 +43,54 @@ export default function HouseGameStage(props) {
                     shadow-camera-top={10}
                     shadow-camera-bottom={-10}
                 />
-                <group>
-                    <Ground />
-                    <axesHelper scale={3} />
-                    <Structure />
-                    <Lamp lampRef={lampRef} />
-                    {props.isUseItem1 ? null :  <UseItemBillboard position={[0.8,1.6,2.2]} url={BillboardMap}/>}
-                    <EffectComposer multisampling={8} autoClear={false}>
-                        <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
-                    </EffectComposer>
-                </group>
+                <Physics iterations={6}>
+                    <Debug scale={1.1} color="black">
+                        <group>
+                            <Ground />
+                            <axesHelper scale={3} />
+                            <Player />
+                            <Structure />
+                            <Lamp lampRef={lampRef} />
+                            <SmallChair />
+                            {props.isUseItem1 ? null : <UseItemBillboard position={[0.8, 1.6, 2.2]} url={BillboardMap} />}
+                            <EffectComposer multisampling={8} autoClear={false}>
+                                <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
+                            </EffectComposer>
+                        </group>
+                    </Debug>
+                </Physics>
             </Canvas>
         </Suspense>
     );
 };
+
+
+function Player(props) {
+    const group = useRef();
+    const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
+
+    const [ref] = useBox(() => ({
+        args: [0.6, 0.9, 0.4],
+        position: [0, 0.4, 0],
+        mass: 100,
+    }));
+
+    const { actions } = useAnimations(animations, group);
+    useEffect(() => {
+        console.log(actions);
+        actions.Walking.play();
+    });
+
+    return (
+        <group ref={group} position={[0, -0.5, 0]} {...props} dispose={null}>
+            <primitive
+                ref={ref}
+                object={scene}
+                scale={0.2}
+            />
+        </group>
+    );
+}
 
 /**
  * アイテムを使用したことを知らせるためのポップアップを表示します
@@ -191,9 +227,67 @@ function Lamp(props) {
     )
 }
 
-function Ground(props) {
+function SmallChair(props) {
+
+    const [ref] = useBox(() => ({
+        args: [-0.35, 0.35, 0.35],
+        position: [-0.8, 0.18, 0.4],
+        mass: 1,
+    }));
+
+    const { scene } = useGLTF("./Models/Chair2.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if (object.name == '') {
+                objectColor = 'black';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
     return (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.23, 0]} receiveShadow>
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+function Ground(props) {
+    const [ref] = usePlane(() => ({
+        rotation: [-Math.PI / 2, 0, 0],
+        mass: 1,
+        type: 'Static'
+    }))
+    return (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.23, 0]} receiveShadow ref={ref}>
             <planeBufferGeometry attach="geometry" args={[100, 100]} />
             <shadowMaterial attach="material" transparent opacity={0.4} />
         </mesh>

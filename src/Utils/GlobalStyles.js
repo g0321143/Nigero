@@ -9,7 +9,7 @@ export default createGlobalStyle`
 `;
 
 export const Game_Canvas = styled.div`
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100vw;
