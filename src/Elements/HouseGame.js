@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { Suspense, useRef, useState, useEffect } from 'react'
 import Countdown from 'react-countdown';
 
 import Store from '../Utils/Store';
@@ -44,30 +44,32 @@ export default function HouseGame() {
     const [limit, setlimit] = useState(1000);
 
     return (
-        <Game_Canvas key={key}>
-            <Countdown
-                date={Date.now() + 5000000}
-                renderer={(props) => {
-                    const time = props.minutes * 60 + props.seconds;
-                    return props.completed ?
-                        <ClearComponent
-                            time={time}
-                            limit={limit}
-                            keyhandler={() => setkey(!key)}
-                        /> :
-                        <GameComponent
-                            time={time}
-                        />
-                }}
-            />
-            <Setting
-                onClick={() => Store.resetStage()}
-                src={backButton}
-                margin={'0%'}
-                top={'85%'}
-                left={"88%"} width={'10%'} height={'10%'} opacity={'0.9'}
-            />
-        </Game_Canvas>
+        <Suspense fallback={"Loading"}>
+            <Game_Canvas key={key}>
+                <Countdown
+                    date={Date.now() + 5000000}
+                    renderer={(props) => {
+                        const time = props.minutes * 60 + props.seconds;
+                        return props.completed ?
+                            <ClearComponent
+                                time={time}
+                                limit={limit}
+                                keyhandler={() => setkey(!key)}
+                            /> :
+                            <GameComponent
+                                time={time}
+                            />
+                    }}
+                />
+                <Setting
+                    onClick={() => Store.resetStage()}
+                    src={backButton}
+                    margin={'0%'}
+                    top={'85%'}
+                    left={"88%"} width={'10%'} height={'10%'} opacity={'0.9'}
+                />
+            </Game_Canvas>
+        </Suspense>
     );
 }
 
@@ -107,7 +109,7 @@ const GameComponent = ({ time }) => {
                     item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
                 ]}
             />
-            <HouseGameStage isUseItem1={item1}/>
+            <HouseGameStage isUseItem1={item1} />
         </>
     );
 }

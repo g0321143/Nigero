@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useRef, useEffect } from "react";
+import React, {  useState, useRef, useEffect } from "react";
 import * as THREE from 'three';
 import { Canvas, useLoader } from '@react-three/fiber';
 import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard, useAnimations } from "@react-three/drei";
@@ -28,7 +28,7 @@ export default function HouseGameStage(props) {
 
 
     return (
-        <Suspense fallback={"Loading"}>
+        <>
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <Stats />
@@ -81,8 +81,7 @@ export default function HouseGameStage(props) {
                     }}
                 />
             </JoystickCanvas>
-
-        </Suspense>
+        </>
     );
 };
 
