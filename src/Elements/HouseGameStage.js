@@ -4,8 +4,10 @@ import { Canvas, useLoader } from '@react-three/fiber';
 import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard, useAnimations } from "@react-three/drei";
 import { Physics, Debug, usePlane, useBox, useSphere, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
+import { Joystick } from "react-joystick-component";
 
 import Color from "../Constants/Color";
+import styled from 'styled-components';
 
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
@@ -60,6 +62,26 @@ export default function HouseGameStage(props) {
                     </Debug>
                 </Physics>
             </Canvas>
+            <JoystickCanvas>
+                <Joystick
+                    size={100}
+                    stop={() => {
+                        console.log("se detiene el Joystick");
+                    }}
+                    move={(event) => {
+                        const direction = event.direction;
+                        console.log(direction);
+                        // backward down
+                        const newDirection =
+                            direction === "forward"
+                                ? "top"
+                                : direction === "backward"
+                                    ? "down"
+                                    : direction;
+                    }}
+                />
+            </JoystickCanvas>
+
         </Suspense>
     );
 };
@@ -77,7 +99,6 @@ function Player(props) {
 
     const { actions } = useAnimations(animations, group);
     useEffect(() => {
-        console.log(actions);
         actions.Walking.play();
     });
 
@@ -293,3 +314,15 @@ function Ground(props) {
         </mesh>
     )
 }
+
+const JoystickCanvas = styled.div`
+    position: absolute;
+
+    width: 10vw;
+    height: 10vw;
+
+    bottom: 10%;
+    left: 45%;
+
+    z-index: 999;
+`;
