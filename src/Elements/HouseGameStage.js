@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import * as THREE from 'three';
 import { Canvas, useLoader, useFrame } from '@react-three/fiber';
 import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard, useAnimations } from "@react-three/drei";
@@ -25,15 +25,26 @@ export default function HouseGameStage(props) {
     const selected = props.isUseItem1 ? undefined : [lampRef];
 
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
+    const [angle, setAngle] = useState(0);
+    const [isMove, setMove] = useState(false);
 
     const onChangeJoystick = (e) => {
         setDragPos({
-            x: e.x / 2,
-            y: e.y / 2
+            x: e.x / 15,
+            y: e.y / 15
         });
+        setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
+        setMove(true);
     };
 
-
+    const onStopJoystick = (e) => {
+        setDragPos({
+            x: e.x / 15,
+            y: e.y / 15
+        });
+        setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
+        setMove(false);
+    };
 
 
     // 使用するアイテムのテクスチャ
@@ -58,20 +69,24 @@ export default function HouseGameStage(props) {
                     shadow-camera-bottom={-10}
                 />
                 <Physics iterations={6}>
-                    <Debug scale={1.1} color="black">
-                        <group>
-                            <Ground />
-                            <axesHelper scale={3} />
-                            <Player dragPos={dragPos} />
-                            <Structure />
-                            <Lamp lampRef={lampRef} />
-                            <SmallChair />
-                            {props.isUseItem1 ? null : <UseItemBillboard position={[0.8, 1.6, 2.2]} url={BillboardMap} />}
-                            <EffectComposer multisampling={8} autoClear={false}>
-                                <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
-                            </EffectComposer>
-                        </group>
-                    </Debug>
+                    {/*<Debug scale={1.1} color="black">*/}
+                    <group>
+                        <Ground />
+                        <axesHelper scale={3} />
+                        <Player
+                            dragPos={dragPos}
+                            playerAngle={angle}
+                            isMove={isMove}
+                        />
+                        <Structure />
+                        <Lamp lampRef={lampRef} />
+                        <SmallChair />
+                        {props.isUseItem1 ? null : <UseItemBillboard position={[0.8, 1.6, 2.2]} url={BillboardMap} />}
+                        <EffectComposer multisampling={8} autoClear={false}>
+                            <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
+                        </EffectComposer>
+                    </group>
+                    {/*</ Debug>*/}
                 </Physics>
             </Canvas>
             <JoystickCanvas>
@@ -79,7 +94,7 @@ export default function HouseGameStage(props) {
                     size={80}
                     baseColor={Color.slightlyGrayishYellow}
                     stickColor={Color.grayishYellowGreen}
-                    stop={onChangeJoystick}
+                    stop={onStopJoystick}
                     move={onChangeJoystick}
                 />
             </JoystickCanvas>
@@ -89,44 +104,66 @@ export default function HouseGameStage(props) {
 
 
 function Player(props) {
-    const animeRef = useRef();
-    const pos = useRef([0, 0, 0]);
+
+    const playerPos = useRef([0, 0, 0]);
+
     const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
 
-    const [playerPos, setPlayerPos] = useState({ x: 0, z: 0 });
+    // 現在のアニメーション
+    const [action, setAction] = useState('Walking');
 
+    // 当たり判定の設定
     const [physicsRef, api] = useSphere(() => ({
         args: [0.4, 0.4, 0.4],
         position: [0, 0.4, 0],
-        mass: 10,
+        mass: 0.8,
+        material: { friction: 0.4 },
+        fixedRotation: true,
+        type: 'Dynamic',
     }));
 
-    const { actions } = useAnimations(animations, animeRef);
+    // アニメーションの抽出
+    const { ref, actions } = useAnimations(animations);
+
+    // 影の設定(<primitive/>のみここで設定する)
+    useMemo(() => Object.values(nodes).forEach(obj =>
+        obj.isMesh && Object.assign(obj, {
+            castShadow: true,
+            receiveShadow: true
+        })
+    ), [nodes]);
+
+    // props.isMoveが切り替わった時のみ実行する
     useEffect(() => {
-        actions.Walking.play();
-    });
+        const actionName = props.isMove ? 'Walking' : 'Idle';
+        changeAction(actionName);
+    }, [props.isMove])
+    
+    // アクションの切り替え
+    const changeAction = (nextAction) => {
+        actions[action].fadeOut(0.5);
+        setAction(nextAction);
+        actions[nextAction].reset().fadeIn(0.5).play();
+    }
 
-
+    // 毎フレーム実行する関数
     useFrame(() => {
         const force = {
-            x: Math.min(Math.max(props.dragPos.x, -20), 20),
-            z: Math.min(Math.max(props.dragPos.y, -20), 20)
+            x: Math.min(Math.max(props.dragPos.x, -4), 4),
+            z: Math.min(Math.max(props.dragPos.y, -4), 4)
         };
-        setPlayerPos({
-            x: playerPos.x + props.dragPos.x,
-            z: playerPos.z - props.dragPos.y
-        });
-
-        api.applyForce([force.x, 0.2, -force.z], [0, 0, 0]);
-        api.position.subscribe(v => pos.current = v)
-        console.log(pos.current);
+        
+        api.applyForce([force.x, 0, -force.z], [0, 0, 0]);
+        api.position.subscribe(v => playerPos.current = v);
+        //api.angularVelocity.subscribe(v => console.log(v));
     });
 
     return (
         <group ref={physicsRef} {...props} dispose={null}>
             <primitive
-                ref={animeRef}
-                position={[0,-0.5,0]}
+                ref={ref}
+                position={[0, -0.5, 0]}
+                rotation={[0, props.playerAngle, 0]}
                 object={scene}
                 scale={0.2}
             />
@@ -326,7 +363,8 @@ function Ground(props) {
     const [ref] = usePlane(() => ({
         rotation: [-Math.PI / 2, 0, 0],
         mass: 1,
-        type: 'Kinematic'
+        material: { friction: 0.01, restitution: -1 },
+        type: 'Static'
     }))
     return (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.23, 0]} receiveShadow ref={ref}>

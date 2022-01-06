@@ -224,5 +224,8 @@ const AnyText = styled.div`
     top: ${(props) => props.top};
     left: ${(props) => props.left};
 
+    user-select: none;
+    user-drag: none;
+
     z-index: 999;
 `;
