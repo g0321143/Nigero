@@ -1,6 +1,6 @@
-import React, {  useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as THREE from 'three';
-import { Canvas, useLoader } from '@react-three/fiber';
+import { Canvas, useLoader, useFrame } from '@react-three/fiber';
 import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard, useAnimations } from "@react-three/drei";
 import { Physics, Debug, usePlane, useBox, useSphere, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
@@ -24,8 +24,20 @@ export default function HouseGameStage(props) {
     const lampRef = useRef();
     const selected = props.isUseItem1 ? undefined : [lampRef];
 
-    const BillboardMap = useLoader(THREE.TextureLoader, itemImage);
+    const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
 
+    const onChangeJoystick = (e) => {
+        setDragPos({
+            x: e.x / 2,
+            y: e.y / 2
+        });
+    };
+
+
+
+
+    // 使用するアイテムのテクスチャ
+    const BillboardMap = useLoader(THREE.TextureLoader, itemImage);
 
     return (
         <>
@@ -50,7 +62,7 @@ export default function HouseGameStage(props) {
                         <group>
                             <Ground />
                             <axesHelper scale={3} />
-                            <Player />
+                            <Player dragPos={dragPos} />
                             <Structure />
                             <Lamp lampRef={lampRef} />
                             <SmallChair />
@@ -64,21 +76,11 @@ export default function HouseGameStage(props) {
             </Canvas>
             <JoystickCanvas>
                 <Joystick
-                    size={100}
-                    stop={() => {
-                        console.log("se detiene el Joystick");
-                    }}
-                    move={(event) => {
-                        const direction = event.direction;
-                        console.log(direction);
-                        // backward down
-                        const newDirection =
-                            direction === "forward"
-                                ? "top"
-                                : direction === "backward"
-                                    ? "down"
-                                    : direction;
-                    }}
+                    size={80}
+                    baseColor={Color.slightlyGrayishYellow}
+                    stickColor={Color.grayishYellowGreen}
+                    stop={onChangeJoystick}
+                    move={onChangeJoystick}
                 />
             </JoystickCanvas>
         </>
@@ -87,24 +89,44 @@ export default function HouseGameStage(props) {
 
 
 function Player(props) {
-    const group = useRef();
+    const animeRef = useRef();
+    const pos = useRef([0, 0, 0]);
     const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
 
-    const [ref] = useBox(() => ({
-        args: [0.6, 0.9, 0.4],
+    const [playerPos, setPlayerPos] = useState({ x: 0, z: 0 });
+
+    const [physicsRef, api] = useSphere(() => ({
+        args: [0.4, 0.4, 0.4],
         position: [0, 0.4, 0],
-        mass: 100,
+        mass: 10,
     }));
 
-    const { actions } = useAnimations(animations, group);
+    const { actions } = useAnimations(animations, animeRef);
     useEffect(() => {
         actions.Walking.play();
     });
 
+
+    useFrame(() => {
+        const force = {
+            x: Math.min(Math.max(props.dragPos.x, -20), 20),
+            z: Math.min(Math.max(props.dragPos.y, -20), 20)
+        };
+        setPlayerPos({
+            x: playerPos.x + props.dragPos.x,
+            z: playerPos.z - props.dragPos.y
+        });
+
+        api.applyForce([force.x, 0.2, -force.z], [0, 0, 0]);
+        api.position.subscribe(v => pos.current = v)
+        console.log(pos.current);
+    });
+
     return (
-        <group ref={group} position={[0, -0.5, 0]} {...props} dispose={null}>
+        <group ref={physicsRef} {...props} dispose={null}>
             <primitive
-                ref={ref}
+                ref={animeRef}
+                position={[0,-0.5,0]}
                 object={scene}
                 scale={0.2}
             />
@@ -250,7 +272,7 @@ function Lamp(props) {
 function SmallChair(props) {
 
     const [ref] = useBox(() => ({
-        args: [-0.35, 0.35, 0.35],
+        args: [0.35, 0.35, 0.35],
         position: [-0.8, 0.18, 0.4],
         mass: 1,
     }));
@@ -304,7 +326,7 @@ function Ground(props) {
     const [ref] = usePlane(() => ({
         rotation: [-Math.PI / 2, 0, 0],
         mass: 1,
-        type: 'Static'
+        type: 'Kinematic'
     }))
     return (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.23, 0]} receiveShadow ref={ref}>

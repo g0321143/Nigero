@@ -47,7 +47,7 @@ export default function HouseGame() {
         <Suspense fallback={"Loading"}>
             <Game_Canvas key={key}>
                 <Countdown
-                    date={Date.now() + 5000000}
+                    date={Date.now() + 500000}
                     renderer={(props) => {
                         const time = props.minutes * 60 + props.seconds;
                         return props.completed ?
