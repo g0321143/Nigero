@@ -109,7 +109,7 @@ const GameComponent = ({ time }) => {
                     item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
                 ]}
             />
-            <HouseGameStage isUseItem1={item1} />
+            <HouseGameStage time={time} isUseItem1={item1} />
         </>
     );
 }

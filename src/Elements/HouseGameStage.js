@@ -27,6 +27,8 @@ export default function HouseGameStage(props) {
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
     const [angle, setAngle] = useState(0);
     const [isMove, setMove] = useState(false);
+    console.log(props.time);
+    console.log(props.isUseItem1);
 
     const onChangeJoystick = (e) => {
         setDragPos({
@@ -78,9 +80,9 @@ export default function HouseGameStage(props) {
                             playerAngle={angle}
                             isMove={isMove}
                         />
-                        <Structure />
-                        <Lamp lampRef={lampRef} />
-                        <SmallChair />
+                        <Structure time={props.time}/>
+                        <Lamp time={props.time} lampRef={lampRef} />
+                        <SmallChair time={props.time}/>
                         {props.isUseItem1 ? null : <UseItemBillboard position={[0.8, 1.6, 2.2]} url={BillboardMap} />}
                         <EffectComposer multisampling={8} autoClear={false}>
                             <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
@@ -222,9 +224,13 @@ function Structure(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            if (object.name == '') {
-                objectColor = 'black';
-            } else {
+            if(props.time < 500 - 15){
+                if (object.name == 'Cube096' || object.name == 'Cube096_10') {
+                    objectColor = Color.softOrange;
+                } else {
+                    objectColor = 'vividRed';
+                }
+            }else{
                 objectColor = Color.softOrange;
             }
             Objects.push(
@@ -268,8 +274,9 @@ function Lamp(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            if (object.name == '') {
-                objectColor = 'black';
+            
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
             } else {
                 objectColor = Color.softOrange;
             }
@@ -323,8 +330,8 @@ function SmallChair(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            if (object.name == '') {
-                objectColor = 'black';
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
             } else {
                 objectColor = Color.softOrange;
             }
