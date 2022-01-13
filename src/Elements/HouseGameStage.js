@@ -27,8 +27,6 @@ export default function HouseGameStage(props) {
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
     const [angle, setAngle] = useState(0);
     const [isMove, setMove] = useState(false);
-    console.log(props.time);
-    console.log(props.isUseItem1);
 
     const onChangeJoystick = (e) => {
         setDragPos({

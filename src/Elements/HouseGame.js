@@ -25,7 +25,6 @@ import styled from 'styled-components';
 import Color from "../Constants/Color";
 
 
-
 /**
  * ハウスステージのゲーム部分です
  * Countdownコンポーネントはコンポーネントがアップデートされると（useStateの更新とか），
@@ -42,6 +41,10 @@ export default function HouseGame() {
 
     /*limit: 制限時間*/
     const [limit, setlimit] = useState(1000);
+    
+    // ゲームクリアかゲーム中かのフラグ
+    const [flag, setflag] = useState(false);
+    
 
     return (
         <Suspense fallback={"Loading"}>
@@ -58,6 +61,10 @@ export default function HouseGame() {
                             /> :
                             <GameComponent
                                 time={time}
+                                completed={props.completed}
+                                keyhandler={() => setflag(!flag)}
+                                flag={flag}
+                                
                             />
                     }}
                 />
@@ -76,18 +83,23 @@ export default function HouseGame() {
 /**
      * ゲーム中のみに使用するコンポーネントです
      */
-const GameComponent = ({ time }) => {
+const GameComponent = ({ time, completed, handler, flag }) => {
 
 
     // ゲームの進行に必要なフラグを記述します
     const [item1, setItem1] = useState(true);
     const [item2, setItem2] = useState(true);
     const [item3, setItem3] = useState(true);
+    console.log(time);
+    
 
     // アイテムをクリックした時の処理
     const handleClickItem1 = () => {
         // ここにアイテムをクリックした時の処理を記述します
         setItem1(!item1);
+        flag != flag;
+        
+        
     };
 
     const handleClickItem2 = () => {
@@ -102,9 +114,10 @@ const GameComponent = ({ time }) => {
         <>
             <Text text={String(time)} />
             <MissionUI />
+            <Check item1={!item1} item2={!item2} item3={!item3}/>
             <Inventory
                 items={[
-                    item1 ? <img src={itemImage} onClick={() => handleClickItem1()} /> : null,
+                    item1 ? <img src={itemImage} onClick={handler} /> : null,
                     item2 ? <img src={nextButton} onClick={() => handleClickItem2()} /> : null,
                     item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
                 ]}
@@ -121,6 +134,7 @@ const ClearComponent = ({ time, limit, keyhandler }) => {
     return (
         <>
             <MissionUI />
+            <Check item1={!item1} item2={!item2} item3={!item3}/>
             <ClearTime time={time} limit={limit / 1000} />
             <Clear handler={keyhandler} />
         </>
@@ -154,27 +168,27 @@ function Clear({ handler }) {
  * 多分，インベントリと同じでできるはず...
  */
 function MissionUI() {
-
+    
     return (
         <>
             <Setting src={mission} top={"20%"} left={"0%"} width={'20%'} height={'50%'} opacity={'0.9'} />
             <AnyText fontsize={"1vw"} top={"33%"} left={"5%"}>{"Securing of personal security"}</AnyText>
             <AnyText fontsize={"1vw"} top={"37.5%"} left={"5%"}>{"Check of the fall"}</AnyText>
             <AnyText fontsize={"1vw"} top={"41.5%"} left={"5%"}>{"ほげ～"}</AnyText>
-            <Check />
+            
         </>
     );
 }
 
-function Check() {
-    const flag1 = true;
-    const flag2 = true;
-    const flag3 = true;
+function Check(props) {
+    console.log(props.item1);
+    console.log(props.item2);
+    console.log(props.item3);
     return (
         <>
-            {flag1 ? <Setting src={checkmark} top={"32%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-            {flag2 ? <Setting src={checkmark} top={"36.5%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-            {flag3 ? <Setting src={checkmark} top={"41%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+            {props.item1 ? <Setting src={checkmark} top={"32%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+            {props.item2 ? <Setting src={checkmark} top={"36.5%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+            {props.item3 ? <Setting src={checkmark} top={"41%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
 
         </>
     );
