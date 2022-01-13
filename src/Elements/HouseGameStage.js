@@ -32,8 +32,8 @@ export default function HouseGameStage(props) {
 
     const onChangeJoystick = (e) => {
         setDragPos({
-            x: e.x / 15,
-            y: e.y / 15
+            x: e.x / 20,
+            y: e.y / 20
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(true);
@@ -119,7 +119,7 @@ function Player(props) {
     const [physicsRef, api] = useSphere(() => ({
         args: [0.4, 0.4, 0.4],
         position: [0, 0.4, 0],
-        mass: 0.8,
+        mass: 100,
         material: { friction: 0.4 },
         fixedRotation: true,
         type: 'Dynamic',
@@ -152,13 +152,14 @@ function Player(props) {
     // 毎フレーム実行する関数
     useFrame(() => {
         const force = {
-            x: Math.min(Math.max(props.dragPos.x, -4), 4),
-            z: Math.min(Math.max(props.dragPos.y, -4), 4)
+            x: Math.min(Math.max(props.dragPos.x, -2), 2),
+            z: Math.min(Math.max(props.dragPos.y, -2), 2)
         };
         
-        api.applyForce([force.x, 0, -force.z], [0, 0, 0]);
+        //api.applyForce([force.x, 0, -force.z], [0, 0, 0]);
         api.position.subscribe(v => playerPos.current = v);
         //api.angularVelocity.subscribe(v => console.log(v));
+        api.velocity.set(force.x,0,-force.z);
     });
 
     return (
