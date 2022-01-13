@@ -33,8 +33,8 @@ export default function HouseGameStage(props) {
 
     const onChangeJoystick = (e) => {
         setDragPos({
-            x: e.x / 20,
-            y: e.y / 20
+            x: e.x / 10,
+            y: e.y / 10
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(true);
@@ -42,8 +42,8 @@ export default function HouseGameStage(props) {
 
     const onStopJoystick = (e) => {
         setDragPos({
-            x: e.x / 15,
-            y: e.y / 15
+            x: e.x / 10,
+            y: e.y / 10
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(false);
@@ -329,7 +329,6 @@ function Ground(props) {
     const [ref] = usePlane(() => ({
         rotation: [-Math.PI / 2, 0, 0],
         mass: 1,
-        material: { friction: 0.01, restitution: -1 },
         type: 'Static'
     }))
     return (

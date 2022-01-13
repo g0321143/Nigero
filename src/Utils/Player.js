@@ -26,7 +26,6 @@ export default function Player(props) {
         args: [0.4, 0.4, 0.4], // 大きさ
         position: [0, 0.4, 0], // 座標
         mass: 100, // 重さ
-        material: { friction: 0.4 }, // 材質 {摩擦}
         fixedRotation: true, // 回転を固定
         type: 'Dynamic', // 物理演算のタイプ
     }));
@@ -57,12 +56,8 @@ export default function Player(props) {
 
     // 毎フレーム実行する関数
     useFrame(() => {
-        const force = {
-            x: Math.min(Math.max(props.dragPos.x, -2), 2),
-            z: Math.min(Math.max(props.dragPos.y, -2), 2)
-        };
         // プレイヤーに速度を与える
-        api.velocity.set(force.x, 0, -force.z);
+        api.velocity.set(props.dragPos.x, 0, -props.dragPos.y);
         // 現在の座標を格納
         api.position.subscribe(v => {
             props.playerPositionCallback(v);

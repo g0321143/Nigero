@@ -30,8 +30,8 @@ export default function TallBuildingGameStage(props) {
 
     const onChangeJoystick = (e) => {
         setDragPos({
-            x: e.x / 20,
-            y: e.y / 20
+            x: e.x / 10,
+            y: e.y / 10
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(true);
@@ -39,8 +39,8 @@ export default function TallBuildingGameStage(props) {
 
     const onStopJoystick = (e) => {
         setDragPos({
-            x: e.x / 15,
-            y: e.y / 15
+            x: e.x / 10,
+            y: e.y / 10
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(false);
