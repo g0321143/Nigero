@@ -8,6 +8,7 @@ import { Joystick } from "react-joystick-component";
 
 import Color from "../Constants/Color";
 import styled from 'styled-components';
+import Player from "../Utils/Player";
 
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
@@ -79,6 +80,7 @@ export default function HouseGameStage(props) {
                             dragPos={dragPos}
                             playerAngle={angle}
                             isMove={isMove}
+                            playerPositionCallback={p => {/* pに現在のプレイヤーの座標がリターンされます */}}
                         />
                         <Structure time={props.time}/>
                         <Lamp time={props.time} lampRef={lampRef} />
@@ -103,76 +105,6 @@ export default function HouseGameStage(props) {
         </>
     );
 };
-
-
-function Player(props) {
-
-    // プレイヤーの座標
-    const playerPos = useRef([0, 0, 0]);
-
-    const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
-
-    // 現在のアニメーション
-    const [action, setAction] = useState('Walking');
-
-    // 当たり判定の設定
-    const [physicsRef, api] = useSphere(() => ({
-        args: [0.4, 0.4, 0.4], // 大きさ
-        position: [0, 0.4, 0], // 座標
-        mass: 100, // 重さ
-        material: { friction: 0.4 }, // 材質 {摩擦}
-        fixedRotation: true, // 回転を固定
-        type: 'Dynamic', // 物理演算のタイプ
-    }));
-
-    // アニメーションの抽出
-    const { ref, actions } = useAnimations(animations);
-
-    // 影の設定(<primitive/>のみここで設定する)
-    useMemo(() => Object.values(nodes).forEach(obj =>
-        obj.isMesh && Object.assign(obj, {
-            castShadow: true,
-            receiveShadow: true
-        })
-    ), [nodes]);
-
-    // props.isMoveが切り替わった時のみ実行する
-    useEffect(() => {
-        const actionName = props.isMove ? 'Walking' : 'Idle';
-        changeAction(actionName);
-    }, [props.isMove])
-    
-    // アクションの切り替え
-    const changeAction = (nextAction) => {
-        actions[action].fadeOut(0.5);
-        setAction(nextAction);
-        actions[nextAction].reset().fadeIn(0.5).play();
-    }
-
-    // 毎フレーム実行する関数
-    useFrame(() => {
-        const force = {
-            x: Math.min(Math.max(props.dragPos.x, -2), 2),
-            z: Math.min(Math.max(props.dragPos.y, -2), 2)
-        };
-        // プレイヤーに速度を与える
-        api.velocity.set(force.x,0,-force.z);
-        // 現在の座標を格納
-        api.position.subscribe(v => playerPos.current = v);
-    });
-
-    return (
-        <group ref={physicsRef} {...props} dispose={null}>
-            <primitive
-                ref={ref}
-                position={[0, -0.5, 0]}
-                rotation={[0, props.playerAngle, 0]}
-                object={scene}
-                scale={0.2}
-            />
-        </group>
-    );
-}
 
 /**
  * アイテムを使用したことを知らせるためのポップアップを表示します

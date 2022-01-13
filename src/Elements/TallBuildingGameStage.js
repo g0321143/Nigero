@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as THREE from 'three';
-import { Canvas, useLoader, useFrame } from '@react-three/fiber';
-import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard, useAnimations } from "@react-three/drei";
-import { Physics, Debug, usePlane, useBox, useSphere, useCompoundBody } from '@react-three/cannon'
+import { Canvas, useLoader } from '@react-three/fiber';
+import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard } from "@react-three/drei";
+import { Physics, Debug, usePlane, useBox, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
 import { Joystick } from "react-joystick-component";
 
 import Color from "../Constants/Color";
 import styled from 'styled-components';
+import Player from "../Utils/Player";
 
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
 useGLTF.preload("./Models/Structure.glb");
-useGLTF.preload("./Models/RobotExpressive.glb");
 useGLTF.preload("./Models/Lamp.glb");
 useGLTF.preload("./Models/Chair2.glb");
 
@@ -27,13 +27,11 @@ export default function TallBuildingGameStage(props) {
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
     const [angle, setAngle] = useState(0);
     const [isMove, setMove] = useState(false);
-    console.log(props.time);
-    console.log(props.isUseItem1);
 
     const onChangeJoystick = (e) => {
         setDragPos({
-            x: e.x / 15,
-            y: e.y / 15
+            x: e.x / 20,
+            y: e.y / 20
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(true);
@@ -71,7 +69,7 @@ export default function TallBuildingGameStage(props) {
                     shadow-camera-bottom={-10}
                 />
                 <Physics iterations={6}>
-                    <Debug scale={1.1} color="black">
+                    {/* <Debug scale={1.1} color="black"> */}
                     <group>
                         <Ground />
                         <axesHelper scale={3} />
@@ -79,16 +77,17 @@ export default function TallBuildingGameStage(props) {
                             dragPos={dragPos}
                             playerAngle={angle}
                             isMove={isMove}
+                            playerPositionCallback={p => {/* pに現在のプレイヤーの座標がリターンされます */}}
                         />
-                        <Structure time={props.time}/>
+                        <Structure time={props.time} />
                         <Lamp time={props.time} lampRef={lampRef} />
-                        <SmallChair time={props.time}/>
+                        <SmallChair time={props.time} />
                         {props.isUseItem1 ? null : <UseItemBillboard position={[0.8, 1.6, 2.2]} url={BillboardMap} />}
                         <EffectComposer multisampling={8} autoClear={false}>
                             <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
                         </EffectComposer>
                     </group>
-                    </ Debug>
+                    {/* </ Debug> */}
                 </Physics>
             </Canvas>
             <JoystickCanvas>
@@ -104,75 +103,6 @@ export default function TallBuildingGameStage(props) {
     );
 };
 
-
-function Player(props) {
-
-    // プレイヤーの座標
-    const playerPos = useRef([0, 0, 0]);
-
-    const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
-
-    // 現在のアニメーション
-    const [action, setAction] = useState('Walking');
-
-    // 当たり判定の設定
-    const [physicsRef, api] = useSphere(() => ({
-        args: [0.4, 0.4, 0.4],
-        position: [0, 0.4, 0],
-        mass: 0.8,
-        material: { friction: 0.4 },
-        fixedRotation: true,
-        type: 'Dynamic',
-    }));
-
-    // アニメーションの抽出
-    const { ref, actions } = useAnimations(animations);
-
-    // 影の設定(<primitive/>のみここで設定する)
-    useMemo(() => Object.values(nodes).forEach(obj =>
-        obj.isMesh && Object.assign(obj, {
-            castShadow: true,
-            receiveShadow: true
-        })
-    ), [nodes]);
-
-    // props.isMoveが切り替わった時のみ実行する
-    useEffect(() => {
-        const actionName = props.isMove ? 'Walking' : 'Idle';
-        changeAction(actionName);
-    }, [props.isMove])
-    
-    // アクションの切り替え
-    const changeAction = (nextAction) => {
-        actions[action].fadeOut(0.5);
-        setAction(nextAction);
-        actions[nextAction].reset().fadeIn(0.5).play();
-    }
-
-    // 毎フレーム実行する関数
-    useFrame(() => {
-        const force = {
-            x: Math.min(Math.max(props.dragPos.x, -4), 4),
-            z: Math.min(Math.max(props.dragPos.y, -4), 4)
-        };
-        
-        api.applyForce([force.x, 0, -force.z], [0, 0, 0]);
-        api.position.subscribe(v => playerPos.current = v);
-        //api.angularVelocity.subscribe(v => console.log(v));
-    });
-
-    return (
-        <group ref={physicsRef} {...props} dispose={null}>
-            <primitive
-                ref={ref}
-                position={[0, -0.5, 0]}
-                rotation={[0, props.playerAngle, 0]}
-                object={scene}
-                scale={0.2}
-            />
-        </group>
-    );
-}
 
 /**
  * アイテムを使用したことを知らせるためのポップアップを表示します
@@ -225,13 +155,13 @@ function Structure(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            if(props.time < 500 - 15){
+            if (props.time < 500 - 15) {
                 if (object.name == 'Cube096' || object.name == 'Cube096_10') {
                     objectColor = Color.softOrange;
                 } else {
                     objectColor = 'vividRed';
                 }
-            }else{
+            } else {
                 objectColor = Color.softOrange;
             }
             Objects.push(
@@ -260,9 +190,9 @@ function Structure(props) {
 
             { type: 'Box', position: [-1.5, 1, 2.8], rotation: [0, 0, 0], args: [6, 2, 0.5] },
             //仕切り
-            { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.3, 2, 2] }  
+            { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.3, 2, 2] }
         ]
-      }))
+    }))
 
 
     return (
@@ -295,8 +225,8 @@ function Lamp(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            
-            if(props.time < 500 - 15){
+
+            if (props.time < 500 - 15) {
                 objectColor = 'vividRed';
             } else {
                 objectColor = Color.softOrange;
@@ -313,7 +243,7 @@ function Lamp(props) {
     });
 
     const [ref] = useBox(() => ({
-        args: [0.5,2,0.5],
+        args: [0.5, 2, 0.5],
         position: [1.4, 1.2, 2.2],
         mass: 12,
     }));
@@ -357,7 +287,7 @@ function SmallChair(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            if(props.time < 500 - 15){
+            if (props.time < 500 - 15) {
                 objectColor = 'vividRed';
             } else {
                 objectColor = Color.softOrange;
