@@ -117,12 +117,12 @@ function Player(props) {
 
     // 当たり判定の設定
     const [physicsRef, api] = useSphere(() => ({
-        args: [0.4, 0.4, 0.4],
-        position: [0, 0.4, 0],
-        mass: 100,
-        material: { friction: 0.4 },
-        fixedRotation: true,
-        type: 'Dynamic',
+        args: [0.4, 0.4, 0.4], // 大きさ
+        position: [0, 0.4, 0], // 座標
+        mass: 100, // 重さ
+        material: { friction: 0.4 }, // 材質 {摩擦}
+        fixedRotation: true, // 回転を固定
+        type: 'Dynamic', // 物理演算のタイプ
     }));
 
     // アニメーションの抽出
@@ -155,11 +155,10 @@ function Player(props) {
             x: Math.min(Math.max(props.dragPos.x, -2), 2),
             z: Math.min(Math.max(props.dragPos.y, -2), 2)
         };
-        
-        //api.applyForce([force.x, 0, -force.z], [0, 0, 0]);
-        api.position.subscribe(v => playerPos.current = v);
-        //api.angularVelocity.subscribe(v => console.log(v));
+        // プレイヤーに速度を与える
         api.velocity.set(force.x,0,-force.z);
+        // 現在の座標を格納
+        api.position.subscribe(v => playerPos.current = v);
     });
 
     return (
