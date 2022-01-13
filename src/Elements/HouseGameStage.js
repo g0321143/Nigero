@@ -107,6 +107,7 @@ export default function HouseGameStage(props) {
 
 function Player(props) {
 
+    // プレイヤーの座標
     const playerPos = useRef([0, 0, 0]);
 
     const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
