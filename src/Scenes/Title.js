@@ -2,6 +2,7 @@ import React from 'react'
 
 import Store from '../Utils/Store';
 import { Game_Canvas, Block_Left_Top, Block_Column_End, Block_Left_End, Block_Right_End } from '../Utils/GlobalStyles';
+import { setBuilding } from '../Utils/LocalStorage';
 import Button from '../Utils/Button';
 import Money from '../Utils/Money'
 import TitleHouse from '../Elements/TitleHouse';
@@ -35,6 +36,7 @@ export default function Title() {
                     margin={'0.5%'}
                 />
                 <Button
+                    handler={() => setBuilding('tallBuilding', true)}
                     src={languageButton}
                     width={'3%'}
                     height={'5%'}

@@ -24,4 +24,12 @@ export default {
         model: './Models/TallBuilding.glb',
         nameTagImage: TallBuildingTag,
     },
+    elevator:
+    {
+        name: 'Elevator',
+        id: 'elevator',
+        price: "100,000",
+        model: './Models/TallBuilding.glb',
+        nameTagImage: TallBuildingTag,
+    },
 };

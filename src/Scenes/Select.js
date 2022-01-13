@@ -6,7 +6,6 @@ import { Game_Canvas, Block_Right_End, Block_Left_End, Block_Left_Top } from '..
 import Button from '../Utils/Button';
 import Coin from '../Utils/Money'
 import SelectBuilding from '../Elements/SelectBuilding';
-import SelectStage from '../Elements/SelectStage';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
