@@ -69,7 +69,7 @@ export default function HouseGameStage(props) {
                     shadow-camera-bottom={-10}
                 />
                 <Physics iterations={6}>
-                    {/*<Debug scale={1.1} color="black">*/}
+                    <Debug scale={1.1} color="black">
                     <group>
                         <Ground />
                         <axesHelper scale={3} />
@@ -86,7 +86,7 @@ export default function HouseGameStage(props) {
                             <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
                         </EffectComposer>
                     </group>
-                    {/*</ Debug>*/}
+                    </ Debug>
                 </Physics>
             </Canvas>
             <JoystickCanvas>
@@ -242,6 +242,26 @@ function Structure(props) {
         }
     });
 
+    const [ref] = useCompoundBody(() => ({
+        mass: 12,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [2, 1, -1.8], rotation: [0, 0, 0], args: [0.5, 2, 1.5] },
+            { type: 'Box', position: [2, 1, 1.5], rotation: [0, 0, 0], args: [0.5, 2, 2.9] },
+
+            { type: 'Box', position: [0.8, 1, -2.5], rotation: [0, 0, 0], args: [2.5, 2, 0.5] },
+            { type: 'Box', position: [-3.2, 1, -2.5], rotation: [0, 0, 0], args: [3.3, 2, 0.5] },
+
+            { type: 'Box', position: [-5, 1, 0], rotation: [0, 0, 0], args: [0.5, 2, 5.2] },
+
+            { type: 'Box', position: [-1.5, 1, 2.8], rotation: [0, 0, 0], args: [6, 2, 0.5] },
+            //仕切り
+            { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.3, 2, 2] }  
+        ]
+      }))
+
+
     return (
         <group {...props} dispose={null}>
             {Objects.map((object, index) => (
@@ -261,7 +281,7 @@ function Structure(props) {
 }
 
 function Lamp(props) {
-    const ref = useRef()
+    //const ref = useRef()
 
     const { scene } = useGLTF("./Models/Lamp.glb");
 
@@ -288,6 +308,12 @@ function Lamp(props) {
             );
         }
     });
+
+    const [ref] = useBox(() => ({
+        args: [0.5,2,0.5],
+        position: [1.4, 1.2, 2.2],
+        mass: 12,
+    }));
 
     return (
         <group
