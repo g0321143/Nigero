@@ -23,7 +23,7 @@ export default function Player(props) {
 
     // 当たり判定の設定
     const [physicsRef, api] = useSphere(() => ({
-        args: [0.4, 0.4, 0.4], // 大きさ
+        args: [0.4], // 大きさ
         position: [0, 0.4, 0], // 座標
         mass: 100, // 重さ
         fixedRotation: true, // 回転を固定
