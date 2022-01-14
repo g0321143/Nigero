@@ -7,6 +7,7 @@ import { EffectComposer, Outline } from '@react-three/postprocessing'
 import { Joystick } from "react-joystick-component";
 
 import Color from "../Constants/Color";
+import Buildings from "../Constants/Buildings";
 import styled from 'styled-components';
 import Player from "../Utils/Player";
 
@@ -68,20 +69,39 @@ export default function TallBuildingGameStage(props) {
                 />
                 <Physics iterations={6}>
                     {/* <Debug scale={1.1} color="black"> */}
-                    <group>
-                        <axesHelper scale={3} />
-                        <Player
-                            dragPos={dragPos}
-                            playerAngle={angle}
-                            isMove={isMove}
-                            playerPositionCallback={p => {/* pに現在のプレイヤーの座標がリターンされます */ }}
-                        />
-                        <MainBuilding time={props.time} />
-                        <BookShelf time={props.time} />
-                        <EffectComposer multisampling={8} autoClear={false}>
-                            <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
-                        </EffectComposer>
-                    </group>
+                        <group>
+                            <axesHelper scale={3} />
+                            <Player
+                                dragPos={dragPos}
+                                playerAngle={angle}
+                                isMove={isMove}
+                                playerPositionCallback={p => {/* pに現在のプレイヤーの座標がリターンされます */ }}
+                            />
+                            <MainBuilding time={props.time} />
+                            <BookShelf time={props.time} position={[-4.7, 1, -5.2]} />
+                            <BookShelf time={props.time} position={[-3.5, 1, -5.2]} />
+                            <BookShelf time={props.time} position={[-2.3, 1, -5.2]} />
+                            <WorkingTable1 time={props.time} position={[-2.8, 0.5, -0.5]} />
+                            <WorkingTable2 time={props.time} position={[-2.8, 0.5, 1.5]} />
+                            <WorkingTable3 time={props.time} position={[-2.8, 0.5, 3.5]} />
+                            <WorkingTable1 time={props.time} position={[2.8, 0.5, -0.5]} />
+                            <WorkingTable2 time={props.time} position={[2.8, 0.5, 1.5]} />
+                            <WorkingTable3 time={props.time} position={[2.8, 0.5, 3.5]} />
+                            <Printer time={props.time} position={[-1.2, 0.5, -5.5]}/>
+                            <Bin time={props.time} position={[-0.7, 0.5, -1.5]}/>
+                            <Bin time={props.time} position={[0.7, 0.5, 4.5]}/>
+                            <Chair time={props.time} position={[0, 0.5, -5]} rotationY={Math.PI / 2}/>
+                            <Table time={props.time} position={[0.5, 0.5, -5]}/>
+                            <Chair time={props.time} position={[1, 0.5, -5]} rotationY={-Math.PI / 2}/>
+                            <Chair time={props.time} position={[4.5, 0.5, -5]} rotationY={0}/>
+                            <Table time={props.time} position={[4.5, 0.5, -4]}/>
+                            <Chair time={props.time} position={[4.5, 0.5, -3]} rotationY={Math.PI}/>
+                            <FloorLamp time={props.time} position={[2, 0.9, -5]}/>
+                            <FloorLamp time={props.time} position={[-4.7, 0.9, -4]}/>
+                            <EffectComposer multisampling={8} autoClear={false}>
+                                <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
+                            </EffectComposer>
+                        </group>
                     {/* </ Debug> */}
                 </Physics>
             </Canvas>
@@ -149,7 +169,8 @@ function MainBuilding(props) {
         if (object.isMesh) {
             //console.log(object.name);
             let objectColor;
-            if (props.time < 500 - 15) {
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
                 switch (object.name) {
                     case 'Cube173':
                         objectColor = Color.deepRed;
@@ -205,10 +226,10 @@ function MainBuilding(props) {
         type: 'Static',
         shapes: [
             { type: 'Plane', position: [0, 0, 0], rotation: [-Math.PI / 2, 0, 0], args: [3] },
-            { type: 'Box', position: [0, 0, 5.5], args: [10, 2, 0.2] },
-            { type: 'Box', position: [0, 0, -5.5], args: [10, 2, 0.2] },
-            { type: 'Box', position: [5.8, 0, 0], args: [0.2, 2, 10] },
-            { type: 'Box', position: [-5.8, 0, 0], args: [0.2, 2, 10] },
+            { type: 'Box', position: [0, 0, 5.8], args: [10, 2, 0.2] },
+            { type: 'Box', position: [0, 0, -5.8], args: [10, 2, 0.2] },
+            { type: 'Box', position: [5.5, 0, 0], args: [0.2, 2, 10] },
+            { type: 'Box', position: [-5.5, 0, 0], args: [0.2, 2, 10] },
         ]
     }))
 
@@ -233,8 +254,9 @@ function MainBuilding(props) {
     )
 }
 
-function BookShelf(props) {
-    const { scene } = useGLTF("./Models/TallBuilding/BookShelf.glb");
+
+function Bin(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/Bin.glb");
 
     let Objects = [];
 
@@ -242,10 +264,11 @@ function BookShelf(props) {
         if (object.isMesh) {
             //console.log(object.name);
             let objectColor;
-            if (props.time < 500 - 15) {
-                objectColor = Color.white;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                objectColor = Color.deepRed;
             } else {
-                objectColor = Color.white;
+                objectColor = Color.softOrange;
             }
             Objects.push(
                 {
@@ -259,9 +282,63 @@ function BookShelf(props) {
     });
 
     const [ref] = useBox(() => ({
-        type: 'Dynamic', 
-        args: [1, 1.8, 0.3],
-        position: [-4,1,0],
+        type: 'Dynamic',
+        args: [0.3, 0.4, 0.3],
+        position: props.position,
+        mass: 0.5,
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+function Table(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/Table.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                objectColor = Color.deepRed;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    const [ref] = useBox(() => ({
+        type: 'Dynamic',
+        args: [0.8, 0.6, 0.8],
+        position: props.position,
         mass: 10,
     }));
 
@@ -269,6 +346,452 @@ function BookShelf(props) {
     return (
         <group
             ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+
+function Chair(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/Chair.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                objectColor = Color.deepRed;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, props.rotationY, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    const [ref] = useBox(() => ({
+        type: 'Dynamic',
+        args: [0.4, 0.6, 0.4],
+        position: props.position,
+        mass: 5,
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+
+function FloorLamp(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/FloorLamp.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                objectColor = Color.deepRed;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    const [ref] = useBox(() => ({
+        type: 'Dynamic',
+        args: [0.5, 1.5, 0.5],
+        position: props.position,
+        mass: 20,
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    position={[0,0.2,0]}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+function Printer(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/Printer.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                objectColor = Color.deepRed;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    const [ref] = useBox(() => ({
+        type: 'Dynamic',
+        args: [0.8, 0.5, 0.5],
+        position: props.position,
+        mass: 50,
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+
+function BookShelf(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/BookShelf.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                objectColor = Color.deepRed;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    const [ref] = useBox(() => ({
+        type: 'Dynamic',
+        args: [1, 1.8, 0.3],
+        position: props.position,
+        mass: 50,
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+
+function WorkingTable1(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/WorkingTable1.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                    switch (object.name) {
+                        case 'Cube166':
+                            objectColor = Color.deepRed;
+                            break;
+                        case 'Cube166_1':
+                            objectColor = Color.vividRed;
+                            break;
+                        case 'Cube166_2':
+                            objectColor = Color.deepRed;
+                            break;
+                    }
+            } else {
+                switch (object.name) {
+                    case 'Cube166':
+                        objectColor = Color.softOrange;
+                        break;
+                    case 'Cube166_1':
+                        objectColor = Color.white;
+                        break;
+                    case 'Cube166_2':
+                        objectColor = Color.strongOrange;
+                        break;
+                }
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    const [ref] = useBox(() => ({
+        type: 'Dynamic',
+        args: [3.6, 1, 1.6],
+        position: props.position,
+        mass: 50,
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+            scale={0.9}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+function WorkingTable2(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/WorkingTable2.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                    switch (object.name) {
+                        case 'Cube135':
+                            objectColor = Color.deepRed;
+                            break;
+                        case 'Cube135_1':
+                            objectColor = Color.vividRed;
+                            break;
+                        case 'Cube135_2':
+                            objectColor = Color.deepRed;
+                            break;
+                    }
+            } else {
+                switch (object.name) {
+                    case 'Cube135':
+                        objectColor = Color.softOrange;
+                        break;
+                    case 'Cube135_1':
+                        objectColor = Color.white;
+                        break;
+                    case 'Cube135_2':
+                        objectColor = Color.strongOrange;
+                        break;
+                }
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    const [ref] = useBox(() => ({
+        type: 'Dynamic',
+        args: [3.6, 1, 1.6],
+        position: props.position,
+        mass: 50,
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+            scale={0.9}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+function WorkingTable3(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/WorkingTable3.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                props.time > Buildings.tallBuilding.afterTime) {
+                    switch (object.name) {
+                        case 'Cube133':
+                            objectColor = Color.deepRed;
+                            break;
+                        case 'Cube133_1':
+                            objectColor = Color.vividRed;
+                            break;
+                        case 'Cube133_2':
+                            objectColor = Color.deepRed;
+                            break;
+                    }
+            } else {
+                switch (object.name) {
+                    case 'Cube133':
+                        objectColor = Color.softOrange;
+                        break;
+                    case 'Cube133_1':
+                        objectColor = Color.white;
+                        break;
+                    case 'Cube133_2':
+                        objectColor = Color.strongOrange;
+                        break;
+                }
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    const [ref] = useBox(() => ({
+        type: 'Dynamic',
+        args: [3.6, 1, 1.6],
+        position: props.position,
+        mass: 50,
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+            scale={0.9}
         >
             {Objects.map((object, index) => (
                 <mesh

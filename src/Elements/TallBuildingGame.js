@@ -5,7 +5,7 @@ import Countdown from 'react-countdown';
 import Store from '../Utils/Store';
 import Text from '../Utils/Text';
 import { Game_Canvas, Block_Column_End } from '../Utils/GlobalStyles';
-import Button from '../Utils/Button';
+import Buildings from '../Constants/Buildings';
 import StarScore from '../Utils/StarScore';
 import Money from '../Utils/Money'
 import Inventory from '../Utils/Inventory';
@@ -48,7 +48,7 @@ export default function TallBuildingGame() {
         <Suspense fallback={"Loading"}>
             <Game_Canvas key={key}>
                 <Countdown
-                    date={Date.now() + 500000}
+                    date={Date.now() + Buildings.tallBuilding.totalTime * 1000}
                     renderer={(props) => {
                         const time = props.minutes * 60 + props.seconds;
                         return props.completed ?
