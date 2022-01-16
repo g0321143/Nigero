@@ -8,7 +8,7 @@ import { Joystick } from "react-joystick-component";
 
 import Color from "../Constants/Color";
 import styled from 'styled-components';
-import Player from "../Utils/Player";
+//import Player from "../Utils/Player";
 
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
@@ -72,7 +72,6 @@ export default function HouseGameStage(props) {
                 />
                 <Physics iterations={6}>
                     <Debug scale={1.1} color="black">
-<<<<<<< HEAD
                     <group>
                         <Ground />
                         <axesHelper scale={3} />
@@ -133,25 +132,6 @@ export default function HouseGameStage(props) {
                             <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
                         </EffectComposer>
                     </group>
-=======
-                        <group>
-                            <Ground />
-                            <axesHelper scale={3} />
-                            <Player
-                                dragPos={dragPos}
-                                playerAngle={angle}
-                                isMove={isMove}
-                                playerPositionCallback={p => {/* pに現在のプレイヤーの座標がリターンされます */ }}
-                            />
-                            <Structure time={props.time} />
-                            <Lamp time={props.time} lampRef={lampRef} />
-                            <SmallChair time={props.time} />
-                            {props.isUseItem1 ? null : <UseItemBillboard position={[0.8, 1.6, 2.2]} url={BillboardMap} />}
-                            <EffectComposer multisampling={8} autoClear={false}>
-                                <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
-                            </EffectComposer>
-                        </group>
->>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
                     </ Debug>
                 </Physics>
             </Canvas>
@@ -167,8 +147,6 @@ export default function HouseGameStage(props) {
         </>
     );
 };
-
-<<<<<<< HEAD
 
 function Player(props) {
 
@@ -238,8 +216,6 @@ function Player(props) {
     );
 }
 
-=======
->>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
 /**
  * アイテムを使用したことを知らせるためのポップアップを表示します
  * @param {[number, number, number]} position 
@@ -327,16 +303,12 @@ function Structure(props) {
 
             { type: 'Box', position: [-1.6, 1, 2.7], rotation: [0, 0, 0], args: [6.2, 2.1, 0.2] },
             //仕切り
-<<<<<<< HEAD
             { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.1, 1.8, 2] }, 
             //床
             { type: 'Box', position: [-1.5, -0.1, 0.1], rotation: [0, 0, 0], args: [6.2, 0.1, 5] }, 
             { type: 'Box', position: [-3.1, -0.05, 0.2], rotation: [0, 0, 0], args: [3.1, 0.2, 4.8] }, 
             { type: 'Box', position: [-3.3, 0, 0.2], rotation: [0, 0, 0], args: [3, 0.25, 4.8] },
             { type: 'Box', position: [-3.5, 0.05, 0.2], rotation: [0, 0, 0], args: [2.8, 0.3, 4.8] }
-=======
-            { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.3, 2, 2] }
->>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
         ]
     }))
 
@@ -387,7 +359,6 @@ function Lamp(props) {
             );
         }
     });
-<<<<<<< HEAD
     
     const [ref] = useCompoundBody(() => ({
         mass: 2,
@@ -406,22 +377,6 @@ function Lamp(props) {
             {Objects.map((object, index) => (
                 <mesh
                     
-=======
-
-    const [ref] = useBox(() => ({
-        args: [0.5, 2, 0.5],
-        position: [1.4, 1.2, 2.2],
-        mass: 12,
-    }));
-
-    return (
-        <group
-            position={[1.4, 1.2, 2.2]}
-            ref={ref}
-        >
-            {Objects.map((object, index) => (
-                <mesh
->>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
                     castShadow
                     receiveShadow
                     scale={object.scale}
@@ -1773,12 +1728,8 @@ function Ground(props) {
     const [ref] = usePlane(() => ({
         rotation: [-Math.PI / 2, 0, 0],
         mass: 1,
-<<<<<<< HEAD
         material: { friction: 0.01, restitution: -1 },
         
-=======
-        type: 'Static'
->>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
     }))
     return (
         <mesh
