@@ -18,73 +18,6 @@ import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 
-function House(props) {
-    const { scene } = useGLTF('./Models/House.glb');
-
-    let house = [];
-
-    scene.traverse((object) => {
-        if (object.isMesh) {
-            if (object.name == 'House_2') {
-                house.push(
-                    <mesh
-                        castShadow
-                        scale={object.scale}
-                        rotation={object.rotation}
-                        geometry={object.geometry}
-                    >
-                        <meshStandardMaterial color={'white'} />
-                    </mesh>
-                );
-            } else {
-                house.push(
-                    <mesh
-                        castShadow
-                        scale={object.scale}
-                        rotation={object.rotation}
-                        geometry={object.geometry}
-                    >
-                        <meshStandardMaterial color={'#e6df97'} />
-                    </mesh>
-                );
-            }
-        }
-    });
-
-
-    return (
-        <group {...props} dispose={null}>
-            {house[0]}
-            {house[1]}
-        </group>
-    )
-}
-
-function Room(props) {
-    const { scene } = useGLTF('./Models/Room.glb');
-
-    const ref = useRef();
-
-    useFrame((state) => {
-        const t = state.clock.getElapsedTime();
-        ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
-        ref.current.rotation.x = Math.cos(t / 4) / 8;
-        ref.current.rotation.y = Math.sin(t / 4) / 8 - Math.PI / 4;
-        ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
-    });
-
-
-    return (
-        <primitive
-            {...props}
-            ref={ref}
-            object={scene}
-            scale={0.3}
-        />
-    );
-}
-
-
 export default function SelectBuilding() {
 
     // 建物グループへのRef
@@ -105,8 +38,6 @@ export default function SelectBuilding() {
 
     // 回転させる円の半径
     const radius = 7;
-
-
 
     // 表示する建物の情報
     const IDList = [
@@ -168,13 +99,103 @@ export default function SelectBuilding() {
                 <ambientLight intensity={1} />
                 <group ref={buildingGroupRef} position={[0, 2.5, 0]} rotation={[0, Math.PI / 2, 0]}>
                     <Room position={[radius * Math.sin(Math.PI / 2) - 1, 0, radius * Math.cos(Math.PI / 2)]} />
-                    <House position={[radius * Math.sin(Math.PI), -1, radius * Math.cos(Math.PI) - 0.9]} rotation={[0, Math.PI / 4, 0]} />
+                    <TallBuilding position={[radius * Math.sin(Math.PI), 0.5, radius * Math.cos(Math.PI) - 0.9]} rotation={[-0.1,  Math.PI / 2, 0]} />
                     <House position={[radius * Math.sin(-Math.PI / 2), -1, radius * Math.cos(-Math.PI / 2) + 0.9]} rotation={[0, 5 * Math.PI / 4, 0]} />
                 </group>
             </Canvas>
         </Suspense>
     );
 }
+
+function House(props) {
+    const { scene } = useGLTF('./Models/House.glb');
+
+    let house = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            if (object.name == 'House_2') {
+                house.push(
+                    <mesh
+                        scale={object.scale}
+                        rotation={object.rotation}
+                        geometry={object.geometry}
+                    >
+                        <meshStandardMaterial color={'white'} />
+                    </mesh>
+                );
+            } else {
+                house.push(
+                    <mesh
+                        scale={object.scale}
+                        rotation={object.rotation}
+                        geometry={object.geometry}
+                    >
+                        <meshStandardMaterial color={'#e6df97'} />
+                    </mesh>
+                );
+            }
+        }
+    });
+
+
+    return (
+        <group {...props} dispose={null}>
+            {house[0]}
+            {house[1]}
+        </group>
+    )
+}
+
+function Room(props) {
+    const { scene } = useGLTF('./Models/Room.glb');
+
+    const ref = useRef();
+
+    useFrame((state) => {
+        const t = state.clock.getElapsedTime();
+        ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
+        ref.current.rotation.x = Math.cos(t / 4) / 8;
+        ref.current.rotation.y = Math.sin(t / 4) / 8 - Math.PI / 4;
+        ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
+    });
+
+
+    return (
+        <primitive
+            {...props}
+            ref={ref}
+            object={scene}
+            scale={0.3}
+        />
+    );
+}
+
+function TallBuilding(props) {
+    const { scene } = useGLTF('./Models/TallBuilding.glb');
+
+    const ref = useRef();
+
+    useFrame((state) => {
+        const t = state.clock.getElapsedTime();
+        ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
+        ref.current.rotation.x = Math.cos(t / 4) / 8;
+        ref.current.rotation.y = Math.sin(t / 4) / 8 - Math.PI / 4;
+        ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
+    });
+
+
+    return (
+        <group {...props}>
+            <primitive
+                ref={ref}
+                object={scene}
+                scale={0.08}
+            />
+        </group>
+    );
+}
+
 
 
 const BlockBuildingButton = styled(Block_Column_Top)`

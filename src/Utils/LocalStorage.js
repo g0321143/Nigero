@@ -8,7 +8,7 @@ const coinData = 0;
 // スコアの初期設定
 const scoreData = {
     house: [false, false, false],
-    tallBubilding: [false, false, false],
+    tallBuilding: [false, false, false],
 };
 
 // 建物の初期設定
@@ -231,5 +231,5 @@ export function resetAllData() {
     localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
     localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
 
-    alert('All data in the local storage is initialized.');
+    alert('All User Data is initialized.');
 }

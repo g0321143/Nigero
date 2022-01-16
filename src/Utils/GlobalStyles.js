@@ -2,10 +2,15 @@ import styled, { createGlobalStyle } from 'styled-components';
 import Color from '../Constants/Color';
 
 export default createGlobalStyle`
-  body {
-    margin: 0;
-    font-family: "Swis721 BlkCn BT";
-  }
+    @font-face{
+        font-family: 'SW721KCI';
+    	src: url(/Font/SW721KCI.ttf);
+    }
+
+    body {
+        margin: 0;
+        font-family: SW721KCI;
+    }
 `;
 
 export const Game_Canvas = styled.div`
