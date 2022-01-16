@@ -7,9 +7,9 @@ import { EffectComposer, Outline } from '@react-three/postprocessing'
 
 import Color from "../Constants/Color";
 import Buildings from "../Constants/Buildings";
-import styled from 'styled-components';
 import Player from "../Utils/Player";
 import VirtualStick from "./VirtualStick";
+
 
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
@@ -152,7 +152,7 @@ function WobbleCamera({ isQuake, lookAt }) {
         //     Math.round(lookAt[0] * 100) / 100 + 5,
         //     Math.round(lookAt[1] * 100) / 100 + 5,
         //     Math.round(lookAt[2] * 100) / 100 + 5));
-        state.camera.position.x = Math.round(lookAt[0] * 100) / 100;
+        //state.camera.position.x = Math.round(lookAt[0] * 10000) / 10000;
         //state.camera.position.Z = lookAt[2];
     });
 

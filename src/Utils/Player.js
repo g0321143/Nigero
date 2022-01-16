@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from "react";
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, useAnimations } from "@react-three/drei";
 import { useSphere } from '@react-three/cannon'
 
@@ -11,7 +11,7 @@ useGLTF.preload("./Models/RobotExpressive.glb");
  * @param {{x: number, y:number}} dragPos 仮想パッドのXY座標
  * @param {number} playerAngle プレイヤーの向き(ラジアン)
  * @param {boolean} isMove プレイヤーが動いているかどうか
- * @param {(callback: (value: Triplet) => void)} playerPositionCallback プレイヤーの座標を返すコールバック
+ * @param {(callback: (value: Vector3) => void)} playerPositionCallback プレイヤーの座標を返すコールバック
  */
 export default function Player(props) {
 
@@ -54,14 +54,16 @@ export default function Player(props) {
         actions[nextAction].reset().fadeIn(0.5).play();
     }
 
+    const { camera } = useThree()
     // 毎フレーム実行する関数
     useFrame(() => {
         // プレイヤーに速度を与える
         api.velocity.set(props.dragPos.x, 0, -props.dragPos.y);
-        // 現在の座標を格納
-        api.position.subscribe(v => {
-            props.playerPositionCallback(v);
-        });
+        // カメラのをプレイヤーに合わせる
+        physicsRef.current.getWorldPosition(camera.position);
+        // プレイヤーの座標を格納
+        props.playerPositionCallback(camera.position);
+        camera.position.y = 10;
     });
 
     return (
