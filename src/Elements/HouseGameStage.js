@@ -81,8 +81,52 @@ export default function HouseGameStage(props) {
                             isMove={isMove}
                         />
                         <Structure time={props.time}/>
-                        <Lamp time={props.time} lampRef={lampRef} />
+                        <Table2 position={[0,0.2,1]} time={props.time}/>
+                        <Sofa position={[-0.15,0.3,2.2]} time={props.time}/>
+                        <Lamp position={[1.5, 0.9, 2.35]} time={props.time} /*lampRef={lampRef}*/ />
                         <SmallChair time={props.time}/>
+                        <Picframe position={[-0.1,1.4,2.6]} time={props.time}/>
+                        <Book4 position={[0.9, 0.5, 2.1]} time={props.time}/>
+                        <Book4 position={[0.3,0.28,1]} time={props.time}/>
+                        <Carpet time={props.time}/>
+                        <Trash2 position={[-1.2, 0, 2.3]} time={props.time} />
+                        <Tv position={[0.16,0.5,-2.4]} time={props.time}/>
+                        <Tvshelf2 position={[1.3,0.8,-2.4]} time={props.time}/>
+                        <Tvshelf1 position={[0.8,1.68,-2.4]} time={props.time}/>
+                        <Book1 position={[1,1.8,-2.48]} time={props.time}/>
+                        <Book1 position={[1.4,1.8,-2.48]} time={props.time}/>
+                        <Book1 position={[1.2,1.8,-2.48]} time={props.time}/>
+                        <Book1 position={[1.1,2,-2.48]} time={props.time}/>
+                        <Book1 position={[1.3,2,-2.48]} time={props.time}/>
+                        <Book1 position={[1.5,2,-2.48]} time={props.time}/>
+                        <Book1 position={[0.5,2,-2.48]} time={props.time}/>
+                        <Book1 position={[0.4,1.8,-2.48]} time={props.time}/>
+                        <Book4 position={[0,1.6,-2.5]} time={props.time}/>
+                        <Prop1 position={[-0.35,1.6,-2.5]} time={props.time}/>
+                        <Tvcabinet position={[0.4,0.1,-2.2]} time={props.time}/>
+                        <Trash1 position={[-2.8,0.45,-2]} time={props.time}/>
+                        <Table1 position={[-4.3,0.45,-1.4]} time={props.time}/>
+                        <Shelf position={[-2.3,0.7,-1.8]} time={props.time}/>
+                        <Book1 position={[-2.3,1.17,-2]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Book1 position={[-2.3,0.85,-2.1]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Book1 position={[-2.3,0.85,-1.8]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Book1 position={[-2.3,0.5,-1.5]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Book1 position={[-2.3,0.5,-2]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Computer position={[-4.6,0.98,-1.1]} time={props.time}/>
+                        <Lamp2 position={[-4.53, 1.35, -0.1]} time={props.time} /*lampRef={lampRef}*/ />
+                        <Cabinet position={[-4.45,1.2,1.37]} time={props.time}/>
+                        <Book1 position={[-4.45,0.85,1]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Book1 position={[-4.45,1.8,0.5]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Book1 position={[-4.45,1.3,0.4]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Book3 position={[-4.45,1.3,0.8]} rotation={[0,3.14,0]} time={props.time}/>
+                        <Prop1 position={[-4.45,1.8,0.9]} time={props.time}/>
+                        <Bed position={[-3,0.65,2.1]} time={props.time}/>
+                        <Sidetable position={[-2.2,0.35,2.3]} time={props.time}/>
+                        <Sidetable position={[-3.8,0.35,2.3]} time={props.time}/>
+                        <Sidelamp position={[-2.22,0.8,2.35]} time={props.time}/>
+                        <Sidelamp position={[-3.8,0.8,2.35]} time={props.time}/>
+                        <Bench position={[-3,0.4,0.3]} rotation={[0,0.3,0]} time={props.time}/>
+                        <Chair1 position={[-4,0.55,-0.75]} rotation={[0,-1,0]} time={props.time}/>
                         {props.isUseItem1 ? null : <UseItemBillboard position={[0.8, 1.6, 2.2]} url={BillboardMap} />}
                         <EffectComposer multisampling={8} autoClear={false}>
                             <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
@@ -107,7 +151,6 @@ export default function HouseGameStage(props) {
 
 function Player(props) {
 
-    // プレイヤーの座標
     const playerPos = useRef([0, 0, 0]);
 
     const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
@@ -165,7 +208,7 @@ function Player(props) {
         <group ref={physicsRef} {...props} dispose={null}>
             <primitive
                 ref={ref}
-                position={[0, -0.5, 0]}
+                position={[0, -0.45, 0]}
                 rotation={[0, props.playerAngle, 0]}
                 object={scene}
                 scale={0.2}
@@ -247,20 +290,26 @@ function Structure(props) {
 
     const [ref] = useCompoundBody(() => ({
         mass: 12,
-        ...props,
+        material:{friction: 0.01, restitution: -1},
+        type: 'Static',
         shapes: [
             //壁　右ー上ー左ー下
-            { type: 'Box', position: [2, 1, -1.8], rotation: [0, 0, 0], args: [0.5, 2, 1.5] },
-            { type: 'Box', position: [2, 1, 1.5], rotation: [0, 0, 0], args: [0.5, 2, 2.9] },
+            { type: 'Box', position: [1.85, 1, -1.8], rotation: [0, 0, 0], args: [0.2, 2.1, 1.5] },
+            { type: 'Box', position: [1.85, 1, 1.3], rotation: [0, 0, 0], args: [0.2, 2.1, 2.6] },
 
-            { type: 'Box', position: [0.8, 1, -2.5], rotation: [0, 0, 0], args: [2.5, 2, 0.5] },
-            { type: 'Box', position: [-3.2, 1, -2.5], rotation: [0, 0, 0], args: [3.3, 2, 0.5] },
+            { type: 'Box', position: [0.6, 1, -2.6], rotation: [0, 0, 0], args: [2.2, 2.1, 0.2] },
+            { type: 'Box', position: [-3.2, 1, -2.6], rotation: [0, 0, 0], args: [3.3, 2.1, 0.2] },
 
-            { type: 'Box', position: [-5, 1, 0], rotation: [0, 0, 0], args: [0.5, 2, 5.2] },
+            { type: 'Box', position: [-4.9, 1, 0], rotation: [0, 0, 0], args: [0.2, 2.1, 4.8] },
 
-            { type: 'Box', position: [-1.5, 1, 2.8], rotation: [0, 0, 0], args: [6, 2, 0.5] },
+            { type: 'Box', position: [-1.6, 1, 2.7], rotation: [0, 0, 0], args: [6.2, 2.1, 0.2] },
             //仕切り
-            { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.3, 2, 2] }  
+            { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.1, 1.8, 2] }, 
+            //床
+            { type: 'Box', position: [-1.5, -0.1, 0.1], rotation: [0, 0, 0], args: [6.2, 0.1, 5] }, 
+            { type: 'Box', position: [-3.1, -0.05, 0.2], rotation: [0, 0, 0], args: [3.1, 0.2, 4.8] }, 
+            { type: 'Box', position: [-3.3, 0, 0.2], rotation: [0, 0, 0], args: [3, 0.25, 4.8] },
+            { type: 'Box', position: [-3.5, 0.05, 0.2], rotation: [0, 0, 0], args: [2.8, 0.3, 4.8] }
         ]
       }))
 
@@ -311,20 +360,24 @@ function Lamp(props) {
             );
         }
     });
-
-    const [ref] = useBox(() => ({
-        args: [0.5,2,0.5],
-        position: [1.4, 1.2, 2.2],
-        mass: 12,
-    }));
+    
+    const [ref] = useCompoundBody(() => ({
+        mass: 2,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0,0,0], rotation: [0, 0, 0], args: [0.5,0.8,0.5] },
+            { type: 'Box', position: [0,-0.8,0], rotation: [0, 0, 0], args: [0.5,1,0.5] }
+        ]
+      }));
 
     return (
         <group
-            position={[1.4, 1.2, 2.2]}
+        ref={ref}
         >
             {Objects.map((object, index) => (
                 <mesh
-                    ref={ref}
+                    
                     castShadow
                     receiveShadow
                     scale={object.scale}
@@ -339,7 +392,66 @@ function Lamp(props) {
         </group>
     )
 }
+function Lamp2(props) {
+    //const ref = useRef()
 
+    const { scene } = useGLTF("./Models/Lamp2.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+    
+    const [ref] = useCompoundBody(() => ({
+        mass: 2,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0,0.06,0], rotation: [0, 0, 0], args: [0.4,0.85,0.4] },
+            { type: 'Box', position: [0,-0.8,0], rotation: [0, 0, 0], args: [0.4,0.7,0.4] }
+        ]
+      }));
+
+    return (
+        <group
+        ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                    ref={props.lampRef}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
 function SmallChair(props) {
 
     const [ref] = useBox(() => ({
@@ -347,7 +459,6 @@ function SmallChair(props) {
         position: [-0.8, 0.18, 0.4],
         mass: 1,
     }));
-
     const { scene } = useGLTF("./Models/Chair2.glb");
 
     let Objects = [];
@@ -392,13 +503,1234 @@ function SmallChair(props) {
         </group>
     )
 }
+function Book1(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 4,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0.01,0,0.065], rotation: [0, 0, 0], args: [0.15, 0.24, 0.2] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Book1.glb");
 
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Book3(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0,0,0], rotation: [0, 0, 0], args: [0.24, 0.1, 0.2] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Book3.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Book4(props) {
+
+    const [ref] = useBox(() => ({
+        args: [0.2, 0.15, 0.2],
+        position: [0.9, 0.5, 2.1],
+        mass: 1,
+        ...props,
+    }));
+    const { scene } = useGLTF("./Models/Book4.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Trash1(props) {
+
+    const [ref] = useBox(() => ({
+        args: [0.3, 0.6, 0.3],
+        position: [-1.2, 0.18, 2.3],
+        mass: 1,
+        ...props,
+    }));
+    const { scene } = useGLTF("./Models/Trash1.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Trash2(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        ...props,
+        shapes: [
+            { type: 'Box', position: [0,0.1,0], rotation: [0, 0, 0], args: [0.3, 0.3, 0.3] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Trash2.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Carpet(props) {
+
+    const [ref] = useBox(() => ({
+        args: [1.8, 0, 1.8],
+        position: [0,0,1.4],
+        mass: 10,
+    }));
+    const { scene } = useGLTF("./Models/Carpet.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Table1(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 12,
+        type: 'Static',
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [-0.25,0.3,0], rotation: [0, 0, 0], args: [0.5,0.1,1.9] },
+            { type: 'Box', position: [0.35,0.3,-0.8], rotation: [0, 0, 0], args: [1.5,0.1,0.5] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Table1.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Table2(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 12,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [-0.25,-0.05,0.1], rotation: [0, 0, 0], args: [0.7,0.35,0.7] },
+            { type: 'Box', position: [0.25,-0.05,-0.1], rotation: [0, 0, 0], args: [0.5,0.2,0.5] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Table2.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Tvcabinet(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0.23,0.05,0], rotation: [0, 0, 0], args: [2.0,0.4,0.5] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Tv cabinet.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Tv(props) {
+    const { scene } = useGLTF("./Models/Tv.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        type: 'Static',
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0,0.4,0], rotation: [0, 0, 0], args: [1.3,0.88,0.05] }
+        ]
+      }))
+    return (
+        <group
+            //position={[0.16,0.5,-2.4]}
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Picframe(props) {
+    const { scene } = useGLTF("./Models/Pic Frame.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        type: 'Static',
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0,0,0], rotation: [0, 0, 0], args: [1.5,0.7,0.05] }
+        ]
+      }))
+    return (
+        <group
+            //position={[0.16,0.5,-2.4]}
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Tvshelf2(props) {
+    const { scene } = useGLTF("./Models/Tv shelf2.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        type: 'Static',
+        ...props,
+        shapes: [
+            { type: 'Box', position: [0,0,0], rotation: [0, 0, 0], args: [0.65,0.55,0.3] }
+        ]
+      }))
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Tvshelf1(props) {
+    const { scene } = useGLTF("./Models/Tv shelf1.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        type: 'Static',
+        ...props,
+        shapes: [
+            { type: 'Box', position: [0.2,0.17,0], rotation: [0, 0, 0], args: [1.45,0.07,0.3] },
+            { type: 'Box', position: [-0.2,-0.18,0], rotation: [0, 0, 0], args: [2.1,0.07,0.3] }
+        ]
+      }))
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Prop1(props) {
+
+    const [ref] = useBox(() => ({
+        args: [0.2, 0.15, 0.2],
+        position: [0.9, 0.5, 2.1],
+        mass: 1,
+        ...props,
+    }));
+    const { scene } = useGLTF("./Models/Prop1.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Computer(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        ...props,
+        shapes: [
+            { type: 'Box', position: [0,0.08,0], rotation: [0, 0, 0], args: [0.25,0.5,0.65] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Computer.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Cabinet(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        type: 'Static',
+        ...props,
+        shapes: [
+            { type: 'Box', position: [-0.1,0,0.47], rotation: [0, 0, 0], args: [0.42,1.85,1.1] },
+            { type: 'Box', position: [-0.1,0.45,-0.67], rotation: [0, 0, 0], args: [0.42,0.1,1] },
+            { type: 'Box', position: [-0.1,0.96,-0.67], rotation: [0, 0, 0], args: [0.42,0.1,1] },
+            { type: 'Box', position: [-0.1,-0.04,-0.67], rotation: [0, 0, 0], args: [0.42,0.1,1] },
+            { type: 'Box', position: [-0.12,-0.72,-0.1], rotation: [0, 0, 0], args: [0.42,0.55,2.17] },
+            { type: 'Box', position: [-0.25,0,-0.08], rotation: [0, 0, 0], args: [0.1,1.8,2.17] },
+            { type: 'Box', position: [-0.1,0.13,-1.23], rotation: [0, 0, 0], args: [0.42,1.6,0.08] }
+
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Cabinet.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Shelf(props) {
+    const { scene } = useGLTF("./Models/Shelf.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+    const [ref] = useCompoundBody(() => ({
+        mass: 10,
+        type: 'Static',
+        ...props,
+        shapes: [
+            { type: 'Box', position: [0,0.03,0], rotation: [0, 0, 0], args: [0.3,0.05,1.1] },
+            { type: 'Box', position: [0,-0.4,0.12], rotation: [0, 0, 0], args: [0.3,0.22,1.4] },
+            { type: 'Box', position: [0,0.33,-0.2], rotation: [0, 0, 0], args: [0.3,0.05,0.7] }
+        ]
+      }))
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Sofa(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 12,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0,0,0], rotation: [0, 0, 0], args: [1.2,0.85,0.7] },
+            { type: 'Box', position: [0.23,-0.24,0], rotation: [0, 0, 0], args: [2,0.2,0.7] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/sofa.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = 'vividRed';
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Bed(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        ...props,
+        shapes: [
+            //壁　右ー上ー左ー下
+            { type: 'Box', position: [0,-0.1,-0.35], rotation: [0, 0, 0], args: [1,0.7,1.5] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Bed.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Sidelamp(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        ...props,
+        shapes: [
+            { type: 'Box', position: [0,-0.1,0], rotation: [0, 0, 0], args: [0.3,0.4,0.3] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Side lamp.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Sidetable(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        type: 'Static',
+        ...props,
+        shapes: [
+            { type: 'Box', position: [0,0,0], rotation: [0, 0, 0], args: [0.38,0.33,0.38] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Side table.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Chair1(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        ...props,
+        shapes: [
+            { type: 'Box', position: [-0.05,0.05,0], rotation: [0, 0, 0], args: [0.38,0.83,0.38] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Chair1.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+function Bench(props) {
+    const [ref] = useCompoundBody(() => ({
+        mass: 1,
+        ...props,
+        shapes: [
+            { type: 'Box', position: [0,0,0.03], rotation: [0, 0, 0], args: [0.76,0.4,0.33] }
+        ]
+      }))
+    const { scene } = useGLTF("./Models/Bench.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            //console.log(object.name);
+            let objectColor;
+            // ここの条件式に名前追加して色変更して下さい
+            if(props.time < 500 - 15){
+                objectColor = Color.softOrange;
+            } else {
+                objectColor = Color.softOrange;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: object.rotation,
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
 function Ground(props) {
     const [ref] = usePlane(() => ({
         rotation: [-Math.PI / 2, 0, 0],
         mass: 1,
         material: { friction: 0.01, restitution: -1 },
-        type: 'Static'
+        
     }))
     return (
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.23, 0]} receiveShadow ref={ref}>
