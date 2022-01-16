@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as THREE from 'three';
-import { Canvas, useLoader, useThree, useFrame } from '@react-three/fiber';
-import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard } from "@react-three/drei";
-import { Physics, Debug, usePlane, useBox, useCompoundBody } from '@react-three/cannon'
+import { Canvas, useLoader, useFrame } from '@react-three/fiber';
+import { useGLTF, MapControls, CameraShake, Stats, Plane, Billboard } from "@react-three/drei";
+import { Physics, Debug, useBox, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
 
 import Color from "../Constants/Color";
@@ -47,20 +47,19 @@ export default function TallBuildingGameStage(props) {
         setMove(false);
     };
 
-
     // 使用するアイテムのテクスチャ
     const BillboardMap = useLoader(THREE.TextureLoader, itemImage);
 
     return (
         <>
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
-                <WobbleCamera isQuake={true} lookAt={playerPosition.current} />
+                <WobbleCamera time={props.time}  />
                 <Stats />
-                <ambientLight intensity={0.2} />
+                <ambientLight intensity={props.time > Buildings.tallBuilding.afterTime ? 0.2 : 0.02} />
                 <directionalLight
                     castShadow
                     position={[-2.5, 8, -5]}
-                    intensity={0.8}
+                    intensity={props.time > Buildings.tallBuilding.afterTime ? 0.8 : 0}
                     shadow-mapSize-width={1024}
                     shadow-mapSize-height={1024}
                     shadow-camera-far={50}
@@ -72,7 +71,6 @@ export default function TallBuildingGameStage(props) {
                 <Physics iterations={6}>
                     {/* <Debug scale={1.1} color="black"> */}
                     <group>
-                        <axesHelper scale={3} />
                         <Player
                             dragPos={dragPos}
                             playerAngle={angle}
@@ -136,32 +134,28 @@ function UseItemBillboard({ position, url }) {
 }
 
 /**
- * 振動カメラ（未完成）
+ * 振動カメラ
  * @param {boolean} isQuake
  */
-function WobbleCamera({ isQuake, lookAt }) {
-    const shakeRef = useRef();
-    const cameraRef = useRef();
+function WobbleCamera(props) {
+    const config = {
+        maxYaw: 0.1, // Max amount camera can yaw in either direction
+        maxPitch: 0.1, // Max amount camera can pitch in either direction
+        maxRoll: 0.1, // Max amount camera can roll in either direction
+        yawFrequency: 1, // Frequency of the the yaw rotation
+        pitchFrequency: 1, // Frequency of the pitch rotation
+        rollFrequency: 1, // Frequency of the roll rotation
+        intensity: 1, // initial intensity of the shake
+        decay: true, // should the intensity decay over time
+        decayRate: 0.02, // if decay = true this is the rate at which intensity will reduce at
+        additive: true, // this should be used when your scene has orbit controls
+      }
 
-    useFrame((state) => {
-        // state.camera.lookAt(new THREE.Vector3(
-        //     Math.round(lookAt[0] * 100) / 100,
-        //     Math.round(lookAt[1] * 100) / 100,
-        //     Math.round(lookAt[2] * 100) / 100));
-        // state.camera.position.set(new THREE.Vector3(
-        //     Math.round(lookAt[0] * 100) / 100 + 5,
-        //     Math.round(lookAt[1] * 100) / 100 + 5,
-        //     Math.round(lookAt[2] * 100) / 100 + 5));
-        //state.camera.position.x = Math.round(lookAt[0] * 10000) / 10000;
-        //state.camera.position.Z = lookAt[2];
-    });
-
-    return (
-        <>
-            <MapControls ref={cameraRef} makeDefault enablePan={false} enableZoom={false} enableRotate={false} />
-            <CameraShake ref={shakeRef} makeDefault additive decay={isQuake} intensity={10} />
-        </>
-    );
+    if(props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+        props.time > Buildings.tallBuilding.afterTime)
+        return <CameraShake {...config} />;
+    else
+        return null;
 }
 
 function MainBuilding(props) {
