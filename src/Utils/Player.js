@@ -25,7 +25,7 @@ export default function Player(props) {
     const [physicsRef, api] = useSphere(() => ({
         args: [0.4], // 大きさ
         position: [0, 0.4, 0], // 座標
-        mass: 1, // 重さ
+        mass: 50, // 重さ
         fixedRotation: true, // 回転を固定
         type: 'Dynamic', // 物理演算のタイプ
     }));
