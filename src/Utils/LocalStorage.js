@@ -8,7 +8,7 @@ const coinData = 0;
 // スコアの初期設定
 const scoreData = {
     house: [false, false, false],
-    tallBubilding: [false, false, false],
+    tallBuilding: [false, false, false],
 };
 
 // 建物の初期設定
@@ -154,6 +154,43 @@ export function getScore(building) {
 }
 
 /**
+ * ミッションスコアをローカルストレージに保存します.
+ * @param {string} building 建物の名前
+ * @param {boolean} mission1 星1
+ * @param {boolean} mission2 星2
+ * @param {boolean} mission3 星3
+ */
+ export function setMissionScore(building, mission1, mission2, mission3) {
+    const missionList = JSON.parse(localStorage.getItem(SCORE_KEY));
+
+    missionList[building][0] = mission1;
+    missionList[building][1] = mission2;
+    missionList[building][2] = mission3;
+
+    localStorage.setItem(SCORE_KEY, JSON.stringify(missionList));
+    //console.log(`set mission score : ${building} (${mission1},${mission2},${mission3})`);
+}
+
+/**
+ * 現在のミッションスコアを取得します．
+ * @param {string} building 建物の名前
+ * @returns {[boolean, boolean, boolean]} 星の状態
+ */
+export function getMissionScore(building) {
+    const missionList = JSON.parse(localStorage.getItem(SCORE_KEY));
+    const score = [];
+
+    score.push(missionList[building][0]);
+    score.push(missionList[building][1]);
+    score.push(missionList[building][2]);
+
+    return score;
+}
+
+
+
+
+/**
  * 建物の状態をローカルストレージに保存します.
  * @param {string} building 建物の名前
  * @param {boolean} isBuy 購入済みかどうか
@@ -231,5 +268,5 @@ export function resetAllData() {
     localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
     localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
 
-    alert('All data in the local storage is initialized.');
+    alert('All User Data is initialized.');
 }

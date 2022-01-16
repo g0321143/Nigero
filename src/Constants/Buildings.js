@@ -15,6 +15,10 @@ export default {
         price: 'FREE',
         model: './Models/House.glb',
         nameTagImage: HouseTag,
+        beforeTime: 30,
+        quakeTime: 15,
+        afterTime: 60,
+        totalTime: 105,
     },
     tallBuilding:
     {
@@ -23,5 +27,21 @@ export default {
         price: "100,000",
         model: './Models/TallBuilding.glb',
         nameTagImage: TallBuildingTag,
+        beforeTime: 30,
+        quakeTime: 15,
+        afterTime: 60,
+        totalTime: 105,
+    },
+    elevator:
+    {
+        name: 'Elevator',
+        id: 'elevator',
+        price: "100,000",
+        model: './Models/TallBuilding.glb',
+        nameTagImage: TallBuildingTag,
+        beforeTime: 30,
+        quakeTime: 15,
+        afterTime: 60,
+        totalTime: 105,
     },
 };

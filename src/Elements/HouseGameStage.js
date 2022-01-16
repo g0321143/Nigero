@@ -8,6 +8,7 @@ import { Joystick } from "react-joystick-component";
 
 import Color from "../Constants/Color";
 import styled from 'styled-components';
+import Player from "../Utils/Player";
 
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
@@ -27,13 +28,11 @@ export default function HouseGameStage(props) {
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
     const [angle, setAngle] = useState(0);
     const [isMove, setMove] = useState(false);
-    console.log(props.time);
-    console.log(props.isUseItem1);
 
     const onChangeJoystick = (e) => {
         setDragPos({
-            x: e.x / 15,
-            y: e.y / 15
+            x: e.x / 10,
+            y: e.y / 10
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(true);
@@ -41,8 +40,8 @@ export default function HouseGameStage(props) {
 
     const onStopJoystick = (e) => {
         setDragPos({
-            x: e.x / 15,
-            y: e.y / 15
+            x: e.x / 10,
+            y: e.y / 10
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(false);
@@ -55,6 +54,7 @@ export default function HouseGameStage(props) {
     return (
         <>
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
+                {/* ↓消すとカメラが正常に動きます */}
                 <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <Stats />
                 <ambientLight intensity={0.2} />
@@ -72,6 +72,7 @@ export default function HouseGameStage(props) {
                 />
                 <Physics iterations={6}>
                     <Debug scale={1.1} color="black">
+<<<<<<< HEAD
                     <group>
                         <Ground />
                         <axesHelper scale={3} />
@@ -132,6 +133,25 @@ export default function HouseGameStage(props) {
                             <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
                         </EffectComposer>
                     </group>
+=======
+                        <group>
+                            <Ground />
+                            <axesHelper scale={3} />
+                            <Player
+                                dragPos={dragPos}
+                                playerAngle={angle}
+                                isMove={isMove}
+                                playerPositionCallback={p => {/* pに現在のプレイヤーの座標がリターンされます */ }}
+                            />
+                            <Structure time={props.time} />
+                            <Lamp time={props.time} lampRef={lampRef} />
+                            <SmallChair time={props.time} />
+                            {props.isUseItem1 ? null : <UseItemBillboard position={[0.8, 1.6, 2.2]} url={BillboardMap} />}
+                            <EffectComposer multisampling={8} autoClear={false}>
+                                <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
+                            </EffectComposer>
+                        </group>
+>>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
                     </ Debug>
                 </Physics>
             </Canvas>
@@ -148,6 +168,7 @@ export default function HouseGameStage(props) {
     );
 };
 
+<<<<<<< HEAD
 
 function Player(props) {
 
@@ -217,6 +238,8 @@ function Player(props) {
     );
 }
 
+=======
+>>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
 /**
  * アイテムを使用したことを知らせるためのポップアップを表示します
  * @param {[number, number, number]} position 
@@ -268,13 +291,13 @@ function Structure(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            if(props.time < 500 - 15){
+            if (props.time < 500 - 15) {
                 if (object.name == 'Cube096' || object.name == 'Cube096_10') {
                     objectColor = Color.softOrange;
                 } else {
                     objectColor = 'vividRed';
                 }
-            }else{
+            } else {
                 objectColor = Color.softOrange;
             }
             Objects.push(
@@ -304,14 +327,18 @@ function Structure(props) {
 
             { type: 'Box', position: [-1.6, 1, 2.7], rotation: [0, 0, 0], args: [6.2, 2.1, 0.2] },
             //仕切り
+<<<<<<< HEAD
             { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.1, 1.8, 2] }, 
             //床
             { type: 'Box', position: [-1.5, -0.1, 0.1], rotation: [0, 0, 0], args: [6.2, 0.1, 5] }, 
             { type: 'Box', position: [-3.1, -0.05, 0.2], rotation: [0, 0, 0], args: [3.1, 0.2, 4.8] }, 
             { type: 'Box', position: [-3.3, 0, 0.2], rotation: [0, 0, 0], args: [3, 0.25, 4.8] },
             { type: 'Box', position: [-3.5, 0.05, 0.2], rotation: [0, 0, 0], args: [2.8, 0.3, 4.8] }
+=======
+            { type: 'Box', position: [-1.55, 1, 1.5], rotation: [0, 0, 0], args: [0.3, 2, 2] }
+>>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
         ]
-      }))
+    }))
 
 
     return (
@@ -344,8 +371,8 @@ function Lamp(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            
-            if(props.time < 500 - 15){
+
+            if (props.time < 500 - 15) {
                 objectColor = 'vividRed';
             } else {
                 objectColor = Color.softOrange;
@@ -360,6 +387,7 @@ function Lamp(props) {
             );
         }
     });
+<<<<<<< HEAD
     
     const [ref] = useCompoundBody(() => ({
         mass: 2,
@@ -378,6 +406,22 @@ function Lamp(props) {
             {Objects.map((object, index) => (
                 <mesh
                     
+=======
+
+    const [ref] = useBox(() => ({
+        args: [0.5, 2, 0.5],
+        position: [1.4, 1.2, 2.2],
+        mass: 12,
+    }));
+
+    return (
+        <group
+            position={[1.4, 1.2, 2.2]}
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+>>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
                     castShadow
                     receiveShadow
                     scale={object.scale}
@@ -468,7 +512,7 @@ function SmallChair(props) {
             //console.log(object.name);
             let objectColor;
             // ここの条件式に名前追加して色変更して下さい
-            if(props.time < 500 - 15){
+            if (props.time < 500 - 15) {
                 objectColor = 'vividRed';
             } else {
                 objectColor = Color.softOrange;
@@ -1729,11 +1773,20 @@ function Ground(props) {
     const [ref] = usePlane(() => ({
         rotation: [-Math.PI / 2, 0, 0],
         mass: 1,
+<<<<<<< HEAD
         material: { friction: 0.01, restitution: -1 },
         
+=======
+        type: 'Static'
+>>>>>>> e9d1319a520dbdfe95462e5e99ed28d1e01c8fcb
     }))
     return (
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.23, 0]} receiveShadow ref={ref}>
+        <mesh
+            rotation={[-Math.PI / 2, 0, 0]}
+            position={[0, -0.23, 0]}
+            receiveShadow
+            ref={ref}
+        >
             <planeBufferGeometry attach="geometry" args={[100, 100]} />
             <shadowMaterial attach="material" transparent opacity={0.4} />
         </mesh>

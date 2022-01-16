@@ -10,6 +10,7 @@ export default {
     softRed: '#f47174',
     lightGrayishOrange: '#f8c9af',
     darkGreen: '#41634b',
+    white: '#ffffff',
   
     // ERTHQUAKE SITUATION
     vividRed: '#bc002d',
