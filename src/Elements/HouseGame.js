@@ -17,7 +17,7 @@ import tipsButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-35.png';
 import checkmark from '../Assets/Images/checked-29.png';
 
 //スコア
-import { addCoin, setScore, getScore} from '../Utils/LocalStorage';
+import { addCoin, setScore, getScore, setMissionScore, getMissionScore } from '../Utils/LocalStorage';
 //建物情報
 import Buildings from '../Constants/Buildings';
 
@@ -45,21 +45,28 @@ export default function HouseGame() {
     const [key, setkey] = useState(false);
 
     /*limit: 制限時間*/
-    const [limit, setlimit] = useState(1000);
+    const [limit, setlimit] = useState(10000);
     //星のフラグ
-    const [star1, setstar1] = useState(true);
-    const [star2, setstar2] = useState(false);
-    const [star3, setstar3] = useState(false);
+    //const [star1, setstar1] = useState(true);
+    //const [star2, setstar2] = useState(false);
+    //const [star3, setstar3] = useState(false);
     
     // ゲームクリアかゲーム中かのフラグ
     const [flag, setflag] = useState(false);
+
+    //ミッション欄の初期化
+    /*const [mission_key, setmission_key] = useState(true);
+    if(mission_key){
+        setMissionScore(Buildings.house.id, false, false, false)
+        setmission_key(!mission_key);
+    }*/
     
 
     return (
         <Suspense fallback={"Loading"}>
             <Game_Canvas key={key}>
                 <Countdown
-                    date={Date.now() + 10000}
+                    date={Date.now() + 500000}
                     renderer={(props) => {
                         const time = props.minutes * 60 + props.seconds;
                         return props.completed ?
@@ -70,7 +77,6 @@ export default function HouseGame() {
                             /> :
                             <GameComponent
                                 time={time}
-                                star1={star1} star2={star2} star3={star3}
                                 
                             />
                     }}
@@ -90,33 +96,40 @@ export default function HouseGame() {
 /**
      * ゲーム中のみに使用するコンポーネントです
      */
-const GameComponent = ({ time, star1, star2, star3 }) => {
+const GameComponent = ({ time }) => {
 
 
     // ゲームの進行に必要なフラグを記述します
     const [item1, setItem1] = useState(true);
     const [item2, setItem2] = useState(true);
-    console.log(time);
+
+    const [star1, setStar1] = useState(false);
+    const [star2, setStar2] = useState(false);
+    const [star3, setStar3] = useState(false);
+
     
+    console.log(time, star1, star2, star3);
+    setMissionScore(Buildings.house.id, star1, star2, star3)
+    setScore(Buildings.house.id, star1, star2, star3)
 
     // アイテムをクリックした時の処理
     //突っ張り棒
     const handleClickItem1 = () => {
         // ここにアイテムをクリックした時の処理を記述します
         setItem1(!item1); 
-        setScore(Buildings.house.id, star1, !star2, star3) 
+        setStar2(!star2);
     };
     //すべりどめ
     const handleClickItem2 = () => {
         setItem2(!item2);
-        setScore(Buildings.house.id, star1, star2, !star3)
+        setStar3(!star3);
     };
 
     return (
         <>
             <Text text={String(time)} />
             <MissionUI />
-            <Check item1={!item1} item2={!item1} item3={!item2}/>
+            <Check/>
             <Inventory
                 items={[
                     item1 ? <img src={itemImage} onClick={() => handleClickItem1()} /> : null,
@@ -163,6 +176,7 @@ const ClearComponent = ({ time, limit, keyhandler}) => {
     return (
         <>
             <MissionUI />
+            <Check/>
             <ClearTime time={time} limit={limit / 1000} />
             <Clear handler={keyhandler}/>
             <HouseGameStage time={time}/>
@@ -192,10 +206,6 @@ function Clear({ handler}) {
     );
 }
 
-function MissionFlag(flag1, flag2, flag3){
-
-    return(<Check item1={flag1} item2={flag2} item3={flag3}/>);
-}
 
 /**
  * 別なファイルに分けて，他ステージでも使用できるようにした方が良いかもです
@@ -214,15 +224,21 @@ function MissionUI() {
     );
 }
 
-function Check(props) {
-    console.log(props.item1);
-    console.log(props.item2);
-    console.log(props.item3);
+function Check() {
+    //const [mission1, setmission1] = useState(getMissionScore(Buildings.house.id)[0]);
+    //const [mission2, setmission2] = useState(getMissionScore(Buildings.house.id)[1]);
+    //const [mission3, setmission3] = useState(getMissionScore(Buildings.house.id)[2]);
+    const mission1 = getMissionScore(Buildings.house.id)[0];
+    const mission2 = getMissionScore(Buildings.house.id)[1];
+    const mission3 = getMissionScore(Buildings.house.id)[2];
+    //console.log(mission1, mission2, mission3)
+    
+
     return (
         <>
-            {props.item1 ? <Setting src={checkmark} top={"32%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-            {props.item2 ? <Setting src={checkmark} top={"36.5%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-            {props.item3 ? <Setting src={checkmark} top={"41%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+            {mission1 ? <Setting src={checkmark} top={"32%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+            {mission2 ? <Setting src={checkmark} top={"36.5%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
+            {mission3 ? <Setting src={checkmark} top={"41%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
 
         </>
     );
@@ -234,7 +250,7 @@ function ClearTime({ time, limit }) {
     const [time_m, settime_m] = useState(parseInt((limit - time) / 60));
     const [usertime_m, setusertime_m] = useState(('00' + time_m).slice(-2));
 
-    return (<AnyText fontsize={"5vw"} top={"70%"} left={"44%"}>{usertime_m + ":" + usertime_s}</AnyText>);
+    return (<AnyText fontsize={"5vw"} top={"15%"} left={"44%"}>{usertime_m + ":" + usertime_s}</AnyText>);
 }
 
 const Setting = styled.div`
