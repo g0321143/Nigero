@@ -55,7 +55,7 @@ export default function HouseGameStage(props) {
         <>
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
                 {/* ↓を消さないとカメラが正常に動きません */}
-                {/* <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} /> */}
+                <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
                 <Stats />
                 <ambientLight intensity={0.2} />
                 <directionalLight
