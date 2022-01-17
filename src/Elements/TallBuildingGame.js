@@ -170,10 +170,10 @@ function Clear({ handler }) {
 }
 
 function ClearTime({ time, limit }) {
-    const [time_s, settime_s] = useState(parseInt((limit - time) % 60));
-    const [usertime_s, setusertime_s] = useState(('00' + time_s).slice(-2));
-    const [time_m, settime_m] = useState(parseInt((limit - time) / 60));
-    const [usertime_m, setusertime_m] = useState(('00' + time_m).slice(-2));
+    const time_s = parseInt((limit - time) % 60);
+    const usertime_s = ('00' + time_s).slice(-2);
+    const time_m = parseInt((limit - time) / 60);
+    const usertime_m = ('00' + time_m).slice(-2);
 
     return (<AnyText fontsize={"5vw"} top={"70%"} left={"44%"}>{usertime_m + ":" + usertime_s}</AnyText>);
 }

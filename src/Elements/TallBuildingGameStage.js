@@ -86,6 +86,7 @@ export default function TallBuildingGameStage(props) {
                             dragPos={dragPos}
                             playerAngle={angle}
                             isMove={isMove}
+                            isLighting={true}
                             playerPositionCallback={p => playerPosition.current = p}
                         />
                         <MainBuilding time={props.time} />
