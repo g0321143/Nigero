@@ -9,16 +9,13 @@ import Buildings from '../Constants/Buildings';
 import StarScore from '../Utils/StarScore';
 import Money from '../Utils/Money'
 import Inventory from '../Utils/Inventory';
+import MissionBox from '../Utils/MissionBox';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
-import mission from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_4-26-26.png';
 import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
 import retyrButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-34.png';
 import tipsButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-35.png';
-import checkmark from '../Assets/Images/checked-29.png';
 
-// テスト用
-import itemImage from '../Assets/Images/Items/NightStarJP.png';
 import itemIcon1 from '../Assets/Images/Items/Icon/EMERGENCY_BAG-37.png';
 import itemIcon2 from '../Assets/Images/Items/Icon/FIRE_FIGHT_BALL-37.png';
 import itemIcon3 from '../Assets/Images/Items/Icon/FIRST_AID KIT-37.png';
@@ -29,6 +26,11 @@ import styled from 'styled-components';
 import Color from "../Constants/Color";
 
 
+const missionText = [
+    "mission1 mission1 mission1 mission1 mission1 missio",
+    "mission1 mission1 mission1 mission1 mission1 mission1 missio",
+    "ミッション３ ミッション３ ミッション３ ミッショ",
+];
 
 /**
  * ハウスステージのゲーム部分です
@@ -82,6 +84,13 @@ export default function TallBuildingGame() {
      */
 const GameComponent = ({ time }) => {
 
+    useState([false,]);
+
+    const isCheckedMission = [
+        true,
+        false,
+        true,
+    ];
 
     // ゲームの進行に必要なフラグを記述します
     const [item1, setItem1] = useState(true);
@@ -105,7 +114,7 @@ const GameComponent = ({ time }) => {
     return (
         <>
             <Text text={String(time)} />
-            <MissionUI />
+            <MissionBox missionText={missionText} isCheckedMission={isCheckedMission} />
             <Inventory
                 items={[
                     item1 ? <img src={itemIcon1} onClick={() => handleClickItem1()} /> : null,
@@ -122,11 +131,18 @@ const GameComponent = ({ time }) => {
     * クリア後のみに使用するコンポーネントです
     */
 const ClearComponent = ({ time, limit, keyhandler }) => {
+    const isCheckedMission = [
+        true,
+        false,
+        true,
+    ];
+
     return (
         <>
-            <MissionUI />
+            <MissionBox missionText={missionText} isCheckedMission={isCheckedMission} />
             <ClearTime time={time} limit={limit / 1000} />
             <Clear handler={keyhandler} />
+            <TallBuildingGameStage time={time} />
         </>
     );
 }
@@ -149,37 +165,6 @@ function Clear({ handler }) {
             <Setting onClick={() => Store.resetStage()} src={nextButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
             <Setting onClick={handler} src={retyrButton} top={"35%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
             <Setting onClick={() => Store.resetbuilding()} src={tipsButton} top={"45%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
-        </>
-    );
-}
-
-/**
- * 別なファイルに分けて，他ステージでも使用できるようにした方が良いかもです
- * 多分，インベントリと同じでできるはず...
- */
-function MissionUI() {
-
-    return (
-        <>
-            <Setting src={mission} top={"20%"} left={"0%"} width={'20%'} height={'50%'} opacity={'0.9'} />
-            <AnyText fontsize={"1vw"} top={"33%"} left={"5%"}>{"Securing of personal security"}</AnyText>
-            <AnyText fontsize={"1vw"} top={"37.5%"} left={"5%"}>{"Check of the fall"}</AnyText>
-            <AnyText fontsize={"1vw"} top={"41.5%"} left={"5%"}>{"ほげ～"}</AnyText>
-            <Check />
-        </>
-    );
-}
-
-function Check() {
-    const flag1 = true;
-    const flag2 = true;
-    const flag3 = true;
-    return (
-        <>
-            {flag1 ? <Setting src={checkmark} top={"32%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-            {flag2 ? <Setting src={checkmark} top={"36.5%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-            {flag3 ? <Setting src={checkmark} top={"41%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-
         </>
     );
 }

@@ -20,9 +20,6 @@ useGLTF.preload("./Models/MainBuilding.glb");
  * @param {Type} name
  */
 export default function TallBuildingGameStage(props) {
-    const lampRef = useRef();
-    const selected = props.isUseItem1 ? undefined : [lampRef];
-
     const playerPosition = useRef([0, 0, 0]);
 
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
@@ -136,7 +133,7 @@ export default function TallBuildingGameStage(props) {
                         <FloorLamp time={props.time} position={[-2.3, 0.9, 5]} />
                         
                         <EffectComposer multisampling={8} autoClear={false}>
-                            <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
+                            {/* <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} /> */}
                         </EffectComposer>
                     </group>
                     {/* </ Debug> */}
