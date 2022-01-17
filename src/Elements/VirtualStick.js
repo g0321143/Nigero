@@ -32,7 +32,7 @@ const JoystickCanvas = styled.div`
     height: 10vw;
 
     bottom: 10%;
-    left: 45%;
+    left: 46.5%;
 
     z-index: 999;
 `;
