@@ -67,18 +67,18 @@ export default function TallBuildingGameStage(props) {
                 <fog attach="fog" args={["white", 10, 30]} />
                 <Ground />
                 <Physics iterations={6}>
-                <Building position={[-10, -5, 4]} />
-                <Building position={[-10, -3, -3]} />
-                <Building position={[-3.5, -10, 11]} />
-                <Building position={[3.5, -7, 11]} />
-                <Building position={[-10, -10, 11]} />
-                <Building position={[11, -8, 11]} />
-                <Building position={[11, -10, 4]} />
-                <Building position={[11, -7, -3]} />
-                <Building position={[-3.5, -10, -9]} />
-                <Building position={[3.5, -7, -9]} />
-                <Building position={[-10, -10, -9]} />
-                <Building position={[11, -8, -9]} />
+                    <Building position={[-10, -5, 4]} />
+                    <Building position={[-10, -3, -3]} />
+                    <Building position={[-3.5, -10, 11]} />
+                    <Building position={[3.5, -7, 11]} />
+                    <Building position={[-10, -10, 11]} />
+                    <Building position={[11, -8, 11]} />
+                    <Building position={[11, -10, 4]} />
+                    <Building position={[11, -7, -3]} />
+                    <Building position={[-3.5, -10, -9]} />
+                    <Building position={[3.5, -7, -9]} />
+                    <Building position={[-10, -10, -9]} />
+                    <Building position={[11, -8, -9]} />
                     {/* <Debug scale={1.1} color="black"> */}
                     <group>
                         <Player
@@ -89,37 +89,39 @@ export default function TallBuildingGameStage(props) {
                             playerPositionCallback={p => playerPosition.current = p}
                         />
                         <MainBuilding time={props.time} />
-                        
-                        <BookShelf time={props.time} position={[-4.7, 1, -5.2]} rotationY={-Math.PI / 2}/>
-                        <BookShelf time={props.time} position={[-3.5, 1, -5.2]} rotationY={-Math.PI / 2}/>
-                        <BookShelf time={props.time} position={[-2.3, 1, -5.2]} rotationY={-Math.PI / 2}/>
-                        
-                        <BookShelf time={props.time} position={[-4.7, 1, 5.2]} rotationY={Math.PI / 2}/>
-                        <BookShelf time={props.time} position={[-3.5, 1, 5.2]} rotationY={Math.PI / 2}/>
 
-                        <BookShelf time={props.time} position={[4.7, 1, 5.2]} rotationY={Math.PI / 2}/>
-                        <BookShelf time={props.time} position={[3.5, 1, 5.2]} rotationY={Math.PI / 2}/>
-                        
+                        <BookShelf time={props.time} position={[-4.7, 1, -5.2]} rotationY={-Math.PI / 2} />
+                        <BookShelf time={props.time} position={[-3.5, 1, -5.2]} rotationY={-Math.PI / 2} />
+                        <BookShelf time={props.time} position={[-2.3, 1, -5.2]} rotationY={-Math.PI / 2} />
+
+                        <BookShelf time={props.time} position={[-4.7, 1, 5.2]} rotationY={Math.PI / 2} />
+                        <BookShelf time={props.time} position={[-3.5, 1, 5.2]} rotationY={Math.PI / 2} />
+
+                        <BookShelf time={props.time} position={[4.7, 1, 5.2]} rotationY={Math.PI / 2} />
+                        <BookShelf time={props.time} position={[3.5, 1, 5.2]} rotationY={Math.PI / 2} />
+
                         <WorkingTable1 time={props.time} position={[-2.8, 0.5, -1]} />
                         <WorkingTable2 time={props.time} position={[-2.8, 0.5, 1]} />
                         <WorkingTable3 time={props.time} position={[-2.8, 0.5, 3]} />
                         <WorkingTable1 time={props.time} position={[2.8, 0.5, -1]} />
                         <WorkingTable2 time={props.time} position={[2.8, 0.5, 1]} />
                         <WorkingTable3 time={props.time} position={[2.8, 0.5, 3]} />
-                        
+
                         <Printer time={props.time} position={[-1.2, 0.5, -5.5]} />
-                        
+
                         <Bin time={props.time} position={[-0.7, 0.5, -1.5]} />
                         <Bin time={props.time} position={[0.7, 0.5, 3.5]} />
-                        
+
                         <Chair time={props.time} position={[0, 0.5, -5]} rotationY={Math.PI / 2} />
-                        <Table time={props.time} position={[0.5, 0.5, -5]} />
+                        <Table time={props.time} position={[0.5, 1, -5]} onCollide={(e) => {
+                            console.log('Collision event on BoxTrigger', e)
+                        }} />
                         <Chair time={props.time} position={[1, 0.5, -5]} rotationY={-Math.PI / 2} />
-                        
+
                         <Chair time={props.time} position={[4.5, 0.5, -5]} rotationY={0} />
                         <Table time={props.time} position={[4.5, 0.5, -4]} />
                         <Chair time={props.time} position={[4.5, 0.5, -3]} rotationY={Math.PI} />
-                        
+
                         <Chair time={props.time} position={[-1.5, 0.5, 5.2]} rotationY={Math.PI / 2} />
                         <Table time={props.time} position={[-1, 0.5, 5.2]} />
                         <Chair time={props.time} position={[-0.5, 0.5, 5.2]} rotationY={-Math.PI / 2} />
@@ -127,11 +129,11 @@ export default function TallBuildingGameStage(props) {
                         <Chair time={props.time} position={[0.5, 0.5, 5.2]} rotationY={Math.PI / 2} />
                         <Table time={props.time} position={[1, 0.5, 5.2]} />
                         <Chair time={props.time} position={[1.5, 0.5, 5.2]} rotationY={-Math.PI / 2} />
-                        
+
                         <FloorLamp time={props.time} position={[2, 0.9, -5]} />
                         <FloorLamp time={props.time} position={[-4.7, 0.9, -4]} />
                         <FloorLamp time={props.time} position={[-2.3, 0.9, 5]} />
-                        
+
                         <EffectComposer multisampling={8} autoClear={false}>
                             {/* <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} /> */}
                         </EffectComposer>
@@ -342,7 +344,7 @@ function Bin(props) {
     )
 }
 
-function Table(props) {
+function Table({ time, onCollide, position }) {
     const { scene } = useGLTF("./Models/TallBuilding/Table.glb");
 
     let Objects = [];
@@ -351,8 +353,8 @@ function Table(props) {
         if (object.isMesh) {
             //console.log(object.name);
             let objectColor;
-            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
-                props.time > Buildings.tallBuilding.afterTime) {
+            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                time > Buildings.tallBuilding.afterTime) {
                 objectColor = Color.deepRed;
             } else {
                 objectColor = Color.softOrange;
@@ -371,8 +373,9 @@ function Table(props) {
     const [ref] = useBox(() => ({
         type: 'Dynamic',
         args: [0.8, 0.6, 0.8],
-        position: props.position,
+        position,
         mass: 10,
+        onCollide
     }));
 
 
@@ -893,7 +896,7 @@ function Ground(props) {
             receiveShadow
         >
             <planeBufferGeometry attach="geometry" args={[100, 100]} />
-            <meshBasicMaterial color="black"/>
+            <meshBasicMaterial color="black" />
         </mesh>
     )
 }
