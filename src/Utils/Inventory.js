@@ -61,9 +61,11 @@ const InventorySC = styled.div`
 
     z-index: 500;
 
+    user-select: none;
+    user-drag: none;
+
     :hover {
-    cursor: pointer;
-    opacity: 1;
+        opacity: 1;
     }
 
     div {
@@ -93,8 +95,10 @@ const InventorySC = styled.div`
         width: 7vw;
         height: 7vw;
 
-        user-select: none;
-        user-drag: none;
+        :hover {
+            cursor: pointer;
+            opacity: 1;
+        }
     }
     
 `;
