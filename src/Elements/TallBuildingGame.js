@@ -19,6 +19,9 @@ import checkmark from '../Assets/Images/checked-29.png';
 
 // テスト用
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
+import itemIcon1 from '../Assets/Images/Items/Icon/EMERGENCY_BAG-37.png';
+import itemIcon2 from '../Assets/Images/Items/Icon/FIRE_FIGHT_BALL-37.png';
+import itemIcon3 from '../Assets/Images/Items/Icon/FIRST_AID KIT-37.png';
 
 import TallBuildingGameStage from './TallBuildingGameStage';
 
@@ -105,9 +108,9 @@ const GameComponent = ({ time }) => {
             <MissionUI />
             <Inventory
                 items={[
-                    item1 ? <img src={itemImage} onClick={() => handleClickItem1()} /> : null,
-                    item2 ? <img src={nextButton} onClick={() => handleClickItem2()} /> : null,
-                    item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
+                    item1 ? <img src={itemIcon1} onClick={() => handleClickItem1()} /> : null,
+                    item2 ? <img src={itemIcon2} onClick={() => handleClickItem2()} /> : null,
+                    item3 ? <img src={itemIcon3} onClick={() => handleClickItem3()} /> : null,
                 ]}
             />
             <TallBuildingGameStage time={time} isUseItem1={item1} />

@@ -86,12 +86,12 @@ const InventorySC = styled.div`
 
     img {
         margin-top 1vw;
-        margin-left: 1.6vw;
+        margin-left: 1vw;
         margin-right: 0.5vw;
         margin-bottom: 0vw;
         object-fit: cover;
-        width: 6vw;
-        height: 6vw;
+        width: 7vw;
+        height: 7vw;
 
         user-select: none;
         user-drag: none;
