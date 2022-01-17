@@ -26,7 +26,7 @@ export default function Player(props) {
         args: [0.4], // 大きさ
         position: [0, 0.4, 0], // 座標
         mass: 1, // 重さ
-        material: {friction: 0}, // 材質 {摩擦：0に設定 }
+        material: { friction: 0 }, // 材質 {摩擦：0に設定 }
         fixedRotation: true, // 回転を固定
         type: 'Dynamic', // 物理演算のタイプ
     }));
@@ -55,7 +55,7 @@ export default function Player(props) {
         actions[nextAction].reset().fadeIn(0.5).play();
     }
 
-    const { camera } = useThree()
+    const { camera, } = useThree()
     // 毎フレーム実行する関数
     useFrame(() => {
         // プレイヤーに速度を与える
@@ -76,6 +76,14 @@ export default function Player(props) {
                 object={scene}
                 scale={0.2}
             />
+            <spotLight
+                position={camera.position}
+                angle={0.1}
+                color="#ffffff"
+                intensity={0.6}
+                castShadow
+            />
+
         </group>
     );
 }
