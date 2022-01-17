@@ -84,8 +84,6 @@ export default function TallBuildingGame() {
      */
 const GameComponent = ({ time }) => {
 
-    useState([false,]);
-
     const isCheckedMission = [
         true,
         false,

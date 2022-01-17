@@ -10,7 +10,6 @@ import Buildings from "../Constants/Buildings";
 import Player from "../Utils/Player";
 import VirtualStick from "./VirtualStick";
 
-
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
 useGLTF.preload("./Models/MainBuilding.glb");
@@ -86,7 +85,7 @@ export default function TallBuildingGameStage(props) {
                             dragPos={dragPos}
                             playerAngle={angle}
                             isMove={isMove}
-                            isLighting={true}
+                            isLighting={!props.isUseItem1}
                             playerPositionCallback={p => playerPosition.current = p}
                         />
                         <MainBuilding time={props.time} />
