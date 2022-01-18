@@ -1,5 +1,6 @@
 import React, { Suspense, useRef, useEffect, useState } from "react";
 import Modal from "react-modal";
+Modal.setAppElement("#root");
 import styled from 'styled-components';
 
 import { Game_Canvas, Block_Right_End } from '../Utils/GlobalStyles';
@@ -13,7 +14,7 @@ import { Light, AntiSeismicMat } from '../Constants/Items';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
-import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
+import buyButton from '../Assets/Images/BUY_BOTTON-38.png';
 
 const itemType = {
     name: '',
@@ -112,7 +113,7 @@ export default function ItemShop() {
                     <ItemImage src={Light.NightStarJP.image} width={"10vw"} />
                     <Button
                         handler={() => setIsOpen(false)}
-                        src={playButton}
+                        src={buyButton}
                         width={'12vw'}
                         height={'5vw'}
                         margin={'0%'}

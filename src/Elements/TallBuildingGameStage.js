@@ -1,15 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as THREE from 'three';
-import { Canvas, useLoader } from '@react-three/fiber';
-import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard } from "@react-three/drei";
-import { Physics, Debug, usePlane, useBox, useCompoundBody } from '@react-three/cannon'
+import { Canvas, useLoader, useFrame } from '@react-three/fiber';
+import { useGLTF, MapControls, CameraShake, Stats, Plane, Billboard } from "@react-three/drei";
+import { Physics, Debug, useBox, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
-import { Joystick } from "react-joystick-component";
 
 import Color from "../Constants/Color";
 import Buildings from "../Constants/Buildings";
-import styled from 'styled-components';
 import Player from "../Utils/Player";
+import VirtualStick from "./VirtualStick";
 
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
@@ -20,8 +19,7 @@ useGLTF.preload("./Models/MainBuilding.glb");
  * @param {Type} name
  */
 export default function TallBuildingGameStage(props) {
-    const lampRef = useRef();
-    const selected = props.isUseItem1 ? undefined : [lampRef];
+    const playerPosition = useRef([0, 0, 0]);
 
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
     const [angle, setAngle] = useState(0);
@@ -29,8 +27,8 @@ export default function TallBuildingGameStage(props) {
 
     const onChangeJoystick = (e) => {
         setDragPos({
-            x: e.x / 10,
-            y: e.y / 10
+            x: e.x / 20,
+            y: e.y / 20
         });
         setAngle(Math.atan2(dragPos.y, dragPos.x) + Math.PI / 2);
         setMove(true);
@@ -45,20 +43,19 @@ export default function TallBuildingGameStage(props) {
         setMove(false);
     };
 
-
     // 使用するアイテムのテクスチャ
     const BillboardMap = useLoader(THREE.TextureLoader, itemImage);
 
     return (
         <>
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
-                <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
+                <WobbleCamera time={props.time} />
                 <Stats />
-                <ambientLight intensity={0.2} />
+                <ambientLight intensity={props.time > Buildings.tallBuilding.afterTime ? 0.2 : 0.02} />
                 <directionalLight
                     castShadow
                     position={[-2.5, 8, -5]}
-                    intensity={0.8}
+                    intensity={props.time > Buildings.tallBuilding.afterTime ? 0.8 : 0}
                     shadow-mapSize-width={1024}
                     shadow-mapSize-height={1024}
                     shadow-camera-far={50}
@@ -67,53 +64,87 @@ export default function TallBuildingGameStage(props) {
                     shadow-camera-top={10}
                     shadow-camera-bottom={-10}
                 />
+                <fog attach="fog" args={["white", 10, 30]} />
+                <Ground />
                 <Physics iterations={6}>
+                    <Building position={[-10, -5, 4]} />
+                    <Building position={[-10, -3, -3]} />
+                    <Building position={[-3.5, -10, 11]} />
+                    <Building position={[3.5, -7, 11]} />
+                    <Building position={[-10, -10, 11]} />
+                    <Building position={[11, -8, 11]} />
+                    <Building position={[11, -10, 4]} />
+                    <Building position={[11, -7, -3]} />
+                    <Building position={[-3.5, -10, -9]} />
+                    <Building position={[3.5, -7, -9]} />
+                    <Building position={[-10, -10, -9]} />
+                    <Building position={[11, -8, -9]} />
                     {/* <Debug scale={1.1} color="black"> */}
-                        <group>
-                            <axesHelper scale={3} />
-                            <Player
-                                dragPos={dragPos}
-                                playerAngle={angle}
-                                isMove={isMove}
-                                playerPositionCallback={p => {/* pに現在のプレイヤーの座標がリターンされます */ }}
-                            />
-                            <MainBuilding time={props.time} />
-                            <BookShelf time={props.time} position={[-4.7, 1, -5.2]} />
-                            <BookShelf time={props.time} position={[-3.5, 1, -5.2]} />
-                            <BookShelf time={props.time} position={[-2.3, 1, -5.2]} />
-                            <WorkingTable1 time={props.time} position={[-2.8, 0.5, -0.5]} />
-                            <WorkingTable2 time={props.time} position={[-2.8, 0.5, 1.5]} />
-                            <WorkingTable3 time={props.time} position={[-2.8, 0.5, 3.5]} />
-                            <WorkingTable1 time={props.time} position={[2.8, 0.5, -0.5]} />
-                            <WorkingTable2 time={props.time} position={[2.8, 0.5, 1.5]} />
-                            <WorkingTable3 time={props.time} position={[2.8, 0.5, 3.5]} />
-                            <Printer time={props.time} position={[-1.2, 0.5, -5.5]}/>
-                            <Bin time={props.time} position={[-0.7, 0.5, -1.5]}/>
-                            <Bin time={props.time} position={[0.7, 0.5, 4.5]}/>
-                            <Chair time={props.time} position={[0, 0.5, -5]} rotationY={Math.PI / 2}/>
-                            <Table time={props.time} position={[0.5, 0.5, -5]}/>
-                            <Chair time={props.time} position={[1, 0.5, -5]} rotationY={-Math.PI / 2}/>
-                            <Chair time={props.time} position={[4.5, 0.5, -5]} rotationY={0}/>
-                            <Table time={props.time} position={[4.5, 0.5, -4]}/>
-                            <Chair time={props.time} position={[4.5, 0.5, -3]} rotationY={Math.PI}/>
-                            <FloorLamp time={props.time} position={[2, 0.9, -5]}/>
-                            <FloorLamp time={props.time} position={[-4.7, 0.9, -4]}/>
-                            <EffectComposer multisampling={8} autoClear={false}>
-                                <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} />
-                            </EffectComposer>
-                        </group>
+                    <group>
+                        <Player
+                            dragPos={dragPos}
+                            playerAngle={angle}
+                            isMove={isMove}
+                            isLighting={!props.isUseItem1}
+                            playerPositionCallback={p => playerPosition.current = p}
+                        />
+                        <MainBuilding time={props.time} />
+
+                        <BookShelf time={props.time} position={[-4.7, 1, -5.2]} rotationY={-Math.PI / 2} />
+                        <BookShelf time={props.time} position={[-3.5, 1, -5.2]} rotationY={-Math.PI / 2} />
+                        <BookShelf time={props.time} position={[-2.3, 1, -5.2]} rotationY={-Math.PI / 2} />
+
+                        <BookShelf time={props.time} position={[-4.7, 1, 5.2]} rotationY={Math.PI / 2} />
+                        <BookShelf time={props.time} position={[-3.5, 1, 5.2]} rotationY={Math.PI / 2} />
+
+                        <BookShelf time={props.time} position={[4.7, 1, 5.2]} rotationY={Math.PI / 2} />
+                        <BookShelf time={props.time} position={[3.5, 1, 5.2]} rotationY={Math.PI / 2} />
+
+                        <WorkingTable1 time={props.time} position={[-2.8, 0.5, -1]} />
+                        <WorkingTable2 time={props.time} position={[-2.8, 0.5, 1]} />
+                        <WorkingTable3 time={props.time} position={[-2.8, 0.5, 3]} />
+                        <WorkingTable1 time={props.time} position={[2.8, 0.5, -1]} />
+                        <WorkingTable2 time={props.time} position={[2.8, 0.5, 1]} />
+                        <WorkingTable3 time={props.time} position={[2.8, 0.5, 3]} />
+
+                        <Printer time={props.time} position={[-1.2, 0.5, -5.5]} />
+
+                        <Bin time={props.time} position={[-0.7, 0.5, -1.5]} />
+                        <Bin time={props.time} position={[0.7, 0.5, 3.5]} />
+
+                        <Chair time={props.time} position={[0, 0.5, -5]} rotationY={Math.PI / 2} />
+                        <Table time={props.time} position={[0.5, 1, -5]} onCollide={(e) => {
+                            console.log('Collision event on BoxTrigger', e)
+                        }} />
+                        <Chair time={props.time} position={[1, 0.5, -5]} rotationY={-Math.PI / 2} />
+
+                        <Chair time={props.time} position={[4.5, 0.5, -5]} rotationY={0} />
+                        <Table time={props.time} position={[4.5, 0.5, -4]} />
+                        <Chair time={props.time} position={[4.5, 0.5, -3]} rotationY={Math.PI} />
+
+                        <Chair time={props.time} position={[-1.5, 0.5, 5.2]} rotationY={Math.PI / 2} />
+                        <Table time={props.time} position={[-1, 0.5, 5.2]} />
+                        <Chair time={props.time} position={[-0.5, 0.5, 5.2]} rotationY={-Math.PI / 2} />
+
+                        <Chair time={props.time} position={[0.5, 0.5, 5.2]} rotationY={Math.PI / 2} />
+                        <Table time={props.time} position={[1, 0.5, 5.2]} />
+                        <Chair time={props.time} position={[1.5, 0.5, 5.2]} rotationY={-Math.PI / 2} />
+
+                        <FloorLamp time={props.time} position={[2, 0.9, -5]} />
+                        <FloorLamp time={props.time} position={[-4.7, 0.9, -4]} />
+                        <FloorLamp time={props.time} position={[-2.3, 0.9, 5]} />
+
+                        <EffectComposer multisampling={8} autoClear={false}>
+                            {/* <Outline blur selection={selected} visibleEdgeColor="white" edgeStrength={100} width={500} /> */}
+                        </EffectComposer>
+                    </group>
                     {/* </ Debug> */}
                 </Physics>
             </Canvas>
-            <JoystickCanvas>
-                <Joystick
-                    size={80}
-                    baseColor={Color.slightlyGrayishYellow}
-                    stickColor={Color.grayishYellowGreen}
-                    stop={onStopJoystick}
-                    move={onChangeJoystick}
-                />
-            </JoystickCanvas>
+            <VirtualStick
+                onStopJoystick={onStopJoystick}
+                onChangeJoystick={onChangeJoystick}
+            />
         </>
     );
 };
@@ -139,25 +170,28 @@ function UseItemBillboard({ position, url }) {
 }
 
 /**
- * 振動カメラ（未完成）
+ * 振動カメラ
  * @param {boolean} isQuake
  */
-function WobbleCamera({ isQuake }) {
-    const shakeRef = useRef();
-    const orbitRef = useRef();
-    useEffect(() => {
-        orbitRef.current.addEventListener("change", () => {
-            const shake = shakeRef.current.getIntensity();
-            shakeRef.current.setIntensity(shake + 0.015);
-        });
-    }, [orbitRef]);
+function WobbleCamera(props) {
+    const config = {
+        maxYaw: 0.1, // Max amount camera can yaw in either direction
+        maxPitch: 0.1, // Max amount camera can pitch in either direction
+        maxRoll: 0.1, // Max amount camera can roll in either direction
+        yawFrequency: 1, // Frequency of the the yaw rotation
+        pitchFrequency: 1, // Frequency of the pitch rotation
+        rollFrequency: 1, // Frequency of the roll rotation
+        intensity: 1, // initial intensity of the shake
+        decay: true, // should the intensity decay over time
+        decayRate: 0.02, // if decay = true this is the rate at which intensity will reduce at
+        additive: true, // this should be used when your scene has orbit controls
+    }
 
-    return (
-        <>
-            <MapControls ref={orbitRef} enablePan={true} enableZoom={true} enableRotate={false} />
-            <CameraShake ref={shakeRef} additive decay={isQuake} intensity={10} />
-        </>
-    );
+    if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+        props.time > Buildings.tallBuilding.afterTime)
+        return <CameraShake {...config} />;
+    else
+        return null;
 }
 
 function MainBuilding(props) {
@@ -224,6 +258,7 @@ function MainBuilding(props) {
 
     const [ref] = useCompoundBody(() => ({
         type: 'Static',
+        material: { friction: 0 },
         shapes: [
             { type: 'Plane', position: [0, 0, 0], rotation: [-Math.PI / 2, 0, 0], args: [3] },
             { type: 'Box', position: [0, 0, 5.8], args: [10, 2, 0.2] },
@@ -285,7 +320,7 @@ function Bin(props) {
         type: 'Dynamic',
         args: [0.3, 0.4, 0.3],
         position: props.position,
-        mass: 0.5,
+        mass: 20,
     }));
 
 
@@ -309,7 +344,7 @@ function Bin(props) {
     )
 }
 
-function Table(props) {
+function Table({ time, onCollide, position }) {
     const { scene } = useGLTF("./Models/TallBuilding/Table.glb");
 
     let Objects = [];
@@ -318,8 +353,8 @@ function Table(props) {
         if (object.isMesh) {
             //console.log(object.name);
             let objectColor;
-            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
-                props.time > Buildings.tallBuilding.afterTime) {
+            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
+                time > Buildings.tallBuilding.afterTime) {
                 objectColor = Color.deepRed;
             } else {
                 objectColor = Color.softOrange;
@@ -338,8 +373,9 @@ function Table(props) {
     const [ref] = useBox(() => ({
         type: 'Dynamic',
         args: [0.8, 0.6, 0.8],
-        position: props.position,
+        position,
         mass: 10,
+        onCollide
     }));
 
 
@@ -463,7 +499,7 @@ function FloorLamp(props) {
                     receiveShadow
                     scale={object.scale}
                     rotation={object.rotation}
-                    position={[0,0.2,0]}
+                    position={[0, 0.2, 0]}
                     geometry={object.geometry}
                     key={index}
                 >
@@ -547,7 +583,7 @@ function BookShelf(props) {
             Objects.push(
                 {
                     scale: object.scale,
-                    rotation: [0, -Math.PI / 2, 0],
+                    rotation: [0, props.rotationY, 0],
                     geometry: object.geometry,
                     color: objectColor
                 }
@@ -595,17 +631,17 @@ function WorkingTable1(props) {
             let objectColor;
             if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
                 props.time > Buildings.tallBuilding.afterTime) {
-                    switch (object.name) {
-                        case 'Cube166':
-                            objectColor = Color.deepRed;
-                            break;
-                        case 'Cube166_1':
-                            objectColor = Color.vividRed;
-                            break;
-                        case 'Cube166_2':
-                            objectColor = Color.deepRed;
-                            break;
-                    }
+                switch (object.name) {
+                    case 'Cube166':
+                        objectColor = Color.deepRed;
+                        break;
+                    case 'Cube166_1':
+                        objectColor = Color.vividRed;
+                        break;
+                    case 'Cube166_2':
+                        objectColor = Color.deepRed;
+                        break;
+                }
             } else {
                 switch (object.name) {
                     case 'Cube166':
@@ -670,17 +706,17 @@ function WorkingTable2(props) {
             let objectColor;
             if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
                 props.time > Buildings.tallBuilding.afterTime) {
-                    switch (object.name) {
-                        case 'Cube135':
-                            objectColor = Color.deepRed;
-                            break;
-                        case 'Cube135_1':
-                            objectColor = Color.vividRed;
-                            break;
-                        case 'Cube135_2':
-                            objectColor = Color.deepRed;
-                            break;
-                    }
+                switch (object.name) {
+                    case 'Cube135':
+                        objectColor = Color.deepRed;
+                        break;
+                    case 'Cube135_1':
+                        objectColor = Color.vividRed;
+                        break;
+                    case 'Cube135_2':
+                        objectColor = Color.deepRed;
+                        break;
+                }
             } else {
                 switch (object.name) {
                     case 'Cube135':
@@ -745,17 +781,17 @@ function WorkingTable3(props) {
             let objectColor;
             if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime &&
                 props.time > Buildings.tallBuilding.afterTime) {
-                    switch (object.name) {
-                        case 'Cube133':
-                            objectColor = Color.deepRed;
-                            break;
-                        case 'Cube133_1':
-                            objectColor = Color.vividRed;
-                            break;
-                        case 'Cube133_2':
-                            objectColor = Color.deepRed;
-                            break;
-                    }
+                switch (object.name) {
+                    case 'Cube133':
+                        objectColor = Color.deepRed;
+                        break;
+                    case 'Cube133_1':
+                        objectColor = Color.vividRed;
+                        break;
+                    case 'Cube133_2':
+                        objectColor = Color.deepRed;
+                        break;
+                }
             } else {
                 switch (object.name) {
                     case 'Cube133':
@@ -809,14 +845,58 @@ function WorkingTable3(props) {
     )
 }
 
-const JoystickCanvas = styled.div`
-    position: absolute;
 
-    width: 10vw;
-    height: 10vw;
+function Building(props) {
+    const { scene } = useGLTF("./Models/TallBuilding/Building.glb");
 
-    bottom: 10%;
-    left: 45%;
+    let Objects = [];
 
-    z-index: 999;
-`;
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            let objectColor;
+            if (object.name == 'Cube050') {
+                objectColor = Color.darkGrayishGreen;
+            } else {
+                objectColor = Color.white;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group {...props}>
+            {Objects.map((object, index) => (
+                <mesh
+                    receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+function Ground(props) {
+
+    return (
+        <mesh
+            rotation={[-Math.PI / 2, 0, 0]}
+            position={[0, -10, 0]}
+            receiveShadow
+        >
+            <planeBufferGeometry attach="geometry" args={[100, 100]} />
+            <meshBasicMaterial color="black" />
+        </mesh>
+    )
+}

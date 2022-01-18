@@ -9,16 +9,16 @@ import Buildings from '../Constants/Buildings';
 import StarScore from '../Utils/StarScore';
 import Money from '../Utils/Money'
 import Inventory from '../Utils/Inventory';
+import MissionBox from '../Utils/MissionBox';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
-import mission from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_4-26-26.png';
 import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
 import retyrButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-34.png';
 import tipsButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-35.png';
-import checkmark from '../Assets/Images/checked-29.png';
 
-// テスト用
-import itemImage from '../Assets/Images/Items/NightStarJP.png';
+import itemIcon1 from '../Assets/Images/Items/Icon/EMERGENCY_BAG-37.png';
+import itemIcon2 from '../Assets/Images/Items/Icon/FIRE_FIGHT_BALL-37.png';
+import itemIcon3 from '../Assets/Images/Items/Icon/FIRST_AID KIT-37.png';
 
 import TallBuildingGameStage from './TallBuildingGameStage';
 
@@ -26,6 +26,11 @@ import styled from 'styled-components';
 import Color from "../Constants/Color";
 
 
+const missionText = [
+    "mission1 mission1 mission1 mission1 mission1 missio",
+    "mission1 mission1 mission1 mission1 mission1 mission1 missio",
+    "ミッション３ ミッション３ ミッション３ ミッショ",
+];
 
 /**
  * ハウスステージのゲーム部分です
@@ -79,6 +84,11 @@ export default function TallBuildingGame() {
      */
 const GameComponent = ({ time }) => {
 
+    const isCheckedMission = [
+        true,
+        false,
+        true,
+    ];
 
     // ゲームの進行に必要なフラグを記述します
     const [item1, setItem1] = useState(true);
@@ -102,12 +112,12 @@ const GameComponent = ({ time }) => {
     return (
         <>
             <Text text={String(time)} />
-            <MissionUI />
+            <MissionBox missionText={missionText} isCheckedMission={isCheckedMission} />
             <Inventory
                 items={[
-                    item1 ? <img src={itemImage} onClick={() => handleClickItem1()} /> : null,
-                    item2 ? <img src={nextButton} onClick={() => handleClickItem2()} /> : null,
-                    item3 ? <img src={retyrButton} onClick={() => handleClickItem3()} /> : null,
+                    item1 ? <img src={itemIcon1} onClick={() => handleClickItem1()} /> : null,
+                    item2 ? <img src={itemIcon2} onClick={() => handleClickItem2()} /> : null,
+                    item3 ? <img src={itemIcon3} onClick={() => handleClickItem3()} /> : null,
                 ]}
             />
             <TallBuildingGameStage time={time} isUseItem1={item1} />
@@ -119,11 +129,18 @@ const GameComponent = ({ time }) => {
     * クリア後のみに使用するコンポーネントです
     */
 const ClearComponent = ({ time, limit, keyhandler }) => {
+    const isCheckedMission = [
+        true,
+        false,
+        true,
+    ];
+
     return (
         <>
-            <MissionUI />
+            <MissionBox missionText={missionText} isCheckedMission={isCheckedMission} />
             <ClearTime time={time} limit={limit / 1000} />
             <Clear handler={keyhandler} />
+            <TallBuildingGameStage time={time} />
         </>
     );
 }
@@ -150,42 +167,11 @@ function Clear({ handler }) {
     );
 }
 
-/**
- * 別なファイルに分けて，他ステージでも使用できるようにした方が良いかもです
- * 多分，インベントリと同じでできるはず...
- */
-function MissionUI() {
-
-    return (
-        <>
-            <Setting src={mission} top={"20%"} left={"0%"} width={'20%'} height={'50%'} opacity={'0.9'} />
-            <AnyText fontsize={"1vw"} top={"33%"} left={"5%"}>{"Securing of personal security"}</AnyText>
-            <AnyText fontsize={"1vw"} top={"37.5%"} left={"5%"}>{"Check of the fall"}</AnyText>
-            <AnyText fontsize={"1vw"} top={"41.5%"} left={"5%"}>{"ほげ～"}</AnyText>
-            <Check />
-        </>
-    );
-}
-
-function Check() {
-    const flag1 = true;
-    const flag2 = true;
-    const flag3 = true;
-    return (
-        <>
-            {flag1 ? <Setting src={checkmark} top={"32%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-            {flag2 ? <Setting src={checkmark} top={"36.5%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-            {flag3 ? <Setting src={checkmark} top={"41%"} left={"14.5%"} width={'3%'} height={'3%'} opacity={'1'} /> : null}
-
-        </>
-    );
-}
-
 function ClearTime({ time, limit }) {
-    const [time_s, settime_s] = useState(parseInt((limit - time) % 60));
-    const [usertime_s, setusertime_s] = useState(('00' + time_s).slice(-2));
-    const [time_m, settime_m] = useState(parseInt((limit - time) / 60));
-    const [usertime_m, setusertime_m] = useState(('00' + time_m).slice(-2));
+    const time_s = parseInt((limit - time) % 60);
+    const usertime_s = ('00' + time_s).slice(-2);
+    const time_m = parseInt((limit - time) / 60);
+    const usertime_m = ('00' + time_m).slice(-2);
 
     return (<AnyText fontsize={"5vw"} top={"70%"} left={"44%"}>{usertime_m + ":" + usertime_s}</AnyText>);
 }
