@@ -8,6 +8,7 @@ import Select from './Scenes/Select';
 import Option from './Scenes/Option';
 import Game from './Scenes/Game';
 import ItemShop from './Scenes/ItemShop';
+import Quize from './Scenes/Quize';
 
 class App extends React.Component {
 
@@ -72,6 +73,7 @@ class App extends React.Component {
             case 'option': return <Option />;
             case 'itemShop': return <ItemShop />;
             case 'game': return <Game building={building} stage={stage} />;
+            case 'quize': return <Quize/>;
             default: () => {
                 console.error(`"${scene}" は存在しない画面です.`);
                 return <Title />;

@@ -10,8 +10,9 @@ import HeaderText from '../Utils/HeaderText';
 import Buildings from '../Constants/Buildings';
 import StarScore from "../Utils/StarScore";
 import { getBuilding, getScore } from "../Utils/LocalStorage";
-import { Block_Column_Top } from "../Utils/GlobalStyles";
+import { Block_Column_Top, Block_Column_End } from "../Utils/GlobalStyles";
 import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
+import Button from '../Utils/Button';
 
 import unlockButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-20.png';
 import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
@@ -30,6 +31,10 @@ export default function SelectBuilding() {
     const startGame = () => {
         Store.setBuilding(Buildings[IDList[buildingNum]].id);
         Store.setScene('game');
+    }
+
+    const startQuize = () => {
+        Store.setScene('quize');
     }
 
     // 表示する建物の数
@@ -75,7 +80,17 @@ export default function SelectBuilding() {
             <HeaderText text={"SELECT BUILDING"} />
             <BlockBuildingButton>
                 <BuildingButton src={Buildings[IDList[buildingNum]].nameTagImage} />
-                {getBuilding(IDList[buildingNum]) && (
+
+                <Block_Column_End>
+                <Button
+                    handler={() => startQuize()}
+                    src={playButton}
+                    width={'20%'}
+                    height={'10%'}
+                    margin={'1%'}
+                />
+                </Block_Column_End>
+               {getBuilding(IDList[buildingNum]) && (
                     <>
                         <UsedButton src={playButton} onClick={() => startGame()} />
                         <StarScore
@@ -92,6 +107,7 @@ export default function SelectBuilding() {
                         <BuildingPrice>{Buildings[IDList[buildingNum]].price}</BuildingPrice>
                     </>
                 )}
+                
             </BlockBuildingButton>
             <ArrowRight handler={() => moveRightBuilding()} />
             <ArrowLeft handler={() => moveLeftBuilding()} />
@@ -251,5 +267,28 @@ const BuildingPrice = styled.div`
         height: 4vw;
         margin-right: 1vw;
         vertical-align: middle;
+    }
+`;
+
+const Setting = styled.div`
+    display:flex;
+    position: absolute;
+    width: ${props => props.width};
+    height: ${props => props.height};
+    
+    margin: ${props => props.margin};
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
+
+    background-image: url(${props => props.src});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: ${(props) => props.opacity};
+    z-index: 999;
+
+    :hover {
+        cursor: pointer;
+        opacity: 1;
     }
 `;
