@@ -10,8 +10,9 @@ import HeaderText from '../Utils/HeaderText';
 import Buildings from '../Constants/Buildings';
 import StarScore from "../Utils/StarScore";
 import { getBuilding, getScore } from "../Utils/LocalStorage";
-import { Block_Column_Top } from "../Utils/GlobalStyles";
+import { Block_Column_Top, Block_Column_End } from "../Utils/GlobalStyles";
 import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
+import Button from '../Utils/Button';
 
 import unlockButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-20.png';
 import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
@@ -80,8 +81,16 @@ export default function SelectBuilding() {
             <BlockBuildingButton>
                 <BuildingButton src={Buildings[IDList[buildingNum]].nameTagImage} />
 
-                <Setting onClick={() => startQuize()} src={playButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
-                {getBuilding(IDList[buildingNum]) && (
+                <Block_Column_End>
+                <Button
+                    handler={() => startQuize()}
+                    src={playButton}
+                    width={'20%'}
+                    height={'10%'}
+                    margin={'1%'}
+                />
+                </Block_Column_End>
+               {getBuilding(IDList[buildingNum]) && (
                     <>
                         <UsedButton src={playButton} onClick={() => startGame()} />
                         <StarScore
