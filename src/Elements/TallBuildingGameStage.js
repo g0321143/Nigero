@@ -8,7 +8,7 @@ import { EffectComposer, Outline } from '@react-three/postprocessing'
 import Color from "../Constants/Color";
 import Buildings from "../Constants/Buildings";
 import Player from "../Utils/Player";
-import VirtualStick from "./VirtualStick";
+import VirtualStick from "../Utils/VirtualStick";
 
 import itemImage from '../Assets/Images/Items/NightStarJP.png';
 
@@ -86,6 +86,7 @@ export default function TallBuildingGameStage(props) {
                             dragPos={dragPos}
                             playerAngle={angle}
                             isMove={isMove}
+                            initPosition={[0,0.4,0]}
                             isLighting={!props.isUseItem1}
                             playerPositionCallback={p => playerPosition.current = p}
                         />

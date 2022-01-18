@@ -1,15 +1,18 @@
 // 高層ビルのゲームモジュール
 import React, { Suspense, useRef, useState, useEffect } from 'react'
 import Countdown from 'react-countdown';
+import styled from 'styled-components';
 
 import Store from '../Utils/Store';
 import Text from '../Utils/Text';
 import { Game_Canvas, Block_Column_End } from '../Utils/GlobalStyles';
-import Buildings from '../Constants/Buildings';
 import StarScore from '../Utils/StarScore';
 import Money from '../Utils/Money'
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
+
+import Buildings from '../Constants/Buildings';
+import Color from "../Constants/Color";
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
@@ -22,8 +25,7 @@ import itemIcon3 from '../Assets/Images/Items/Icon/FIRST_AID KIT-37.png';
 
 import TallBuildingGameStage from './TallBuildingGameStage';
 
-import styled from 'styled-components';
-import Color from "../Constants/Color";
+
 
 
 const missionText = [

@@ -119,7 +119,7 @@ export default function SelectBuilding() {
 }
 
 function Elevator(props) {
-    const { scene } = useGLTF('./Models/Elevator2.glb');
+    const { scene } = useGLTF('./Models/Elevator.glb');
 
     const ref = useRef();
 

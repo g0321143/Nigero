@@ -94,6 +94,8 @@ const InventorySC = styled.div`
         object-fit: cover;
         width: 7vw;
         height: 7vw;
+        user-select: none;
+        user-drag: none;
 
         :hover {
             cursor: pointer;

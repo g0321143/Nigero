@@ -20,6 +20,7 @@ export default {
         quakeTime: 15,
         afterTime: 60,
         totalTime: 105,
+        gameOverTime: 40
     },
     tallBuilding:
     {
@@ -32,6 +33,7 @@ export default {
         quakeTime: 15,
         afterTime: 60,
         totalTime: 105,
+        gameOverTime: 40
     },
     elevator:
     {

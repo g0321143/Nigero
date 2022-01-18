@@ -15,7 +15,7 @@ useGLTF.preload("./Models/RobotExpressive.glb");
  * @param {boolean} isLighting ライトを点灯させるかどうか
  * @param {(callback: (value: Vector3) => void)} playerPositionCallback プレイヤーの座標を返すコールバック
  */
-export default function Player({ dragPos, playerAngle, isMove, isLighting, playerPositionCallback }) {
+export default function Player({ dragPos, playerAngle, isMove, isLighting, playerPositionCallback, initPosition }) {
 
     // キャラクターのモデルの読み込み
     const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
@@ -28,7 +28,7 @@ export default function Player({ dragPos, playerAngle, isMove, isLighting, playe
     // 当たり判定の設定
     const [physicsRef, api] = useSphere(() => ({
         args: [0.4], // 大きさ
-        position: [0, 0.4, 0], // 座標
+        position: initPosition, // 座標
         mass: 1, // 重さ
         material: { friction: 0 }, // 材質 {摩擦：0に設定 }
         fixedRotation: true, // 回転を固定

@@ -62,12 +62,12 @@ const Mission = styled.div`
     display: flex;
     position: relative;
 
-    width: 70%;
-    left: 1vw;
+    width: 68%;
+    left: 1.5vw;
     top: 15%;
 
     flex-direction: column;
-    font-size: 1.2vw;
+    font-size: 1.5vw;
     
     word-break: normal;
     overflow-wrap: break-word;
