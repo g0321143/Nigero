@@ -7,6 +7,7 @@
  */
  import HouseTag from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
  import TallBuildingTag from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.png';
+ import ElevatorTag from '../Assets/Images/ELEVATOR_BUTTON-50.png';
 
 export default {
     house: {
@@ -37,11 +38,11 @@ export default {
         name: 'Elevator',
         id: 'elevator',
         price: "100,000",
-        model: './Models/TallBuilding.glb',
-        nameTagImage: TallBuildingTag,
-        beforeTime: 30,
-        quakeTime: 15,
-        afterTime: 60,
-        totalTime: 105,
+        model: './Models/Elevator.glb',
+        nameTagImage: ElevatorTag,
+        beforeTime: 10,
+        quakeTime: 10,
+        afterTime: 120,
+        totalTime: 140,
     },
 };

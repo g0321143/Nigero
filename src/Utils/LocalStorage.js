@@ -9,6 +9,7 @@ const coinData = 0;
 const scoreData = {
     house: [false, false, false],
     tallBuilding: [false, false, false],
+    elevator: [false, false, false],
 };
 
 // 建物の初期設定
@@ -18,6 +19,10 @@ const buildingsData = {
         isBuy: true,
     },
     tallBuilding:
+    {
+        isBuy: false,
+    },
+    elevator:
     {
         isBuy: false,
     },

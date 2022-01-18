@@ -108,9 +108,9 @@ const GameComponent = ({ time }) => {
     const [star3, setStar3] = useState(false);
 
     
-    console.log(time, star1, star2, star3);
-    setMissionScore(Buildings.house.id, star1, star2, star3)
-    setScore(Buildings.house.id, star1, star2, star3)
+    //console.log(time, star1, star2, star3);
+    //setMissionScore(Buildings.house.id, star1, star2, star3)
+    //setScore(Buildings.house.id, star1, star2, star3)
 
     // アイテムをクリックした時の処理
     //突っ張り棒
