@@ -43,7 +43,7 @@ export default function SelectBuilding() {
     const IDList = [
         Buildings.house.id,
         Buildings.tallBuilding.id,
-        Buildings.tallBuilding.id,
+        Buildings.elevator.id,
     ];
 
     // 右矢印を押した時の処理
