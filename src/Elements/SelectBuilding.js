@@ -32,6 +32,10 @@ export default function SelectBuilding() {
         Store.setScene('game');
     }
 
+    const startQuize = () => {
+        Store.setScene('quize');
+    }
+
     // 表示する建物の数
     const BUILDING_MAX = 2;
     const BUILDING_MIN = 0;
@@ -75,6 +79,8 @@ export default function SelectBuilding() {
             <HeaderText text={"SELECT BUILDING"} />
             <BlockBuildingButton>
                 <BuildingButton src={Buildings[IDList[buildingNum]].nameTagImage} />
+
+                <Setting onClick={() => startQuize()} src={playButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
                 {getBuilding(IDList[buildingNum]) && (
                     <>
                         <UsedButton src={playButton} onClick={() => startGame()} />
@@ -92,6 +98,7 @@ export default function SelectBuilding() {
                         <BuildingPrice>{Buildings[IDList[buildingNum]].price}</BuildingPrice>
                     </>
                 )}
+                
             </BlockBuildingButton>
             <ArrowRight handler={() => moveRightBuilding()} />
             <ArrowLeft handler={() => moveLeftBuilding()} />
@@ -255,5 +262,28 @@ const BuildingPrice = styled.div`
         height: 4vw;
         margin-right: 1vw;
         vertical-align: middle;
+    }
+`;
+
+const Setting = styled.div`
+    display:flex;
+    position: absolute;
+    width: ${props => props.width};
+    height: ${props => props.height};
+    
+    margin: ${props => props.margin};
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
+
+    background-image: url(${props => props.src});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: ${(props) => props.opacity};
+    z-index: 999;
+
+    :hover {
+        cursor: pointer;
+        opacity: 1;
     }
 `;
