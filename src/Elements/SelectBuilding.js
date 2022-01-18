@@ -97,10 +97,21 @@ export default function SelectBuilding() {
             <ArrowLeft handler={() => moveLeftBuilding()} />
             <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
                 <ambientLight intensity={1} />
+                <directionalLight
+                    position={[-2.5, 8, 5]}
+                    intensity={10}
+                    shadow-mapSize-width={1024}
+                    shadow-mapSize-height={1024}
+                    shadow-camera-far={50}
+                    shadow-camera-left={-10}
+                    shadow-camera-right={10}
+                    shadow-camera-top={10}
+                    shadow-camera-bottom={-10}
+                />
                 <group ref={buildingGroupRef} position={[0, 2.5, 0]} rotation={[0, Math.PI / 2, 0]}>
                     <House position={[radius * Math.sin(Math.PI / 2) - 1, 0, radius * Math.cos(Math.PI / 2)]} />
                     <TallBuilding position={[radius * Math.sin(Math.PI), 0.5, radius * Math.cos(Math.PI) - 0.9]} rotation={[-0.1, Math.PI / 2, 0]} />
-                    <Elevator position={[radius * Math.sin(-Math.PI / 2) + 4, -12, radius * Math.cos(-Math.PI / 2) + 4]} rotation={[0, Math.PI, 0]} />
+                    <Elevator position={[radius * Math.sin(-Math.PI / 2) +2, 0, radius * Math.cos(-Math.PI / 2)]} rotation={[0, Math.PI, 0]} />
                 </group>
             </Canvas>
         </Suspense>
@@ -108,7 +119,7 @@ export default function SelectBuilding() {
 }
 
 function Elevator(props) {
-    const { scene } = useGLTF('./Models/Elevator.glb');
+    const { scene } = useGLTF('./Models/Elevator2.glb');
 
     const ref = useRef();
 

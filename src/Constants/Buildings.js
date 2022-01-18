@@ -7,7 +7,7 @@
  */
  import HouseTag from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-19.png';
  import TallBuildingTag from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.png';
- import ElevatorTag from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-17.png';
+ import ElevatorTag from '../Assets/Images/ELEVATOR_BUTTON-50.png';
 
 export default {
     house: {

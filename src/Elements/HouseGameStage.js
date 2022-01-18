@@ -498,10 +498,10 @@ function Table({ time }) {
 
     const [ref] = useCompoundBody(() => ({
         mass: 10,
-        position: [0,1,0],
+        position: [0.25,0.7,-2.75],
         shapes: [
-            { type: 'Box', position: [-1, 0, -0.5], args: [1.5, 0.5, 0.25] },
-            { type: 'Box', position: [0.5, 0, -0.5], args: [0.25, 0.5, 2] },
+            { type: 'Box', position: [0.3, 0, -0.75], args: [1.5, 0.75, 0.5] },
+            { type: 'Box', position: [-0.25, 0, 0], args: [0.5, 0.75, 2] },
         ]
     }));
 
@@ -554,7 +554,7 @@ function Chair({ time }) {
 
     const [ref] = useBox(() => ({
         args: [0.35, 0.7, 0.35],
-        position: [1, 1, -1.5],
+        position: [1, 0.7, -2.5],
         mass: 50,
     }));
 
