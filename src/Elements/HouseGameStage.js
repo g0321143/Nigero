@@ -68,6 +68,7 @@ export default function HouseGameStage(props) {
                     shadow-camera-top={10}
                     shadow-camera-bottom={-10}
                 />
+                <WobbleCamera isQuake={false}/>
                 <Physics iterations={6}>
                     <Debug scale={1.1} color="black">
                     <group>
