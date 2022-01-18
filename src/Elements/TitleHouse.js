@@ -2,19 +2,17 @@ import React, { Suspense, useRef, useState } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Box, Plane, PerspectiveCamera, useGLTF, OrbitControls } from "@react-three/drei";
 
-import colors from '../Constants/Color';
-
-useGLTF.preload('./Models/House.glb');
-useGLTF.preload('./Models/Rock.glb');
-useGLTF.preload('./Models/Fence1.glb');
-useGLTF.preload('./Models/Fence2.glb');
-useGLTF.preload('./Models/Tree.glb');
-useGLTF.preload('./Models/MailBox.glb');
+useGLTF.preload('./Models/Title/House.glb');
+useGLTF.preload('./Models/Title/Rock.glb');
+useGLTF.preload('./Models/Title/Fence1.glb');
+useGLTF.preload('./Models/Title/Fence2.glb');
+useGLTF.preload('./Models/Title/Tree.glb');
+useGLTF.preload('./Models/Title/MailBox.glb');
 
 
 
 function MailBox(props) {
-    const { scene, nodes } = useGLTF("./Models/MailBox.glb");
+    const { scene, nodes } = useGLTF("./Models/Title/MailBox.glb");
 
     return (
         <group {...props} dispose={null}>
@@ -30,7 +28,7 @@ function MailBox(props) {
 }
 
 function House(props) {
-    const { scene } = useGLTF('./Models/House.glb');
+    const { scene } = useGLTF('./Models/Title/House.glb');
 
     let house = [];
 
@@ -73,7 +71,7 @@ function House(props) {
 
 
 function Rock(props) {
-    const { scene, nodes } = useGLTF("./Models/Rock.glb");
+    const { scene, nodes } = useGLTF("./Models/Title/Rock.glb");
 
     return (
         <group {...props} dispose={null}>
@@ -89,7 +87,7 @@ function Rock(props) {
 }
 
 function Fence1(props) {
-    const { nodes } = useGLTF("./Models/Fence1.glb");
+    const { nodes } = useGLTF("./Models/Title/Fence1.glb");
 
     return (
         <group {...props} dispose={null}>
@@ -116,7 +114,7 @@ function Fence1(props) {
 }
 
 function Fence2(props) {
-    const { scene, nodes } = useGLTF("./Models/Fence2.glb");
+    const { scene, nodes } = useGLTF("./Models/Title/Fence2.glb");
 
     return (
         <group {...props} dispose={null}>
@@ -143,7 +141,7 @@ function Fence2(props) {
 }
 
 function Tree(props) {
-    const { scene, nodes } = useGLTF("./Models/Tree.glb");
+    const { scene, nodes } = useGLTF("./Models/Title/Tree.glb");
 
     return (
         <group {...props} dispose={null}>

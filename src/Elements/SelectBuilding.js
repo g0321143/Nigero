@@ -98,57 +98,42 @@ export default function SelectBuilding() {
             <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
                 <ambientLight intensity={1} />
                 <group ref={buildingGroupRef} position={[0, 2.5, 0]} rotation={[0, Math.PI / 2, 0]}>
-                    <Room position={[radius * Math.sin(Math.PI / 2) - 1, 0, radius * Math.cos(Math.PI / 2)]} />
-                    <TallBuilding position={[radius * Math.sin(Math.PI), 0.5, radius * Math.cos(Math.PI) - 0.9]} rotation={[-0.1,  Math.PI / 2, 0]} />
-                    <House position={[radius * Math.sin(-Math.PI / 2), -1, radius * Math.cos(-Math.PI / 2) + 0.9]} rotation={[0, 5 * Math.PI / 4, 0]} />
+                    <House position={[radius * Math.sin(Math.PI / 2) - 1, 0, radius * Math.cos(Math.PI / 2)]} />
+                    <TallBuilding position={[radius * Math.sin(Math.PI), 0.5, radius * Math.cos(Math.PI) - 0.9]} rotation={[-0.1, Math.PI / 2, 0]} />
+                    <Elevator position={[radius * Math.sin(-Math.PI / 2) + 4, -12, radius * Math.cos(-Math.PI / 2) + 4]} rotation={[0, Math.PI, 0]} />
                 </group>
             </Canvas>
         </Suspense>
     );
 }
 
-function House(props) {
-    const { scene } = useGLTF('./Models/House.glb');
+function Elevator(props) {
+    const { scene } = useGLTF('./Models/Elevator.glb');
 
-    let house = [];
+    const ref = useRef();
 
-    scene.traverse((object) => {
-        if (object.isMesh) {
-            if (object.name == 'House_2') {
-                house.push(
-                    <mesh
-                        scale={object.scale}
-                        rotation={object.rotation}
-                        geometry={object.geometry}
-                    >
-                        <meshStandardMaterial color={'white'} />
-                    </mesh>
-                );
-            } else {
-                house.push(
-                    <mesh
-                        scale={object.scale}
-                        rotation={object.rotation}
-                        geometry={object.geometry}
-                    >
-                        <meshStandardMaterial color={'#e6df97'} />
-                    </mesh>
-                );
-            }
-        }
+    useFrame((state) => {
+        const t = state.clock.getElapsedTime();
+        ref.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
+        ref.current.rotation.x = Math.cos(t / 4) / 8;
+        ref.current.rotation.y = Math.sin(t / 4) / 8 - Math.PI / 4;
+        ref.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
     });
 
 
     return (
-        <group {...props} dispose={null}>
-            {house[0]}
-            {house[1]}
+        <group {...props}>
+            <primitive
+                ref={ref}
+                object={scene}
+                scale={0.6}
+            />
         </group>
     )
 }
 
-function Room(props) {
-    const { scene } = useGLTF('./Models/Room.glb');
+function House(props) {
+    const { scene } = useGLTF('./Models/House.glb');
 
     const ref = useRef();
 

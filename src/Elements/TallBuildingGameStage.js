@@ -24,6 +24,7 @@ export default function TallBuildingGameStage(props) {
     const [dragPos, setDragPos] = useState({ x: 0, y: 0 });
     const [angle, setAngle] = useState(0);
     const [isMove, setMove] = useState(false);
+    const [isHide, hide] = useState(false);
 
     const onChangeJoystick = (e) => {
         setDragPos({
@@ -112,23 +113,14 @@ export default function TallBuildingGameStage(props) {
                         <Bin time={props.time} position={[-0.7, 0.5, -1.5]} />
                         <Bin time={props.time} position={[0.7, 0.5, 3.5]} />
 
-                        <Chair time={props.time} position={[0, 0.5, -5]} rotationY={Math.PI / 2} />
-                        <Table time={props.time} position={[0.5, 1, -5]} onCollide={(e) => {
-                            console.log('Collision event on BoxTrigger', e)
-                        }} />
-                        <Chair time={props.time} position={[1, 0.5, -5]} rotationY={-Math.PI / 2} />
-
-                        <Chair time={props.time} position={[4.5, 0.5, -5]} rotationY={0} />
-                        <Table time={props.time} position={[4.5, 0.5, -4]} />
-                        <Chair time={props.time} position={[4.5, 0.5, -3]} rotationY={Math.PI} />
-
                         <Chair time={props.time} position={[-1.5, 0.5, 5.2]} rotationY={Math.PI / 2} />
-                        <Table time={props.time} position={[-1, 0.5, 5.2]} />
+                        <Table time={props.time} position={[-1, 0.5, 5.2]} onCollide={(e) => {
+                            console.log(props.time , Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime);
+                            if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.quakeTime) {
+                                console.log('Collision event on BoxTrigger', e);
+                            }
+                        }} />
                         <Chair time={props.time} position={[-0.5, 0.5, 5.2]} rotationY={-Math.PI / 2} />
-
-                        <Chair time={props.time} position={[0.5, 0.5, 5.2]} rotationY={Math.PI / 2} />
-                        <Table time={props.time} position={[1, 0.5, 5.2]} />
-                        <Chair time={props.time} position={[1.5, 0.5, 5.2]} rotationY={-Math.PI / 2} />
 
                         <FloorLamp time={props.time} position={[2, 0.9, -5]} />
                         <FloorLamp time={props.time} position={[-4.7, 0.9, -4]} />
