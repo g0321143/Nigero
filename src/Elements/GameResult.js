@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Color from "../Constants/Color";
 
 import Store from '../Utils/Store';
-import { Block_Column_End } from '../Utils/GlobalStyles';
 import Button from '../Utils/Button';
 import StarScore from '../Utils/StarScore';
 import Money from '../Utils/Money'
@@ -21,13 +20,19 @@ import failureResultBox from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-14.png'
 
 
 /**
-    * クリア後のみに使用するコンポーネントです
-    */
-const GameResult = ({ keyhandler, isClear, getCoin, StageName }) => {
+ * クリア後のリザルト画面を表示させるコンポーネントです
+ * @param {(callback: () => void)} keyhandler リトライボタンを押した時のコールバック
+ * @param {boolean} isClear ゲームをクリアしたかどうか
+ * @param {boolean} getCoin 星１つあたりの獲得できるコイン枚数
+ * @param {boolean} stageName ステージの名前
+ * @param {boolean} tipsText ゲームオーバー画面に表示させるヒントのテキスト
+ */
+const GameResult = ({ keyhandler, isClear, getCoin, stageName, tipsText }) => {
 
     const resultText = isClear ? 'Game Clear' : 'Game Over';
     const [score, setScore] = useState([false, false, false]);
 
+    // 最初の一回だけ実行する
     useEffect(() => {
         if (isClear == true) {
             const score = getLatestScore(Buildings.house.id);
@@ -76,7 +81,7 @@ const GameResult = ({ keyhandler, isClear, getCoin, StageName }) => {
             {!isClear &&
                 <>
                     <FailureResult >
-                        {'Fusce eu elit dignissim, malesuada est vel, iaculis eros. Praesent mi sapien, rutrum et mauris sed, vestibulum egestas felis. Nulla eu commodo leo. Pellentesque iaculis tempor venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed sit amet erat ac tortor interdum ultricies. Pellentesque et nisl eget nunc .'}
+                        {tipsText}
                     </FailureResult>
                     <ButtonDiv>
                         <Button
@@ -96,7 +101,7 @@ const GameResult = ({ keyhandler, isClear, getCoin, StageName }) => {
                     </ButtonDiv>
                 </>
             }
-            <ClearModelComponent isClear={isClear} StageName={StageName} />
+            <ClearModelComponent isClear={isClear} stageName={stageName} />
         </>
     );
 }
@@ -104,7 +109,7 @@ const GameResult = ({ keyhandler, isClear, getCoin, StageName }) => {
 /**
     * クリア後に表示する3Dモデルです
     */
-const ClearModelComponent = ({ isClear, StageName }) => {
+const ClearModelComponent = ({ isClear, stageName }) => {
 
     return (
         <Canvas camera={{ position: [1.3, 1.5, 1.5], fov: 45 }}>
@@ -112,7 +117,7 @@ const ClearModelComponent = ({ isClear, StageName }) => {
             <ambientLight intensity={0.2} />
             <directionalLight position={[2, 4, 2]} intensity={0.8} />
             {isClear ? <ClearPlayer /> : <GameOverPlayer />}
-            <Stage StageName={StageName} />
+            <Stage stageName={stageName} />
         </Canvas>
     );
 }
@@ -159,14 +164,14 @@ const ClearPlayer = () => {
     );
 }
 
-const Stage = ({ StageName }) => {
+const Stage = ({ stageName }) => {
     // 3Dモデルの読み込み
-    const { scene } = useGLTF("./Models/Result/" + StageName + ".glb");
+    const { scene } = useGLTF("./Models/Result/" + stageName + ".glb");
 
     var position;
     var rotation;
     var scale;
-    switch (StageName) {
+    switch (stageName) {
         case Buildings.house.name:
             position = [-1.5, -0.5, 2];
             rotation = [0, 0, 0];

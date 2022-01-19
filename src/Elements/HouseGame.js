@@ -1,17 +1,10 @@
-import React, { Suspense, useState, useEffect } from 'react'
-import { Canvas, useLoader, useFrame } from '@react-three/fiber';
+import React, { Suspense, useState } from 'react'
 import Countdown from 'react-countdown';
 import styled from 'styled-components';
-import Color from "../Constants/Color";
 
 import Store from '../Utils/Store';
 import Text from '../Utils/Text';
-import { Game_Canvas, Block_Right_End, Block_Column_End } from '../Utils/GlobalStyles';
-import StarScore from '../Utils/StarScore';
-import Money from '../Utils/Money'
-import HeaderText from '../Utils/HeaderText';
-import { getScore } from '../Utils/LocalStorage';
-
+import { Game_Canvas } from '../Utils/GlobalStyles';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import Buildings from '../Constants/Buildings';
@@ -19,7 +12,7 @@ import Buildings from '../Constants/Buildings';
 import HouseGameStage from './HouseGameStage';
 import GameResult from './GameResult';
 
-
+const tipsText = 'Fusce eu elit dignissim, malesuada est vel, iaculis eros. Praesent mi sapien, rutrum et mauris sed, vestibulum egestas felis. Nulla eu commodo leo. Pellentesque iaculis tempor venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed sit amet erat ac tortor interdum ultricies. Pellentesque et nisl eget nunc .';
 
 
 /**
@@ -50,7 +43,7 @@ export default function HouseGame() {
                     key={key}
                     renderer={(props) => {
                         const time = props.minutes * 60 + props.seconds;
-                        return  isComplete || isGameOver ?
+                        return isComplete || isGameOver ?
                             <GameResult
                                 keyhandler={() => {
                                     gameOver(false);
@@ -59,7 +52,8 @@ export default function HouseGame() {
                                 }}
                                 isClear={!isGameOver}
                                 getCoin={3000}
-                                StageName={Buildings.house.name}
+                                stageName={Buildings.house.name}
+                                tipsText={tipsText}
                             /> :
                             <GameComponent
                                 time={time}
@@ -83,56 +77,15 @@ const GameComponent = ({ time, isGameOver, isCompleted }) => {
             <Text text={String(time)} />
             <HouseGameStage time={time} isGameOver={isGameOver} isCompleted={isCompleted} />
             <Setting
-                    onClick={() => Store.resetStage()}
-                    src={backButton}
-                    margin={'0%'}
-                    top={'85%'}
-                    left={"88%"} width={'10%'} height={'10%'} opacity={'0.9'}
-                />
+                onClick={() => Store.resetStage()}
+                src={backButton}
+                margin={'0%'}
+                top={'85%'}
+                left={"88%"} width={'10%'} height={'10%'} opacity={'0.9'}
+            />
         </>
     );
 }
-
-/**
-    * クリア後のみに使用するコンポーネントです
-    */
-const ClearComponent = ({ keyhandler, isClear }) => {
-
-    const resultText = isClear ? 'Game Clear' : 'Game Over';
-    const [score, setScore] = useState([false, false, false]);
-
-    useEffect(() => setScore(getScore(Buildings.house.id)), []);
-
-    return (
-        <>
-            <HeaderText text={resultText} />
-            <Money />
-            {isClear && <Block_Column_End>
-                <StarScore
-                    width={'10vw'}
-                    star1={score[0]}
-                    star2={score[1]}
-                    star3={score[2]}
-                />
-            </Block_Column_End>}
-            <ClearModelComponent />
-        </>
-    );
-}
-
-/**
-    * クリア後に表示する3Dモデルです
-    */
-const ClearModelComponent = () => {
-
-    return (
-        <Canvas camera={{ position: [0, 6, 0], fov: 45 }}>
-            <ambientLight intensity={0.2} />
-        </Canvas>
-    );
-}
-
-
 
 
 const Setting = styled.div`
@@ -156,22 +109,4 @@ const Setting = styled.div`
         cursor: pointer;
         opacity: 1;
     }
-`;
-
-const AnyText = styled.div`
-    display: flex;
-    position: absolute;
-    font-size: ${(props) => props.fontsize};
-    text-align: center;
-    color: ${Color.slightlyGrayishYellow};
-    font-weight: bold;
-    inline-size: 145px; 
-    text-align: left;
-    top: ${(props) => props.top};
-    left: ${(props) => props.left};
-
-    user-select: none;
-    user-drag: none;
-
-    z-index: 999;
 `;
