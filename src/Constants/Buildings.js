@@ -24,7 +24,7 @@ export default {
     },
     tallBuilding:
     {
-        name: 'Tall Building',
+        name: 'TallBuilding',
         id: 'tallBuilding',
         price: "100,000",
         model: './Models/TallBuilding.glb',

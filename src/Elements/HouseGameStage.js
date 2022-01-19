@@ -57,13 +57,22 @@ export default function HouseGameStage(props) {
     const localTime = useRef(props.time);
     localTime.current = props.time;
     const isquakeTime = props.time < Buildings.house.totalTime - Buildings.house.beforeTime && props.time > Buildings.house.afterTime;
+
     
-    // ゲームオーバーの処理
-    if(props.time < Buildings.house.totalTime - Buildings.house.gameOverTime && !isHide){
-        props.isGameOver(true);
-    }else{
-        props.isGameOver(false);
-    }
+    useEffect(() => {
+        // ゲームオーバーの処理
+        if (props.time < Buildings.house.totalTime - Buildings.house.gameOverTime && !isHide) {
+            props.isGameOver(true);
+        } else {
+            props.isGameOver(false);
+        }
+        // ゲームの終了
+        if (props.time == 1) {
+            props.isCompleted(true);
+        }
+    }, [props.time]);
+
+
 
     // スティックを操作した時
     const onChangeJoystick = (e) => {
@@ -121,7 +130,7 @@ export default function HouseGameStage(props) {
     useEffect(() =>
         () => {
             if (mission.current[0] == true)
-                setScore(Buildings.house.id, mission.current)
+                setScore(Buildings.house.id, mission.current);
         }, []);
 
 
@@ -370,9 +379,9 @@ function House({ isquakeTime }) {
                 }
             } else if (object.name > 'Cube134' && object.name < 'Cube161') {
                 if (isquakeTime == true) {
-                    objectColor = Color.darkGrayishGreen;
-                } else {
                     objectColor = Color.veryDarkBlueViolet;
+                } else {
+                    objectColor = Color.darkGrayishGreen;
                 }
             } else if (object.name == 'Cube021') {
                 if (isquakeTime == true) {

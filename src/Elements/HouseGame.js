@@ -1,4 +1,5 @@
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useState, useEffect } from 'react'
+import { Canvas, useLoader, useFrame } from '@react-three/fiber';
 import Countdown from 'react-countdown';
 import styled from 'styled-components';
 import Color from "../Constants/Color";
@@ -6,21 +7,17 @@ import Color from "../Constants/Color";
 import Store from '../Utils/Store';
 import Text from '../Utils/Text';
 import { Game_Canvas, Block_Right_End, Block_Column_End } from '../Utils/GlobalStyles';
-import Button from '../Utils/Button';
 import StarScore from '../Utils/StarScore';
 import Money from '../Utils/Money'
 import HeaderText from '../Utils/HeaderText';
-import { addCoin, getScore } from '../Utils/LocalStorage';
+import { getScore } from '../Utils/LocalStorage';
 
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
-import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
-import retyrButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-34.png';
-import tipsButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-35.png';
-
 import Buildings from '../Constants/Buildings';
 
 import HouseGameStage from './HouseGameStage';
+import GameResult from './GameResult';
 
 
 
@@ -42,30 +39,34 @@ export default function HouseGame() {
     // ゲームオーバーになったかどうか
     const [isGameOver, gameOver] = useState(false);
 
+    // ゲームが完了したかどうか
+    const [isComplete, completed] = useState(false);
+
     return (
         <Suspense fallback={"Loading"}>
-            <Game_Canvas key={key}>
+            <Game_Canvas>
                 <Countdown
                     date={Date.now() + Buildings.house.totalTime * 1000}
+                    key={key}
                     renderer={(props) => {
                         const time = props.minutes * 60 + props.seconds;
-                        return props.completed || isGameOver ?
-                            <ClearComponent
-                                keyhandler={() => setkey(!key)}
+                        return  isComplete || isGameOver ?
+                            <GameResult
+                                keyhandler={() => {
+                                    gameOver(false);
+                                    completed(false);
+                                    setkey(!key);
+                                }}
                                 isClear={!isGameOver}
+                                getCoin={3000}
+                                StageName={Buildings.house.name}
                             /> :
                             <GameComponent
                                 time={time}
                                 isGameOver={(value) => gameOver(value)}
+                                isCompleted={(value) => completed(value)}
                             />
                     }}
-                />
-                <Setting
-                    onClick={() => Store.resetStage()}
-                    src={backButton}
-                    margin={'0%'}
-                    top={'85%'}
-                    left={"88%"} width={'10%'} height={'10%'} opacity={'0.9'}
                 />
             </Game_Canvas>
         </Suspense>
@@ -75,12 +76,19 @@ export default function HouseGame() {
 /**
      * ゲーム中のみに使用するコンポーネントです
      */
-const GameComponent = ({ time, isGameOver }) => {
+const GameComponent = ({ time, isGameOver, isCompleted }) => {
 
     return (
         <>
             <Text text={String(time)} />
-            <HouseGameStage time={time} isGameOver={isGameOver} />
+            <HouseGameStage time={time} isGameOver={isGameOver} isCompleted={isCompleted} />
+            <Setting
+                    onClick={() => Store.resetStage()}
+                    src={backButton}
+                    margin={'0%'}
+                    top={'85%'}
+                    left={"88%"} width={'10%'} height={'10%'} opacity={'0.9'}
+                />
         </>
     );
 }
@@ -90,8 +98,11 @@ const GameComponent = ({ time, isGameOver }) => {
     */
 const ClearComponent = ({ keyhandler, isClear }) => {
 
-    const resultText = isClear ? 'Game Clear':'Game Over';
-    const score = getScore(Buildings.house.id);
+    const resultText = isClear ? 'Game Clear' : 'Game Over';
+    const [score, setScore] = useState([false, false, false]);
+
+    useEffect(() => setScore(getScore(Buildings.house.id)), []);
+
     return (
         <>
             <HeaderText text={resultText} />
@@ -104,31 +115,25 @@ const ClearComponent = ({ keyhandler, isClear }) => {
                     star3={score[2]}
                 />
             </Block_Column_End>}
+            <ClearModelComponent />
         </>
     );
 }
 
-function Clear({ handler }) {
+/**
+    * クリア後に表示する3Dモデルです
+    */
+const ClearModelComponent = () => {
 
     return (
-        <>
-            <Money />
-            <AnyText fontsize={"5vw"} top={"5%"} left={"35%"}>{":COMPLETE:"}</AnyText>
-            <Block_Column_End>
-                <StarScore
-                    width={'100px'}
-                    height={'100px'}
-                    star1={getScore(Buildings.house.id)[0]}
-                    star2={getScore(Buildings.house.id)[1]}
-                    star3={getScore(Buildings.house.id)[2]}
-                />
-            </Block_Column_End>
-            <Setting onClick={() => Store.resetStage()} src={nextButton} top={"25%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
-            <Setting onClick={handler} src={retyrButton} top={"35%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
-            <Setting onClick={() => Store.resetbuilding()} src={tipsButton} top={"45%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
-        </>
+        <Canvas camera={{ position: [0, 6, 0], fov: 45 }}>
+            <ambientLight intensity={0.2} />
+        </Canvas>
     );
 }
+
+
+
 
 const Setting = styled.div`
     display:flex;

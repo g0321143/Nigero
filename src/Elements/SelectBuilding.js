@@ -269,26 +269,3 @@ const BuildingPrice = styled.div`
         vertical-align: middle;
     }
 `;
-
-const Setting = styled.div`
-    display:flex;
-    position: absolute;
-    width: ${props => props.width};
-    height: ${props => props.height};
-    
-    margin: ${props => props.margin};
-    top: ${(props) => props.top};
-    left: ${(props) => props.left};
-
-    background-image: url(${props => props.src});
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: ${(props) => props.opacity};
-    z-index: 999;
-
-    :hover {
-        cursor: pointer;
-        opacity: 1;
-    }
-`;

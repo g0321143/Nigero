@@ -50,16 +50,16 @@ export default function Player({ dragPos, playerAngle, isMove, isLighting, playe
     useEffect(() => {
         const actionName = isMove ? 'Walking' : 'Idle';
         changeAction(actionName);
-    }, [isMove])
+    }, [isMove]);
 
     // アクションの切り替え
     const changeAction = (nextAction) => {
         actions[action].fadeOut(0.5);
         setAction(nextAction);
         actions[nextAction].reset().fadeIn(0.5).play();
-    }
+    };
 
-    const { camera } = useThree()
+    const { camera } = useThree();
     // 毎フレーム実行する関数
     useFrame(() => {
         // プレイヤーに速度を与える
