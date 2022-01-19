@@ -47,7 +47,7 @@ export default function HouseGameStage(props) {
     const [isHide, hide] = useState(false);
 
     // ミッションの達成状況
-    const mission = useRef(getScore(Buildings.house.id));
+    const mission = useRef([false, false, false]);
 
     // アイテムの使用状況
     const [isUseGelMat, useGelMat] = useState(false);
