@@ -80,26 +80,20 @@ export default function SelectBuilding() {
             <HeaderText text={"SELECT BUILDING"} />
             <BlockBuildingButton>
                 <BuildingButton src={Buildings[IDList[buildingNum]].nameTagImage} />
+                {getBuilding(IDList[buildingNum]) && (
+                    <UsedButton src={playButton} onClick={() => startGame()} />
 
-                <Block_Column_End>
-                <Button
-                    handler={() => startQuize()}
-                    src={playButton}
-                    width={'20%'}
-                    height={'10%'}
-                    margin={'1%'}
-                />
-                </Block_Column_End>
-               {getBuilding(IDList[buildingNum]) && (
-                    <>
-                        <UsedButton src={playButton} onClick={() => startGame()} />
-                        <StarScore
-                            width={"5vw"}
-                            star1={getScore(IDList[buildingNum])[0]}
-                            star2={getScore(IDList[buildingNum])[1]}
-                            star3={getScore(IDList[buildingNum])[2]}
-                        />
-                    </>
+                )}
+                {getScore(IDList[buildingNum])[0] == true && (
+                    <QuizButton src={playButton} onClick={() => startQuize()} />
+                )}
+                {getBuilding(IDList[buildingNum]) && (
+                    <StarScore
+                        width={"4.5vw"}
+                        star1={getScore(IDList[buildingNum])[0]}
+                        star2={getScore(IDList[buildingNum])[1]}
+                        star3={getScore(IDList[buildingNum])[2]}
+                    />
                 )}
                 {!getBuilding(IDList[buildingNum]) && (
                     <>
@@ -107,7 +101,7 @@ export default function SelectBuilding() {
                         <BuildingPrice>{Buildings[IDList[buildingNum]].price}</BuildingPrice>
                     </>
                 )}
-                
+
             </BlockBuildingButton>
             <ArrowRight handler={() => moveRightBuilding()} />
             <ArrowLeft handler={() => moveLeftBuilding()} />
@@ -127,7 +121,7 @@ export default function SelectBuilding() {
                 <group ref={buildingGroupRef} position={[0, 2.5, 0]} rotation={[0, Math.PI / 2, 0]}>
                     <House position={[radius * Math.sin(Math.PI / 2) - 1, 0, radius * Math.cos(Math.PI / 2)]} />
                     <TallBuilding position={[radius * Math.sin(Math.PI), 0.5, radius * Math.cos(Math.PI) - 0.9]} rotation={[-0.1, Math.PI / 2, 0]} />
-                    <Elevator position={[radius * Math.sin(-Math.PI / 2) +2, 0, radius * Math.cos(-Math.PI / 2)]} rotation={[0, Math.PI, 0]} />
+                    <Elevator position={[radius * Math.sin(-Math.PI / 2) + 2, 0, radius * Math.cos(-Math.PI / 2)]} rotation={[0, Math.PI, 0]} />
                 </group>
             </Canvas>
         </Suspense>
@@ -230,8 +224,25 @@ const UsedButton = styled.img`
     display: flex;
 
     width: 15vw;
-    margin-top: 28vw;
-    margin-bottom: 1vw;
+    margin-top: 26vw;
+    margin-bottom: 0.5vw;
+
+    url(${(props) => props.src});
+    z-index: 999;
+    opacity: 0.9;
+
+    :hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+`;
+
+const QuizButton = styled.img`
+    display: flex;
+
+    width: 15vw;
+    margin-top: 0.5vw;
+    margin-bottom: 0.5vw;
 
     url(${(props) => props.src});
     z-index: 999;
