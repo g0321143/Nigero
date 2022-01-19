@@ -16,7 +16,7 @@ import { addCoin, getCoin } from '../Utils/LocalStorage';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import mission from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_4-26-26.png';
-import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
+import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-33.png';
 
 // [問題文, 正解が〇ならture,×ならflase]
 const IDList = [
