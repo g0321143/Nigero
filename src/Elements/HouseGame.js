@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState, useEffect } from 'react'
+import React, { Suspense, useState } from 'react'
 import Countdown from 'react-countdown';
 import styled from 'styled-components';
 import Color from "../Constants/Color";
@@ -10,7 +10,7 @@ import Button from '../Utils/Button';
 import StarScore from '../Utils/StarScore';
 import Money from '../Utils/Money'
 import HeaderText from '../Utils/HeaderText';
-import { addCoin, setScore, getScore } from '../Utils/LocalStorage';
+import { addCoin, getScore } from '../Utils/LocalStorage';
 
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
@@ -128,16 +128,6 @@ function Clear({ handler }) {
             <Setting onClick={() => Store.resetbuilding()} src={tipsButton} top={"45%"} left={"80%"} width={'15%'} height={'15%'} opacity={'0.9'} />
         </>
     );
-}
-
-
-function ClearTime({ time, limit }) {
-    const [time_s, settime_s] = useState(parseInt((limit - time) % 60));
-    const [usertime_s, setusertime_s] = useState(('00' + time_s).slice(-2));
-    const [time_m, settime_m] = useState(parseInt((limit - time) / 60));
-    const [usertime_m, setusertime_m] = useState(('00' + time_m).slice(-2));
-
-    return (<AnyText fontsize={"5vw"} top={"15%"} left={"44%"}>{usertime_m + ":" + usertime_s}</AnyText>);
 }
 
 const Setting = styled.div`
