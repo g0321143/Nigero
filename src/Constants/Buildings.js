@@ -18,8 +18,8 @@ export default {
         nameTagImage: HouseTag,
         beforeTime: 30,
         quakeTime: 15,
-        afterTime: 60,
-        totalTime: 105,
+        afterTime: 0,
+        totalTime: 45,
         gameOverTime: 40
     },
     tallBuilding:

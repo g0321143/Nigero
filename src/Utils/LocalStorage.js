@@ -127,19 +127,18 @@ export function subCoin(subtract) {
 /**
  * スコアをローカルストレージに保存します.
  * @param {string} building 建物の名前
- * @param {boolean} star1 星1
- * @param {boolean} star2 星2
- * @param {boolean} star3 星3
+ * @param {[boolean, boolean, boolean]} score 星の状態
  */
-export function setScore(building, star1, star2, star3) {
+export function setScore(building, score) {
     const scoreList = JSON.parse(localStorage.getItem(SCORE_KEY));
 
-    scoreList[building][0] = star1;
-    scoreList[building][1] = star2;
-    scoreList[building][2] = star3;
+    for (let index = 0; index < score.length; index++) {
+        if (score[index] == true)
+            scoreList[building][index] = score[index];
+    }
 
     localStorage.setItem(SCORE_KEY, JSON.stringify(scoreList));
-    console.log(`set score : ${building} (${star1},${star2},${star3})`);
+    console.log(`set score : ${building} ${scoreList[building]}`);
 }
 
 /**
@@ -165,7 +164,7 @@ export function getScore(building) {
  * @param {boolean} mission2 星2
  * @param {boolean} mission3 星3
  */
- export function setMissionScore(building, mission1, mission2, mission3) {
+export function setMissionScore(building, mission1, mission2, mission3) {
     const missionList = JSON.parse(localStorage.getItem(SCORE_KEY));
 
     missionList[building][0] = mission1;

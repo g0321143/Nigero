@@ -13,8 +13,6 @@ import MissionBox from '../Utils/MissionBox';
 import { addCoin, setScore, getScore } from '../Utils/LocalStorage';
 import VirtualStick from "../Utils/VirtualStick";
 
-import itemImage from '../Assets/Images/Items/NightStarJP.png';
-
 useGLTF.preload("./Models/House/Structure.glb");
 useGLTF.preload("./Models/House/Chair2.glb");
 
@@ -26,9 +24,10 @@ const missionText = [
 
 import gelMatIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
 import tensionRodIcon from '../Assets/Images/Items/Icon/tension_rod-37.png';
+import hideIcon from '../Assets/Images/HideImage.png';
 
 const LampPosition = { x: 6, z: 1 };
-const CabinetPosition = { x: 0, z: 0 };
+const CabinetPosition = { x: -0.1, z: 0.5 };
 
 /**
  * ハウスステージで使用する3Dモデルを描画します
@@ -44,16 +43,27 @@ export default function HouseGameStage(props) {
     const stickPosition = useRef({ x: 0, y: 0 });
     const lampRef = useRef();
     const cabinetRef = useRef();
+    const tableRef = useRef();
+    const [isHide, hide] = useState(false);
 
     // ミッションの達成状況
-    const [mission, setMission] = useState(getScore(Buildings.house.id));
+    const mission = useRef(getScore(Buildings.house.id));
 
     // アイテムの使用状況
     const [isUseGelMat, useGelMat] = useState(false);
     const [isUseTensionRod, useTensionRod] = useState(false);
-    const useItemRef = [];
-    if(isUseGelMat) useItemRef.push(lampRef);
-    if(isUseTensionRod) useItemRef.push(cabinetRef);
+
+    // 時間に関する状態
+    const localTime = useRef(props.time);
+    localTime.current = props.time;
+    const isquakeTime = props.time < Buildings.house.totalTime - Buildings.house.beforeTime && props.time > Buildings.house.afterTime;
+    
+    // ゲームオーバーの処理
+    if(props.time < Buildings.house.totalTime - Buildings.house.gameOverTime && !isHide){
+        props.isGameOver(true);
+    }else{
+        props.isGameOver(false);
+    }
 
     // スティックを操作した時
     const onChangeJoystick = (e) => {
@@ -75,9 +85,9 @@ export default function HouseGameStage(props) {
             Math.pow(LampPosition.x - playerPosition.current.x, 2) +
             Math.pow(LampPosition.z - playerPosition.current.z, 2)
         );
-        if (distance < 1 && props.time > Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime) {
+        if (distance < 1 && props.time > Buildings.house.totalTime - Buildings.house.beforeTime) {
             useGelMat(true);
-            setMission([mission[0], mission[1], true]);
+            mission.current = [mission.current[0], mission.current[1], true];
         }
     });
 
@@ -87,15 +97,33 @@ export default function HouseGameStage(props) {
             Math.pow(CabinetPosition.x - playerPosition.current.x, 2) +
             Math.pow(CabinetPosition.z - playerPosition.current.z, 2)
         );
-        if (distance < 1 && props.time > Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime) {
+        if (distance < 1 && props.time > Buildings.house.totalTime - Buildings.house.beforeTime) {
             useTensionRod(true);
-            setMission([mission[0], true, mission[2]]);
+            mission.current = [mission.current[0], true, mission.current[2]];
+        }
+    });
+
+    // 机に隠れる時の処理
+    const onCollidehandle = (() => {
+        if (localTime.current < Buildings.house.totalTime - Buildings.house.beforeTime &&
+            localTime.current > Buildings.house.afterTime) {
+            hide(true);
+            mission.current = [true, mission.current[1], mission.current[2]];
         }
     });
 
     // 使用するアイテムのテクスチャ
     const gelMatBillboardMap = useLoader(THREE.TextureLoader, gelMatIcon);
     const tensionRodBillboardMap = useLoader(THREE.TextureLoader, tensionRodIcon);
+    const hideIconBillboardMap = useLoader(THREE.TextureLoader, hideIcon);
+
+    // ゲーム終了時の処理
+    useEffect(() =>
+        () => {
+            if (mission.current[0] == true)
+                setScore(Buildings.house.id, mission.current)
+        }, []);
+
 
     return (
         <>
@@ -105,7 +133,7 @@ export default function HouseGameStage(props) {
             />
             <MissionBox
                 missionText={missionText}
-                isCheckedMission={mission}
+                isCheckedMission={mission.current}
             />
             <Inventory
                 items={[
@@ -115,7 +143,7 @@ export default function HouseGameStage(props) {
             />
             <Canvas shadows camera={{ position: [0, 6, 0], fov: 45 }}>
                 <Stats />
-                <WobbleCamera time={props.time} />
+                <WobbleCamera isquakeTime={isquakeTime} />
                 <ambientLight intensity={0.2} />
                 <directionalLight
                     castShadow
@@ -134,40 +162,68 @@ export default function HouseGameStage(props) {
                     {/* <Debug scale={1.1} color="black"> */}
                     <group>
                         <Ground />
-                        <Player
+                        {!isHide && <Player
                             dragPos={stickPosition.current}
                             playerAngle={playerAngle}
                             initPosition={[0.5, 0.4, 0]}
                             isMove={isPlayerMove.current}
                             isLighting={false}
                             playerPositionCallback={p => playerPosition.current = p}
-                        />
-                        <House time={props.time} />
-                        <SmallChair time={props.time} />
-                        <SmallTable time={props.time} />
-                        <Chair time={props.time} />
-                        <Table time={props.time} />
-                        <Lamp time={props.time} impulse={isUseGelMat ? 0 : -10} lampRef={lampRef} />
-                        <Cabinet time={props.time} impulse={isUseTensionRod ? 0 : 10} cabinetRef={cabinetRef} />
-                        <LargeChair time={props.time} />
-                        {isUseGelMat ?
+                        />}
+                        <House isquakeTime={isquakeTime} />
+                        <SmallChair isquakeTime={isquakeTime} />
+                        <SmallTable isquakeTime={isquakeTime} />
+                        <Chair isquakeTime={isquakeTime} />
+                        <Table isquakeTime={isquakeTime} tableRef={tableRef} onCollide={() => onCollidehandle()} />
+                        <Lamp isquakeTime={isquakeTime} time={props.time} impulse={isUseGelMat ? 0 : -10} lampRef={lampRef} />
+                        <Cabinet isquakeTime={isquakeTime} time={props.time} impulse={isUseTensionRod ? 0 : 10} cabinetRef={cabinetRef} />
+                        <LargeChair isquakeTime={isquakeTime} />
+                        {isUseGelMat &&
                             <UseItemBillboard
                                 position={[LampPosition.x - 0.8, 2, LampPosition.z - 0.2]}
                                 url={gelMatBillboardMap}
-                            /> : null}
-                        {isUseTensionRod ?
+                            />}
+                        {isUseTensionRod &&
                             <UseItemBillboard
                                 position={[CabinetPosition.x - 0.8, 2.6, CabinetPosition.z - 0.2]}
                                 url={tensionRodBillboardMap}
-                            /> : null}
+                            />}
+                        {isHide &&
+                            <UseItemBillboard
+                                position={[0, 1.5, -2]}
+                                url={hideIconBillboardMap}
+                            />}
                         <EffectComposer multisampling={8} autoClear={false}>
                             <Outline
                                 blur
-                                selection={useItemRef}
-                                visibleEdgeColor="white"
-                                edgeStrength={100}
+                                xRay={false}
+                                pulseSpeed={0.5}
+                                selection={lampRef}
+                                selectionLayer={1}
+                                visibleEdgeColor={isUseGelMat ? "white" : "red"}
+                                edgeStrength={5}
                                 width={500}
                             />
+                            <Outline
+                                blur
+                                xRay={false}
+                                pulseSpeed={0.5}
+                                selection={cabinetRef}
+                                selectionLayer={2}
+                                visibleEdgeColor={isUseTensionRod ? "white" : "red"}
+                                edgeStrength={5}
+                                width={500}
+                            />
+                            {isquakeTime && <Outline
+                                blur
+                                xRay={false}
+                                pulseSpeed={1}
+                                selection={tableRef}
+                                selectionLayer={3}
+                                visibleEdgeColor={"green"}
+                                edgeStrength={10}
+                                width={500}
+                            />}
                         </EffectComposer>
                     </group>
                     {/* </ Debug> */}
@@ -214,14 +270,13 @@ function WobbleCamera(props) {
         additive: true, // this should be used when your scene has orbit controls
     }
 
-    if (props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-        props.time > Buildings.tallBuilding.afterTime)
+    if (props.isquakeTime == true)
         return <CameraShake {...config} />;
     else
         return null;
 }
 
-function House({ time }) {
+function House({ isquakeTime }) {
     const { scene } = useGLTF("./Models/House/Structure2.glb");
 
     let Objects = [];
@@ -231,30 +286,27 @@ function House({ time }) {
             //console.log(object.name);
             let objectColor;
             if (object.name == 'Cube001_1') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.vividRed;
                 } else {
                     objectColor = Color.white;
                 }
             } else if (!object.name.indexOf('Cube001_1')) {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.strongOrange;
                 }
 
             } else if (!object.name.indexOf('Cube068_1')) {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.softOrange;
                 }
             } else if (!object.name.indexOf('Cube068_2')) {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
+
                     objectColor = Color.vividRed;
                 } else {
                     objectColor = Color.strongOrange;
@@ -267,15 +319,13 @@ function House({ time }) {
                 || object.name == 'Object005' || object.name == 'Object005001' || object.name == 'Plane001' || object.name == 'Plane002' || object.name == 'Sphere002' ||
                 object.name == 'Sphere_1' || object.name == 'Sphere_2' || object.name == 'Sphere001_1' || object.name == 'Sphere001_2' || object.name == 'Cube011'
                 || (object.name > 'Cube064' && object.name < 'Cube073') || (object.name > 'Plane002' && object.name < 'Plane006')) {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.strongOrange;
                 }
             } else if (!object.name.indexOf('Cube001_')) {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.vividRed;
                 } else {
                     objectColor = Color.softOrange;
@@ -283,64 +333,55 @@ function House({ time }) {
             } else if (object.name == 'Cube173' || object.name == 'Cube021' || object.name == 'Cylinder003' || object.name == 'Cylinder015' ||
                 object.name == 'Cylinder017' || object.name == 'Cylinder018' || object.name == 'Cube022' || object.name == 'Plane' || object.name == 'Cube012' || object.name == 'Cube013' ||
                 object.name == 'Cube068_2') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.softOrange;
                 }
             } else if (!object.name.indexOf('Cylinder')) {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.dimGrayishGreen;
                 }
             } else if (object.name == 'Cube') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.softOrange;
                 }
             } else if (object.name == 'Cube023' || object.name == 'Cube059' || object.name == 'Cube110' || object.name == 'Cube125' || object.name == 'Cube173' || object.name == 'Cube178') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.vividRed;
                 } else {
                     objectColor = Color.softOrange;
                 }
             } else if (object.name == 'Cube154_1' || object.name == 'Cube154_3' || object.name == 'Cube209' || object.name == 'Cube209_2' || object.name == 'Cube132') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.dimGrayishGreen;
                 }
             } else if (object.name == 'Cube154_2' || object.name == 'Cube209_1') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = '#808080';
                 }
             } else if (object.name > 'Cube134' && object.name < 'Cube161') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.darkGrayishGreen;
                 } else {
                     objectColor = Color.veryDarkBlueViolet;
                 }
             } else if (object.name == 'Cube021') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.softOrange;
                 }
             } else if (object.name == 'Cube') {
-                if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                    time > Buildings.tallBuilding.afterTime) {
+                if (isquakeTime == true) {
                     objectColor = Color.deepRed;
                 } else {
                     objectColor = Color.softOrange;
@@ -406,7 +447,7 @@ function House({ time }) {
     )
 }
 
-function LargeChair({ time }) {
+function LargeChair({ isquakeTime }) {
 
     const { scene } = useGLTF("./Models/House/Bench.glb");
 
@@ -421,8 +462,7 @@ function LargeChair({ time }) {
     scene.traverse((object) => {
         if (object.isMesh) {
             let objectColor;
-            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                time > Buildings.tallBuilding.afterTime) {
+            if (isquakeTime == true) {
                 if (object.name == 'Cube141') {
                     objectColor = Color.deepRed;
                 } else {
@@ -466,17 +506,16 @@ function LargeChair({ time }) {
     )
 }
 
-function Lamp({ time, impulse, lampRef }) {
+function Lamp({ isquakeTime, time, impulse, lampRef }) {
 
-    const { scene } = useGLTF("./Models/House/Lamp2.glb");
+    const { scene } = useGLTF("./Models/House/Lamp.glb");
 
     let Objects = [];
 
     scene.traverse((object) => {
         if (object.isMesh) {
             let objectColor;
-            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                time > Buildings.tallBuilding.afterTime) {
+            if (isquakeTime == true) {
                 objectColor = Color.deepRed;
             } else {
                 objectColor = Color.strongOrange;
@@ -499,7 +538,7 @@ function Lamp({ time, impulse, lampRef }) {
         mass: 50,
     }));
 
-    if (time < Buildings.tallBuilding.totalTime - Buildings.house.gameOverTime) {
+    if (time < Buildings.house.totalTime - Buildings.house.gameOverTime) {
         api.applyLocalImpulse([0, 0, impulse], [0, 1, -0.5]);
     }
 
@@ -528,17 +567,16 @@ function Lamp({ time, impulse, lampRef }) {
 
 
 
-function Cabinet({ time, impulse, cabinetRef }) {
+function Cabinet({ isquakeTime, time, impulse, cabinetRef }) {
 
-    const { scene } = useGLTF("./Models/House/Cabinet.glb");
+    const { scene } = useGLTF("./Models/House/Cabinet2.glb");
 
     let Objects = [];
 
     scene.traverse((object) => {
         if (object.isMesh) {
             let objectColor;
-            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                time > Buildings.tallBuilding.afterTime) {
+            if (isquakeTime == true) {
                 objectColor = Color.deepRed;
             } else {
                 objectColor = Color.strongOrange;
@@ -556,12 +594,12 @@ function Cabinet({ time, impulse, cabinetRef }) {
     });
 
     const [ref, api] = useBox(() => ({
-        args: [0.2, 1.5, 2],
-        position: [0, 1, 0],
+        args: [0.3, 1.5, 1],
+        position: [-0.1, 1.2, 0.5],
         mass: 50,
     }));
 
-    if (time < Buildings.tallBuilding.totalTime - Buildings.house.gameOverTime) {
+    if (time < Buildings.house.totalTime - Buildings.house.gameOverTime) {
         api.applyLocalImpulse([impulse, 0, 0], [0, 1, 0]);
     }
 
@@ -588,7 +626,7 @@ function Cabinet({ time, impulse, cabinetRef }) {
     )
 }
 
-function SmallTable({ time }) {
+function SmallTable({ isquakeTime }) {
 
     const { scene } = useGLTF("./Models/House/Table2.glb");
 
@@ -604,8 +642,7 @@ function SmallTable({ time }) {
         if (object.isMesh) {
             //console.log(object.name);
             let objectColor;
-            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                time > Buildings.tallBuilding.afterTime) {
+            if (isquakeTime == true) {
                 if (object.name == 'Cylinder015') {
                     objectColor = Color.vividRed;
                 } else {
@@ -649,7 +686,7 @@ function SmallTable({ time }) {
     )
 }
 
-function SmallChair({ time }) {
+function SmallChair({ isquakeTime }) {
 
     const { scene } = useGLTF("./Models/House/Chair2.glb");
 
@@ -664,8 +701,7 @@ function SmallChair({ time }) {
     scene.traverse((object) => {
         if (object.isMesh) {
             let objectColor;
-            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                time > Buildings.tallBuilding.afterTime) {
+            if (isquakeTime == true) {
                 objectColor = Color.vividRed;
             } else {
                 objectColor = Color.softOrange;
@@ -701,13 +737,14 @@ function SmallChair({ time }) {
     )
 }
 
-function Table({ time }) {
+function Table({ isquakeTime, tableRef, onCollide }) {
 
     const { scene } = useGLTF("./Models/House/Table1.glb");
 
     const [ref] = useCompoundBody(() => ({
         mass: 10,
         position: [0.25, 0.7, -2.75],
+        onCollide,
         shapes: [
             { type: 'Box', position: [0.3, 0, -0.75], args: [1.5, 0.75, 0.5] },
             { type: 'Box', position: [-0.25, 0, 0], args: [0.5, 0.75, 2] },
@@ -720,8 +757,7 @@ function Table({ time }) {
         if (object.isMesh) {
             //console.log(object.name);
             let objectColor;
-            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                time > Buildings.tallBuilding.afterTime) {
+            if (isquakeTime == true) {
                 objectColor = Color.vividRed;
             } else {
                 objectColor = Color.softOrange;
@@ -743,6 +779,7 @@ function Table({ time }) {
         >
             {Objects.map((object, index) => (
                 <mesh
+                    ref={tableRef}
                     castShadow
                     receiveShadow
                     scale={object.scale}
@@ -757,7 +794,7 @@ function Table({ time }) {
     )
 }
 
-function Chair({ time }) {
+function Chair({ isquakeTime }) {
 
     const { scene } = useGLTF("./Models/House/Chair1.glb");
 
@@ -772,8 +809,7 @@ function Chair({ time }) {
     scene.traverse((object) => {
         if (object.isMesh) {
             let objectColor;
-            if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.beforeTime &&
-                time > Buildings.tallBuilding.afterTime) {
+            if (isquakeTime == true) {
                 objectColor = Color.vividRed;
             } else {
                 objectColor = Color.softOrange;
