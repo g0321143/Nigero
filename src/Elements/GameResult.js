@@ -14,9 +14,10 @@ import { addCoin, getLatestScore } from '../Utils/LocalStorage';
 import Buildings from '../Constants/Buildings';
 
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
-import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
-import retyrButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-34.png';
+import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-33.png';
+import retyrButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-34.png';
 import resultBox from '../Assets/Images/QUIZ_BOX.png';
+import failureResultBox from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-14.png';
 
 
 /**
@@ -28,8 +29,12 @@ const GameResult = ({ keyhandler, isClear, getCoin, StageName }) => {
     const [score, setScore] = useState([false, false, false]);
 
     useEffect(() => {
-        addCoin(getCoin);
-        setScore(getLatestScore(Buildings.house.id))
+        if (isClear == true) {
+            const score = getLatestScore(Buildings.house.id);
+            const totalCoin = getCoin * score.filter((s) => { return s === true }).length;
+            addCoin(totalCoin);
+            setScore(score);
+        }
     }, []);
 
     return (
@@ -46,8 +51,33 @@ const GameResult = ({ keyhandler, isClear, getCoin, StageName }) => {
                             star3={score[2]}
                         />
                         {'SURVIVED!!'}
-                        <BuildingPrice>{'+' + getCoin.toString()}</BuildingPrice>
+                        <ObtainedCoinNumber>
+                            {'+' + (getCoin * score.filter((s) => { return s === true }).length).toString()}
+                        </ObtainedCoinNumber>
                     </Result>
+                    <ButtonDiv>
+                        <Button
+                            handler={keyhandler}
+                            src={retyrButton}
+                            width={'15vw'}
+                            height={'15vw'}
+                            margin={'0'}
+                        />
+                        <Button
+                            handler={() => Store.setScene('select')}
+                            src={nextButton}
+                            width={'15vw'}
+                            height={'15vw'}
+                            margin={'0'}
+                        />
+                    </ButtonDiv>
+                </>
+            }
+            {!isClear &&
+                <>
+                    <FailureResult >
+                        {'Fusce eu elit dignissim, malesuada est vel, iaculis eros. Praesent mi sapien, rutrum et mauris sed, vestibulum egestas felis. Nulla eu commodo leo. Pellentesque iaculis tempor venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed sit amet erat ac tortor interdum ultricies. Pellentesque et nisl eget nunc .'}
+                    </FailureResult>
                     <ButtonDiv>
                         <Button
                             handler={keyhandler}
@@ -202,7 +232,7 @@ const Result = styled.div`
     font-weight: bold;
 `;
 
-const BuildingPrice = styled.div`
+const ObtainedCoinNumber = styled.div`
     display: flex;
     
     font-size: 2vw;
@@ -251,4 +281,45 @@ const ButtonDiv = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+`;
+
+const FailureResult = styled.div`
+    display:flex;
+    position: absolute;
+
+    width: 40vw;
+    height: 20vw;
+
+    left: 0;
+    right: 0;
+    top: 40%;
+    bottom: 10%;
+    margin: auto;
+
+    
+    padding-top: 15vw;
+    padding-left: 3vw;
+    padding-right: 11vw;
+
+
+    user-select: none;
+    user-drag: none;
+
+    background-image: url(${failureResultBox});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    opacity: 1;
+    z-index: 500;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    font-size: 1.5vw;
+    overflow-wrap: break-word;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: ${Color.slightlyGrayishYellow};
 `;

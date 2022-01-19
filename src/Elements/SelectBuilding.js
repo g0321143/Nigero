@@ -84,9 +84,11 @@ export default function SelectBuilding() {
                     <UsedButton src={playButton} onClick={() => startGame()} />
 
                 )}
-                {getScore(IDList[buildingNum])[0] == true && (
-                    <QuizButton src={playButton} onClick={() => startQuize()} />
-                )}
+                {getScore(IDList[buildingNum])[0] == true &&
+                    getScore(IDList[buildingNum])[1] == true &&
+                    getScore(IDList[buildingNum])[2] == true && (
+                        <QuizButton src={playButton} onClick={() => startQuize()} />
+                    )}
                 {getBuilding(IDList[buildingNum]) && (
                     <StarScore
                         width={"4.5vw"}

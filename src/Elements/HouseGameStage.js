@@ -67,7 +67,7 @@ export default function HouseGameStage(props) {
             props.isGameOver(false);
         }
         // ゲームの終了
-        if (props.time == 1) {
+        if (props.time == 0) {
             props.isCompleted(true);
         }
     }, [props.time]);
@@ -463,7 +463,7 @@ function LargeChair({ isquakeTime }) {
     const [ref] = useBox(() => ({
         args: [0.8, 0.5, 0.35],
         position: [1.7, 0.6, -1],
-        mass: 50,
+        mass: 8,
     }));
 
     let Objects = [];
@@ -547,7 +547,7 @@ function Lamp({ isquakeTime, time, impulse, lampRef }) {
         mass: 50,
     }));
 
-    if (time < Buildings.house.totalTime - Buildings.house.gameOverTime) {
+    if (time < Buildings.house.totalTime - Buildings.house.gameOverTime + 1) {
         api.applyLocalImpulse([0, 0, impulse], [0, 1, -0.5]);
     }
 
@@ -608,7 +608,7 @@ function Cabinet({ isquakeTime, time, impulse, cabinetRef }) {
         mass: 50,
     }));
 
-    if (time < Buildings.house.totalTime - Buildings.house.gameOverTime) {
+    if (time < Buildings.house.totalTime - Buildings.house.gameOverTime + 1) {
         api.applyLocalImpulse([impulse, 0, 0], [0, 1, 0]);
     }
 
@@ -702,7 +702,7 @@ function SmallChair({ isquakeTime }) {
     const [ref] = useBox(() => ({
         args: [0.35, 0.35, 0.35],
         position: [4, 0.3, -1],
-        mass: 50,
+        mass: 5,
     }));
 
     let Objects = [];

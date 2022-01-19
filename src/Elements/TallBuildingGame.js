@@ -15,9 +15,9 @@ import Buildings from '../Constants/Buildings';
 import Color from "../Constants/Color";
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
-import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
-import retyrButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-34.png';
-import tipsButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-35.png';
+import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-33.png';
+import retyrButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-34.png';
+import tipsButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-35.png';
 
 import itemIcon1 from '../Assets/Images/Items/Icon/EMERGENCY_BAG-37.png';
 import itemIcon2 from '../Assets/Images/Items/Icon/FIRE_FIGHT_BALL-37.png';
