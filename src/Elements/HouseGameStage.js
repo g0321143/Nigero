@@ -10,8 +10,8 @@ import Buildings from "../Constants/Buildings";
 import Player from "../Utils/Player";
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
-import { addCoin, setScore, getScore } from '../Utils/LocalStorage';
 import VirtualStick from "../Utils/VirtualStick";
+import { setScore } from '../Utils/LocalStorage';
 
 useGLTF.preload("./Models/House/Structure.glb");
 useGLTF.preload("./Models/House/Chair2.glb");
@@ -58,7 +58,7 @@ export default function HouseGameStage(props) {
     localTime.current = props.time;
     const isquakeTime = props.time < Buildings.house.totalTime - Buildings.house.beforeTime && props.time > Buildings.house.afterTime;
 
-    
+
     useEffect(() => {
         // ゲームオーバーの処理
         if (props.time < Buildings.house.totalTime - Buildings.house.gameOverTime && !isHide) {
@@ -158,14 +158,22 @@ export default function HouseGameStage(props) {
                     castShadow
                     position={[-2.5, 8, -5]}
                     intensity={0.8}
-                    shadow-mapSize-width={1024}
-                    shadow-mapSize-height={1024}
-                    shadow-camera-far={50}
-                    shadow-camera-left={-10}
-                    shadow-camera-right={10}
-                    shadow-camera-top={10}
-                    shadow-camera-bottom={-10}
                 />
+                {isUseGelMat &&
+                    <UseItemBillboard
+                        position={[LampPosition.x - 0.8, 2, LampPosition.z - 0.2]}
+                        url={gelMatBillboardMap}
+                    />}
+                {isUseTensionRod &&
+                    <UseItemBillboard
+                        position={[CabinetPosition.x - 0.8, 2.6, CabinetPosition.z - 0.2]}
+                        url={tensionRodBillboardMap}
+                    />}
+                {isHide &&
+                    <UseItemBillboard
+                        position={[0, 1.5, -2]}
+                        url={hideIconBillboardMap}
+                    />}
                 {/* <OrbitControls /> */}
                 <Physics iterations={6}>
                     {/* <Debug scale={1.1} color="black"> */}
@@ -187,21 +195,6 @@ export default function HouseGameStage(props) {
                         <Lamp isquakeTime={isquakeTime} time={props.time} impulse={isUseGelMat ? 0 : -10} lampRef={lampRef} />
                         <Cabinet isquakeTime={isquakeTime} time={props.time} impulse={isUseTensionRod ? 0 : 10} cabinetRef={cabinetRef} />
                         <LargeChair isquakeTime={isquakeTime} />
-                        {isUseGelMat &&
-                            <UseItemBillboard
-                                position={[LampPosition.x - 0.8, 2, LampPosition.z - 0.2]}
-                                url={gelMatBillboardMap}
-                            />}
-                        {isUseTensionRod &&
-                            <UseItemBillboard
-                                position={[CabinetPosition.x - 0.8, 2.6, CabinetPosition.z - 0.2]}
-                                url={tensionRodBillboardMap}
-                            />}
-                        {isHide &&
-                            <UseItemBillboard
-                                position={[0, 1.5, -2]}
-                                url={hideIconBillboardMap}
-                            />}
                         <EffectComposer multisampling={8} autoClear={false}>
                             <Outline
                                 blur

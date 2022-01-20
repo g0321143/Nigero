@@ -23,11 +23,12 @@ import failureResultBox from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-14.png'
  * クリア後のリザルト画面を表示させるコンポーネントです
  * @param {(callback: () => void)} keyhandler リトライボタンを押した時のコールバック
  * @param {boolean} isClear ゲームをクリアしたかどうか
- * @param {boolean} getCoin 星１つあたりの獲得できるコイン枚数
- * @param {boolean} stageName ステージの名前
- * @param {boolean} tipsText ゲームオーバー画面に表示させるヒントのテキスト
+ * @param {Number} getCoin 星１つあたりの獲得できるコイン枚数
+ * @param {String} stageID ステージID
+ * @param {String} stageName ステージ名
+ * @param {String} tipsText ゲームオーバー画面に表示させるヒントのテキスト
  */
-const GameResult = ({ keyhandler, isClear, getCoin, stageName, tipsText }) => {
+const GameResult = ({ keyhandler, isClear, getCoin, stageID, stageName, tipsText }) => {
 
     const resultText = isClear ? 'Game Clear' : 'Game Over';
     const [score, setScore] = useState([false, false, false]);
@@ -35,7 +36,7 @@ const GameResult = ({ keyhandler, isClear, getCoin, stageName, tipsText }) => {
     // 最初の一回だけ実行する
     useEffect(() => {
         if (isClear == true) {
-            const score = getLatestScore(Buildings.house.id);
+            const score = getLatestScore(Buildings[stageID].id);
             const totalCoin = getCoin * score.filter((s) => { return s === true }).length;
             addCoin(totalCoin);
             setScore(score);
