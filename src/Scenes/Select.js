@@ -15,7 +15,6 @@ export default function Select({currentBuilding}) {
 
     // このkeyを更新すると画面が更新されます
     const [key, setkey] = useState(false);
-    console.log(currentBuilding);
 
     return (
         <Game_Canvas key={key}>
