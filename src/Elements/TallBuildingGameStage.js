@@ -210,6 +210,7 @@ export default function TallBuildingGameStage(props) {
                             dragPos={stickPosition.current}
                             playerAngle={playerAngle}
                             initPosition={playerInitPosition.current}
+                            cameraPositionY={10}
                             isMove={isPlayerMove.current}
                             isLighting={isUseLight}
                             playerPositionCallback={p => playerPosition.current = p}

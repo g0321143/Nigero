@@ -13,9 +13,11 @@ useGLTF.preload("./Models/RobotExpressive.glb");
  * @param {number} playerAngle プレイヤーの向き(ラジアン)
  * @param {boolean} isMove プレイヤーが動いているかどうか
  * @param {boolean} isLighting ライトを点灯させるかどうか
+ * @param {[number, number, number]} initPosition プレイヤーの初期座標
+ * @param {number} cameraPositionY カメラのy座標
  * @param {(callback: (value: Vector3) => void)} playerPositionCallback プレイヤーの座標を返すコールバック
  */
-export default function Player({ dragPos, playerAngle, isMove, isLighting, playerPositionCallback, initPosition }) {
+export default function Player({ dragPos, playerAngle, isMove, isLighting, initPosition, cameraPositionY, playerPositionCallback }) {
 
     // キャラクターのモデルの読み込み
     const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
@@ -68,7 +70,7 @@ export default function Player({ dragPos, playerAngle, isMove, isLighting, playe
         physicsRef.current.getWorldPosition(camera.position);
         // プレイヤーの座標を格納
         playerPositionCallback(camera.position);
-        camera.position.y = 10;
+        camera.position.y = cameraPositionY;
     });
 
     return (

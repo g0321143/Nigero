@@ -183,6 +183,7 @@ export default function HouseGameStage(props) {
                             dragPos={stickPosition.current}
                             playerAngle={playerAngle}
                             initPosition={[0.5, 0.4, 0]}
+                            cameraPositionY={8}
                             isMove={isPlayerMove.current}
                             isLighting={false}
                             playerPositionCallback={p => playerPosition.current = p}
