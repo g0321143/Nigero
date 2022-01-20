@@ -69,6 +69,7 @@ const TabSC = styled.div`
         margin-block: 0;
         font-size: 2vw;
         font-weight: bold;
+        top: 10vw;
         
         > li {
             margin-right: 1vw;

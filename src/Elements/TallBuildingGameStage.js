@@ -100,8 +100,7 @@ export default function TallBuildingGameStage(props) {
         mission.current = [true,  mission.current[1], mission.current[2]];
         
     });
-
-
+    
     // スリッパクリック時の動作
     const clickSlippers = (() => {
         useSlippers(true);
@@ -180,7 +179,7 @@ export default function TallBuildingGameStage(props) {
                     intensity={props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime ? 0 : 0.8}
                 />
                 {/* <OrbitControls /> */}
-                <fog attach="fog" args={["white", 10, 30]} />
+                <fog attach="fog" args={[Color.grayishYellowGreen, 10, 30]} />
                 <Ground />
                 <Building position={[-10, -5, 4]} />
                 <Building position={[-10, -3, -3]} />
@@ -427,7 +426,7 @@ function MainBuilding(props) {
             { type: 'Box', position: [5.5, 0, 0], args: [0.2, 2, 10] },
             { type: 'Box', position: [-5.5, 0, 0], args: [0.2, 2, 10] },
         ]
-    }))
+    }));
 
 
     return (

@@ -1,4 +1,3 @@
-// 高層ビルのゲームモジュール
 import React, { Suspense, useState } from 'react'
 import Countdown from 'react-countdown';
 import styled from 'styled-components';
@@ -21,7 +20,7 @@ const tipsText = 'Fusce eu elit dignissim, malesuada est vel, iaculis eros. Prae
  * Countdownコンポーネントはコンポーネントがアップデートされると（useStateの更新とか），
  * タイマーが初期化されます．
  * 
- * なので，HouseGameでは，ゲームコンポーネント，クリアコンポーネントのどちらか一方を使用し，
+ * なので，TallBuildingでは，ゲームコンポーネント，クリアコンポーネントのどちらか一方を使用し，
  * 共通で使用する箇所はなるべく排除してます
  * 
  */
