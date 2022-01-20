@@ -6,7 +6,7 @@ class Store extends EventEmitter {
 
     state = {
         scene: "title",
-        building: "",
+        building: "house",
         stage: 0,
     }
 

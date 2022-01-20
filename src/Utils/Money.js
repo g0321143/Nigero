@@ -47,7 +47,7 @@ function Money() {
   });
 
   return (
-      <BuildingCoin>{money}</BuildingCoin>
+      <BuildingCoin>{money.toLocaleString()}</BuildingCoin>
   );
 }
 

@@ -17,6 +17,7 @@ export default function Game({ building, stage }) {
     switch (building) {
         case Buildings.house.id: return <HouseGame />;
         case Buildings.tallBuilding.id: return <TallBuildingGame />;
+        case Buildings.elevator.id: return <TallBuildingGame />;
 
         default: () => {
             console.error(`"${building}" は存在しない画面です.`);

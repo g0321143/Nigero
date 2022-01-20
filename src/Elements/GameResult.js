@@ -57,7 +57,7 @@ const GameResult = ({ keyhandler, isClear, getCoin, stageName, tipsText }) => {
                         />
                         {'SURVIVED!!'}
                         <ObtainedCoinNumber>
-                            {'+' + (getCoin * score.filter((s) => { return s === true }).length).toString()}
+                            {'+' + (getCoin * score.filter((s) => { return s === true }).length).toLocaleString()}
                         </ObtainedCoinNumber>
                     </Result>
                     <ButtonDiv>
