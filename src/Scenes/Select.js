@@ -13,11 +13,8 @@ import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
 
 export default function Select({currentBuilding}) {
 
-    // このkeyを更新すると画面が更新されます
-    const [key, setkey] = useState(false);
-
     return (
-        <Game_Canvas key={key}>
+        <Game_Canvas>
             <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('title')}
@@ -52,7 +49,7 @@ export default function Select({currentBuilding}) {
                     margin={'1%'}
                 />
             </Block_Left_Top>
-            <SelectBuilding currentBuilding={currentBuilding} keyhandler={() => setkey(!key)}/>
+            <SelectBuilding currentBuilding={currentBuilding}/>
         </Game_Canvas>
     );
 }

@@ -21,7 +21,7 @@ import playQuizButton from '../Assets/Images/1-02.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 
-export default function SelectBuilding({ keyhandler, currentBuilding }) {
+export default function SelectBuilding({currentBuilding }) {
 
     // 建物グループへのRef
     const buildingGroupRef = useRef();
@@ -75,8 +75,8 @@ export default function SelectBuilding({ keyhandler, currentBuilding }) {
         if (getCoin() - Buildings[IDList[buildingNum]].price >= 0) {
             setBuilding(IDList[buildingNum], true);
             subCoin(Buildings[IDList[buildingNum]].price);
+            Store.setScene('select');
         }
-        return keyhandler(e);
     };
 
     return (
