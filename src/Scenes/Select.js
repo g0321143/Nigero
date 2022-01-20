@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React from 'react'
 
 import Store from '../Utils/Store';
 import { addCoin, subCoin, resetAllData } from '../Utils/LocalStorage';
@@ -26,7 +26,7 @@ export default function Select({currentBuilding}) {
             </Block_Right_End>
             <Block_Left_End>
                 <Button
-                    handler={() =>  setkey(!key)}
+                    handler={() =>  subCoin(256)}
                     src={shopButton}
                     width={'6%'}
                     height={'10%'}
