@@ -114,7 +114,7 @@ const ClearModelComponent = ({ isClear, stageName }) => {
 
     return (
         <Canvas camera={{ position: [1.3, 1.5, 1.5], fov: 45 }}>
-            <OrbitControls />
+            <OrbitControls enableZoom={false} enablePan={false} />
             <ambientLight intensity={0.2} />
             <directionalLight position={[2, 4, 2]} intensity={0.8} />
             {isClear ? <ClearPlayer /> : <GameOverPlayer />}
