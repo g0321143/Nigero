@@ -17,6 +17,7 @@ import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
 import unlockButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-20.png';
 import buyButton from '../Assets/Images/BUY_BOTTON-38.png';
 import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
+import playQuizButton from '../Assets/Images/1-02.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 
@@ -90,7 +91,7 @@ export default function SelectBuilding({ keyhandler, currentBuilding }) {
                 {getScore(IDList[buildingNum])[0] == true &&
                     getScore(IDList[buildingNum])[1] == true &&
                     getScore(IDList[buildingNum])[2] == true && (
-                        <QuizButton src={playButton} onClick={() => Store.setScene('quize')} />
+                        <QuizButton src={playQuizButton} onClick={() => Store.setScene('quize')} />
                     )}
                 {getBuilding(IDList[buildingNum]) && (
                     <StarScore
