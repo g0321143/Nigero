@@ -10,7 +10,7 @@ import Money from '../Utils/Money'
 import Button from '../Utils/Button';
 import Store from '../Utils/Store';
 import Tab from '../Elements/ItemShopTab';
-import { Light, AntiSeismicMat } from '../Constants/Items';
+import { Light, AntiSeismicMat, Food } from '../Constants/Items';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
@@ -40,12 +40,36 @@ export default function ItemShop() {
                 <ItemImage src={Light.NightStarJP.image} />
                 <ItemName>{Light.NightStarJP.name}</ItemName>
             </ItemPanel>
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
+            <ItemPanel onClick={() => clickItemPanel(Light.AQUMOCANDLE)}>
+                <ItemPrice>{Light.AQUMOCANDLE.price}</ItemPrice>
+                <ItemImage src={Light.AQUMOCANDLE.image} />
+                <ItemName>{Light.AQUMOCANDLE.name}</ItemName>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Light.Helmet)}>
+                <ItemPrice>{Light.Helmet.price}</ItemPrice>
+                <ItemImage src={Light.Helmet.image} />
+                <ItemName>{Light.Helmet.name}</ItemName>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Light.PortableWaterPurifiers)}>
+                <ItemPrice>{Light.PortableWaterPurifiers.price}</ItemPrice>
+                <ItemImage src={Light.PortableWaterPurifiers.image} />
+                <ItemName>{Light.PortableWaterPurifiers.name}</ItemName>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Light.PortableToiletst)}>
+                <ItemPrice>{Light.PortableToiletst.price}</ItemPrice>
+                <ItemImage src={Light.PortableToiletst.image} />
+                <ItemName>{Light.PortableToiletst.name}</ItemName>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Light.DisasterPreventionKit)}>
+                <ItemPrice>{Light.DisasterPreventionKit.price}</ItemPrice>
+                <ItemImage src={Light.DisasterPreventionKit.image} />
+                <ItemName>{Light.DisasterPreventionKit.name}</ItemName>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Light.EmergencyTablewareOrigami)}>
+                <ItemPrice>{Light.EmergencyTablewareOrigami.price}</ItemPrice>
+                <ItemImage src={Light.EmergencyTablewareOrigami.image} />
+                <ItemName>{Light.EmergencyTablewareOrigami.name}</ItemName>
+            </ItemPanel>
             <ItemPanel />
             <ItemPanel />
         </Panel>
@@ -53,8 +77,16 @@ export default function ItemShop() {
 
     const FoodTab = () => (
         <Panel>
-            <ItemPanel />
-            <ItemPanel />
+            <ItemPanel onClick={() => clickItemPanel(Food.Emergencyrations)}>
+                <ItemPrice>{Food.Emergencyrations.price}</ItemPrice>
+                <ItemImage src={Food.Emergencyrations.image} />
+                <ItemName>{Food.Emergencyrations.name}</ItemName>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Food.Emergencyrations2)}>
+                <ItemPrice>{Food.Emergencyrations2.price}</ItemPrice>
+                <ItemImage src={Food.Emergencyrations2.image} />
+                <ItemName>{Food.Emergencyrations2.name}</ItemName>
+            </ItemPanel>
             <ItemPanel />
             <ItemPanel />
             <ItemPanel />
@@ -66,8 +98,16 @@ export default function ItemShop() {
 
     const AntiTumble = () => (
         <Panel>
-            <ItemPanel />
-            <ItemPanel />
+            <ItemPanel onClick={() => clickItemPanel(AntiSeismicMat.AntiSeismicGel)}>
+                <ItemPrice>{AntiSeismicMat.AntiSeismicGel.price}</ItemPrice>
+                <ItemImage src={AntiSeismicMat.AntiSeismicGel.image} />
+                <ItemName>{AntiSeismicMat.AntiSeismicGel.name}</ItemName>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(AntiSeismicMat.Tensionrod)}>
+                <ItemPrice>{AntiSeismicMat.Tensionrod.price}</ItemPrice>
+                <ItemImage src={AntiSeismicMat.Tensionrod.image} />
+                <ItemName>{AntiSeismicMat.Tensionrod.name}</ItemName>
+            </ItemPanel>
             <ItemPanel />
             <ItemPanel />
             <ItemPanel />
