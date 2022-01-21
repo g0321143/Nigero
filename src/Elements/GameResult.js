@@ -66,14 +66,14 @@ const GameResult = ({ keyhandler, isClear, getCoin, stageID, stageName, tipsText
                             handler={keyhandler}
                             src={retyrButton}
                             width={'15vw'}
-                            height={'15vw'}
+                            height={'7vw'}
                             margin={'0'}
                         />
                         <Button
                             handler={() => Store.setScene('select')}
                             src={nextButton}
                             width={'15vw'}
-                            height={'15vw'}
+                            height={'7vw'}
                             margin={'0'}
                         />
                     </ButtonDiv>
@@ -89,14 +89,14 @@ const GameResult = ({ keyhandler, isClear, getCoin, stageID, stageName, tipsText
                             handler={keyhandler}
                             src={retyrButton}
                             width={'15vw'}
-                            height={'15vw'}
+                            height={'7vw'}
                             margin={'0'}
                         />
                         <Button
                             handler={() => Store.setScene('select')}
                             src={nextButton}
                             width={'15vw'}
-                            height={'15vw'}
+                            height={'7vw'}
                             margin={'0'}
                         />
                     </ButtonDiv>
@@ -270,7 +270,7 @@ const ButtonDiv = styled.div`
     position: absolute;
 
     width: 38vw;
-    height: 20vw;
+    height: 10vw;
 
     left: 0;
     right: 0;

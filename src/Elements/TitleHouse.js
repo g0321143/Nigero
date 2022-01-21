@@ -7,8 +7,6 @@ import Color from '../Constants/Color';
 
 
 
-
-
 function MailBox(props) {
     const { scene, nodes } = useGLTF("./Models/Title/MailBox.glb");
 
