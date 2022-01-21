@@ -177,6 +177,18 @@ function Loader() {
     useGLTF.preload('./Models/RobotExpressive.glb');
     useGLTF.preload('./Models/TallBuilding.glb');
 
+    useGLTF.preload('./Models/House/Bench.glb');
+    useGLTF.preload('./Models/House/Cabinet.glb');
+    useGLTF.preload('./Models/House/Cabinet2.glb');
+    useGLTF.preload('./Models/House/Chair1.glb');
+    useGLTF.preload('./Models/House/Chair2.glb');
+    useGLTF.preload('./Models/House/Lamp.glb');
+    useGLTF.preload('./Models/House/Lamp2.glb');
+    useGLTF.preload('./Models/House/Structure.glb');
+    useGLTF.preload('./Models/House/Structure2.glb');
+    useGLTF.preload('./Models/House/Table1.glb');
+    useGLTF.preload('./Models/House/Table2.glb');
+
     useGLTF.preload('./Models/TallBuilding/Book.glb');
     useGLTF.preload('./Models/TallBuilding/BookShelf.glb');
     useGLTF.preload('./Models/TallBuilding/BrokenGlass.glb');
@@ -196,15 +208,16 @@ function Loader() {
     useGLTF.preload('./Models/Elevator/Elevator.glb');
     useGLTF.preload('./Models/Elevator/Structure.glb');
 
-    useGLTF.preload('.Models/Result/TallBuilding.glb');
-    useGLTF.preload('.Models/Result/Elevator.glb');
-    useGLTF.preload('.Models/Result/House.glb');
-    useGLTF.preload('.Models/Result/RobotExpressive1.glb');
-    useGLTF.preload('.Models/Result/RobotExpressive2.glb');
+    useGLTF.preload('./Models/Result/TallBuilding.glb');
+    useGLTF.preload('./Models/Result/Elevator.glb');
+    useGLTF.preload('./Models/Result/House.glb');
+    useGLTF.preload('./Models/Result/RobotExpressive1.glb');
+    useGLTF.preload('./Models/Result/RobotExpressive2.glb');
 
     return (
         <LodingScene>
             {Math.floor(progress * 100) / 100} % loaded {item}
+            {console.log(item)}
         </LodingScene>
     );
 }
