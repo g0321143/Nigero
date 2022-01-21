@@ -1,13 +1,11 @@
-import React, { Suspense, useRef, useState } from "react";
+import React, { Suspense } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Box, Plane, PerspectiveCamera, useGLTF, OrbitControls } from "@react-three/drei";
+import { useGLTF, useProgress } from "@react-three/drei";
+import styled from 'styled-components';
 
-useGLTF.preload('./Models/Title/House.glb');
-useGLTF.preload('./Models/Title/Rock.glb');
-useGLTF.preload('./Models/Title/Fence1.glb');
-useGLTF.preload('./Models/Title/Fence2.glb');
-useGLTF.preload('./Models/Title/Tree.glb');
-useGLTF.preload('./Models/Title/MailBox.glb');
+import Color from '../Constants/Color';
+
+
 
 
 
@@ -166,10 +164,57 @@ function CameraAnimation() {
     return null
 }
 
+function Loader() {
+    const { active, progress, errors, item, loaded, total } = useProgress();
+
+    useGLTF.preload('./Models/Title/House.glb');
+    useGLTF.preload('./Models/Title/Rock.glb');
+    useGLTF.preload('./Models/Title/Fence1.glb');
+    useGLTF.preload('./Models/Title/Fence2.glb');
+    useGLTF.preload('./Models/Title/Tree.glb');
+    useGLTF.preload('./Models/Title/MailBox.glb');
+
+    useGLTF.preload('./Models/Elevator.glb');
+    useGLTF.preload('./Models/House.glb');
+    useGLTF.preload('./Models/RobotExpressive.glb');
+    useGLTF.preload('./Models/TallBuilding.glb');
+
+    useGLTF.preload('./Models/TallBuilding/Book.glb');
+    useGLTF.preload('./Models/TallBuilding/BookShelf.glb');
+    useGLTF.preload('./Models/TallBuilding/BrokenGlass.glb');
+    useGLTF.preload('./Models/TallBuilding/Building.glb');
+    useGLTF.preload('./Models/TallBuilding/Chair.glb');
+    useGLTF.preload('./Models/TallBuilding/Door.glb');
+    useGLTF.preload('./Models/TallBuilding/FloorLamp.glb');
+    useGLTF.preload('./Models/TallBuilding/GlassDoorShelf.glb');
+    useGLTF.preload('./Models/TallBuilding/MainBuilding.glb');
+    useGLTF.preload('./Models/TallBuilding/Printer.glb');
+    useGLTF.preload('./Models/TallBuilding/Table.glb');
+    useGLTF.preload('./Models/TallBuilding/WorkingTable1.glb');
+    useGLTF.preload('./Models/TallBuilding/WorkingTable2.glb');
+    useGLTF.preload('./Models/TallBuilding/WorkingTable3.glb');
+    useGLTF.preload('./Models/TallBuilding/Bin.glb');
+
+    useGLTF.preload('./Models/Elevator/Elevator.glb');
+    useGLTF.preload('./Models/Elevator/Structure.glb');
+
+    useGLTF.preload('.Models/Result/TallBuilding.glb');
+    useGLTF.preload('.Models/Result/Elevator.glb');
+    useGLTF.preload('.Models/Result/House.glb');
+    useGLTF.preload('.Models/Result/RobotExpressive1.glb');
+    useGLTF.preload('.Models/Result/RobotExpressive2.glb');
+
+    return (
+        <LodingScene>
+            {Math.floor(progress * 100) / 100} % loaded {item}
+        </LodingScene>
+    );
+}
+
 export default function TitleHouse() {
 
     return (
-        <Suspense fallback={"Loading"}>
+        <Suspense fallback={<Loader />}>
             <Canvas shadows camera={{ position: [4, 2, -2], fov: 45 }}>
                 <ambientLight intensity={0.5} />
                 <directionalLight
@@ -224,3 +269,32 @@ export default function TitleHouse() {
         </Suspense>
     );
 };
+
+const LodingScene = styled.div`
+    display:flex;
+    position: absolute;
+
+    width: 40vw;
+    height: 20vw;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+
+    user-select: none;
+    user-drag: none;
+
+    opacity: 1;
+    z-index: 500;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    font-size: 3vw;
+    text-align: center;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
+`;
