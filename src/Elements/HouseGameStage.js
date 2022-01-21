@@ -19,6 +19,12 @@ const missionText = [
     "Use a gel mat to fix　 a lamp",
 ];
 
+// const missionText = [
+//     "机の下に隠れる",
+//     "突っ張り棒を使用して本棚を固定する",
+//     "ジェルマットを使用してランプを固定する",
+// ];
+
 import gelMatIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
 import tensionRodIcon from '../Assets/Images/Items/Icon/tension_rod-37.png';
 import hideIcon from '../Assets/Images/HideImage.png';

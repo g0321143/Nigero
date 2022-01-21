@@ -13,10 +13,17 @@ import VirtualStick from "../Utils/VirtualStick";
 import { setScore } from '../Utils/LocalStorage';
 
 const missionText = [
-    "Help is on the way and the elevator is fixed",
-    "Press all buttons on the elevator",
-    "Open the emergency supply box provided in the elevator",
+    "Push buttons on all floors",
+    "Push the emergency button",
+    "Open the emergency stockpile set for elevators that is installed in the elevator",
 ];
+
+// const missionText = [
+//     "すべての階のボタンを押す",
+//     "非常用ボタンを押す",
+//     "エレベーター内に設置されているエレベーター用非常備蓄セットを開ける",
+// ];
+
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
 import lightIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
