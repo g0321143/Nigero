@@ -89,10 +89,10 @@ export default function SelectBuilding({ currentBuilding }) {
                 )}
                 {!getBuilding(IDList[buildingNum]) && (
                     <>
-                        {getScore(IDList[buildingNum - 1])[0] &&
+                        {getScore(IDList[buildingNum + 1])[0] &&
                             <UsedButton src={buyButton} onClick={(e) => buyBuilding(e)} />
                         }
-                        {!getScore(IDList[buildingNum - 1])[0] &&
+                        {!getScore(IDList[buildingNum + 1])[0] &&
                             <UsedButton src={unlockButton} />
                         }
                         <BuildingPrice>{Buildings[IDList[buildingNum]].price.toLocaleString()}</BuildingPrice>
@@ -135,7 +135,7 @@ function BuildingGroup({ initBuilding, buildingNum }) {
 
     return (
         <group ref={buildingGroupRef} position={[0, 2.5, 0]} rotation={[0, (Math.PI / 2) * (initBuilding + 1), 0]}>
-            <House position={[radius * Math.sin(Math.PI *1.5), 1.5, radius * Math.cos(Math.PI *1.5)-7]} rotation={[0.3, Math.PI / 2, 0]} />
+            <House position={[radius * Math.sin(Math.PI * 1.5), -0.6, radius * Math.cos(Math.PI * 1.5) + 1]} rotation={[0.3, Math.PI / 2 + 0.5, 0]} />
             <TallBuilding position={[radius * Math.sin(Math.PI), 0.5, -1 * radius * Math.cos(Math.PI) + 0.9]} rotation={[0.1, -Math.PI / 2, 0]} />
             <Elevator position={[radius * Math.sin(Math.PI / 2) - 1, 0, radius * Math.cos(Math.PI / 2)]} rotation={[0, 0, 0]} />
         </group>
