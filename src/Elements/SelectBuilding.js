@@ -1,7 +1,6 @@
 import React, { Suspense, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from "@react-three/drei";
-import { gsap } from "gsap";
 import styled from 'styled-components';
 
 import Store from '../Utils/Store';
@@ -21,18 +20,17 @@ import playQuizButton from '../Assets/Images/1-02.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 
-export default function SelectBuilding({currentBuilding }) {
+export default function SelectBuilding({ currentBuilding }) {
 
-    // 建物グループへのRef
-    const buildingGroupRef = useRef();
 
     // 表示する建物の情報
     const IDList = [
-        Buildings.house.id,
-        Buildings.tallBuilding.id,
         Buildings.elevator.id,
+        Buildings.tallBuilding.id,
+        Buildings.house.id,
     ];
-    const initBuilding = IDList.findIndex(e => e == currentBuilding);
+
+    const [initBuilding] = useState(IDList.findIndex(e => e == currentBuilding));
 
     // 現在選択されている建物のインデックス
     const [buildingNum, setBuildingNum] = useState(initBuilding);
@@ -41,33 +39,21 @@ export default function SelectBuilding({currentBuilding }) {
     const BUILDING_MAX = 2;
     const BUILDING_MIN = 0;
 
-    // 回転させる円の半径
-    const radius = 7;
 
     // 右矢印を押した時の処理
     const moveRightBuilding = () => {
-        if (buildingNum == BUILDING_MAX) return;
-
-        setBuildingNum(buildingNum + 1);
-        Store.setBuilding(Buildings[IDList[buildingNum + 1]].id);
-
-        gsap.to(buildingGroupRef.current.rotation, {
-            y: buildingGroupRef.current.rotation.y - Math.PI / 2,
-            duration: 0.5
-        });
-    };
-
-    // 左矢印を押した時の処理
-    const moveLeftBuilding = () => {
         if (buildingNum == BUILDING_MIN) return;
 
         setBuildingNum(buildingNum - 1);
         Store.setBuilding(Buildings[IDList[buildingNum - 1]].id);
+    };
 
-        gsap.to(buildingGroupRef.current.rotation, {
-            y: buildingGroupRef.current.rotation.y + Math.PI / 2,
-            duration: 0.5
-        });
+    // 左矢印を押した時の処理
+    const moveLeftBuilding = () => {
+        if (buildingNum == BUILDING_MAX) return;
+
+        setBuildingNum(buildingNum + 1);
+        Store.setBuilding(Buildings[IDList[buildingNum + 1]].id);
     };
 
     // 建物の購入処理
@@ -117,19 +103,43 @@ export default function SelectBuilding({currentBuilding }) {
             <ArrowRight handler={() => moveRightBuilding()} />
             <ArrowLeft handler={() => moveLeftBuilding()} />
             <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
+                <axesHelper />
                 <ambientLight intensity={1} />
                 <directionalLight
                     position={[-2.5, 8, 5]}
                     intensity={10}
                 />
-                <group ref={buildingGroupRef} position={[0, 2.5, 0]} rotation={[0, Math.PI / 2 -  (Math.PI / 2 * initBuilding), 0]}>
-                    <House position={[radius * Math.sin(Math.PI / 2) - 1, 0, radius * Math.cos(Math.PI / 2)]} />
-                    <TallBuilding position={[radius * Math.sin(Math.PI), 0.5, radius * Math.cos(Math.PI) - 0.9]} rotation={[-0.1, Math.PI / 2, 0]} />
-                    <Elevator position={[radius * Math.sin(-Math.PI / 2) + 2, 0, radius * Math.cos(-Math.PI / 2)]} rotation={[0, Math.PI, 0]} />
-                </group>
+                <BuildingGroup initBuilding={initBuilding} buildingNum={buildingNum} />
             </Canvas>
         </Suspense>
     );
+}
+
+function BuildingGroup({ initBuilding, buildingNum }) {
+
+    // 建物グループへのRef
+    const buildingGroupRef = useRef();
+
+    // 回転させる円の半径
+    const radius = 7;
+
+    useFrame(() => {
+        if (buildingGroupRef.current.rotation.y > ((Math.PI / 2) * (buildingNum + 1))) {
+            buildingGroupRef.current.rotation.y -= (Math.PI / 60);
+        }
+
+        if (buildingGroupRef.current.rotation.y < ((Math.PI / 2) * (buildingNum + 1))) {
+            buildingGroupRef.current.rotation.y += (Math.PI / 60);
+        }
+    });
+
+    return (
+        <group ref={buildingGroupRef} position={[0, 2.5, 0]} rotation={[0, (Math.PI / 2) * (initBuilding + 1), 0]}>
+            <House position={[radius * Math.sin(Math.PI *1.5), 1.5, radius * Math.cos(Math.PI *1.5)-7]} rotation={[0.3, Math.PI / 2, 0]} />
+            <TallBuilding position={[radius * Math.sin(Math.PI), 0.5, -1 * radius * Math.cos(Math.PI) + 0.9]} rotation={[0.1, -Math.PI / 2, 0]} />
+            <Elevator position={[radius * Math.sin(Math.PI / 2) - 1, 0, radius * Math.cos(Math.PI / 2)]} rotation={[0, 0, 0]} />
+        </group>
+    )
 }
 
 function Elevator(props) {
@@ -172,12 +182,13 @@ function House(props) {
 
 
     return (
-        <primitive
-            {...props}
-            ref={ref}
-            object={scene}
-            scale={0.3}
-        />
+        <group {...props}>
+            <primitive
+                ref={ref}
+                object={scene}
+                scale={0.3}
+            />
+        </group>
     );
 }
 
