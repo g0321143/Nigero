@@ -5,8 +5,6 @@ import styled from 'styled-components';
 
 import Color from '../Constants/Color';
 
-
-
 function MailBox(props) {
     const { scene, nodes } = useGLTF("./Models/Title/MailBox.glb");
 
@@ -216,8 +214,8 @@ function Loader() {
 
     return (
         <LodingScene>
-            {Math.floor(progress * 100) / 100} % loaded {item}
-            {console.log(item)}
+            {Math.floor(progress * 100) / 100} % loaded 
+            {item}
         </LodingScene>
     );
 }

@@ -5,7 +5,6 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { useSphere } from '@react-three/cannon'
 import * as THREE from 'three';
 
-useGLTF.preload("./Models/RobotExpressive.glb");
 
 /**
  * ゲーム画面で使用するキャラクターを表示します

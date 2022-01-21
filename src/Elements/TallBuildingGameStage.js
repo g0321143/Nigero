@@ -24,7 +24,6 @@ import lightIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
 import glassFilmIcon from '../Assets/Images/Items/Icon/tension_rod-37.png';
 import hideIcon from '../Assets/Images/HideImage.png';
 
-useGLTF.preload("./Models/TallBuilding/BrokenGlass.glb");
 
 const GlassDoorShelfPosition = { x: 4.8, z: -4.2 };
 /**

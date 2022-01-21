@@ -13,9 +13,6 @@ import MissionBox from '../Utils/MissionBox';
 import VirtualStick from "../Utils/VirtualStick";
 import { setScore } from '../Utils/LocalStorage';
 
-useGLTF.preload("./Models/House/Structure.glb");
-useGLTF.preload("./Models/House/Chair2.glb");
-
 const missionText = [
     "Hiding behind a　 desk",
     "Use a protruding　rod to fix a bookshelf",
