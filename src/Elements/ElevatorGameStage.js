@@ -14,9 +14,9 @@ import VirtualStick from "../Utils/VirtualStick";
 import { setScore } from '../Utils/LocalStorage';
 
 const missionText = [
-    "Use the light",
-    "Use slippers",
-    "Apply protective film to the glass door shelf",
+    "Help is on the way and the elevator is fixed",
+    "Press all buttons on the elevator",
+    "Open the emergency supply box provided in the elevator",
 ];
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
@@ -45,7 +45,20 @@ export default function ElevatorGameStage(props) {
     const buttonPanelRef = useRef();
     const emergencySupplyBoxRef = useRef();
     const [isHide, hide] = useState(false);
-    const [click, setClick] = useState(false);
+
+    const [button1, setButton1] = useState(false);
+    const [button2, setButton2] = useState(false);
+    const [button3, setButton3] = useState(false);
+    const [button4, setButton4] = useState(false);
+    const [button5, setButton5] = useState(false);
+    const [button6, setButton6] = useState(false);
+    const [button7, setButton7] = useState(false);
+    const [button8, setButton8] = useState(false);
+    const [button9, setButton9] = useState(false);
+    const [button10, setButton10] = useState(false);
+    const [button11, setButton11] = useState(false);
+    const [button12, setButton12] = useState(false);
+    const [button13, setButton13] = useState(false);
 
     // ミッションの達成状況
     const mission = useRef([false, false, false]);
@@ -91,8 +104,16 @@ export default function ElevatorGameStage(props) {
     };
 
     const clickButtonPanel = () => {
-        hide(false);
+        hide(true);
     };
+
+    useEffect(() => {
+        console.log(isHide)
+        if (isPlayerMove.current == true) {
+            hide(false);
+        }
+    }, [isPlayerMove.current]);
+
 
     // ゲーム終了時の処理
     useEffect(() =>
@@ -115,7 +136,7 @@ export default function ElevatorGameStage(props) {
             />
             <Canvas shadows camera={{ position: [0, 5, 0], fov: 45 }}>
                 <Stats />
-                <WobbleCamera isquakeTime={isquakeTime} />
+                <WobbleCamera isquakeTime={isquakeTime} isHide={isHide} />
                 <ambientLight intensity={0.2} />
                 <directionalLight
                     castShadow
@@ -130,26 +151,26 @@ export default function ElevatorGameStage(props) {
                 <OrbitControls />
                 <fog attach="fog" args={[Color.grayishYellowGreen, 10, 30]} />
                 <Structure isquakeTime={isquakeTime} time={props.time} />
-                <ElevatorButtonPanel isquakeTime={isquakeTime} buttonPanelRef={buttonPanelRef} onClick={(e) => console.log("click")}/>
+                <ElevatorButtonPanel isquakeTime={isquakeTime} buttonPanelRef={buttonPanelRef} onClick={() => clickButtonPanel()} />
 
-                <ElevatorButton position={[-0.34, 0.12, -0.38]} color={click ? 'red' : 'white'} onClick={(e) => setClick(true)}/>
-                <ElevatorButton position={[-0.34, 0.12, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, 0.12, -0.38]} color={button1 ? Color.strongOrange : 'white'} onClick={() => setButton1(true)} />
+                <ElevatorButton position={[-0.34, 0.12, -0.52]} color={button2 ? Color.strongOrange : 'white'} onClick={() => setButton2(true)} />
 
-                <ElevatorButton position={[-0.34, 0, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
-                <ElevatorButton position={[-0.34, 0, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, 0, -0.38]} color={button3 ? Color.strongOrange : 'white'} onClick={() => setButton3(true)} />
+                <ElevatorButton position={[-0.34, 0, -0.52]} color={button4 ? Color.strongOrange : 'white'} onClick={() => setButton4(true)} />
 
-                <ElevatorButton position={[-0.34, -0.12, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
-                <ElevatorButton position={[-0.34, -0.12, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, -0.12, -0.38]} color={button5 ? Color.strongOrange : 'white'} onClick={() => setButton5(true)} />
+                <ElevatorButton position={[-0.34, -0.12, -0.52]} color={button6 ? Color.strongOrange : 'white'} onClick={() => setButton6(true)} />
 
-                <ElevatorButton position={[-0.34, -0.24, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
-                <ElevatorButton position={[-0.34, -0.24, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, -0.24, -0.38]} color={button7 ? Color.strongOrange : 'white'} onClick={() => setButton7(true)} />
+                <ElevatorButton position={[-0.34, -0.24, -0.52]} color={button8 ? Color.strongOrange : 'white'} onClick={() => setButton8(true)} />
 
-                <ElevatorButton position={[-0.34, -0.36, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
-                <ElevatorButton position={[-0.34, -0.36, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
-                
-                <ElevatorButton position={[-0.34, -0.55, -0.34]} color={'#00ff00'} onClick={(e) => console.log("click")}/>
-                <ElevatorButton position={[-0.34, -0.55, -0.45]} color={'#ff0000'} onClick={(e) => console.log("click")}/>
-                <ElevatorButton position={[-0.34, -0.55, -0.56]} color={'#00ff00'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, -0.36, -0.38]} color={button9 ? Color.strongOrange : 'white'} onClick={() => setButton9(true)} />
+                <ElevatorButton position={[-0.34, -0.36, -0.52]} color={button10 ? Color.strongOrange : 'white'} onClick={() => setButton10(true)} />
+
+                <ElevatorButton position={[-0.34, -0.55, -0.34]} color={button11 ? Color.strongOrange : '#00ff00'} onClick={() => setButton11(true)} />
+                <ElevatorButton position={[-0.34, -0.55, -0.45]} color={button12 ? Color.strongOrange : '#ff0000'} onClick={() => setButton12(true)} />
+                <ElevatorButton position={[-0.34, -0.55, -0.56]} color={button13 ? Color.strongOrange : '#00ff00'} onClick={() => setButton13(true)} />
 
                 <Physics iterations={6}>
                     {/* <Debug scale={1.1} color="black"> */}
@@ -164,7 +185,7 @@ export default function ElevatorGameStage(props) {
                                 playerPositionCallback={p => playerPosition.current = p}
                             /> */}
                         <Elevator isquakeTime={isquakeTime} />
-                        <EmergencySupplyBox isquakeTime={isquakeTime} emergencySupplyBoxRef={emergencySupplyBoxRef} onClick={(e) => console.log("click")}/>
+                        <EmergencySupplyBox isquakeTime={isquakeTime} emergencySupplyBoxRef={emergencySupplyBoxRef} onClick={(e) => console.log("click")} />
                         <EffectComposer multisampling={8} autoClear={false}>
                             <Outline
                                 blur
@@ -232,6 +253,14 @@ function WobbleCamera(props) {
         decayRate: 0.02, // if decay = true this is the rate at which intensity will reduce at
         additive: true, // this should be used when your scene has orbit controls
     }
+
+    useFrame((state) => {
+        if (props.isHide == true) {
+            state.camera.lookAt(-0.5, -0.5, 0);
+            state.camera.position.set(2, -0.5, 0);
+        }
+    });
+
 
     if (props.isquakeTime == true)
         return <CameraShake {...config} />;
