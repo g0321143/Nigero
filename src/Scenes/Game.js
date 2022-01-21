@@ -5,6 +5,7 @@ import Store from '../Utils/Store';
 
 import HouseGame from '../Elements/HouseGame';
 import TallBuildingGame from '../Elements/TallBuildingGame';
+import ElevatorGame from '../Elements/ElevatorGame';
 
 /**
  * 選択された建物から，各ステージのモジュールへ分岐させます
@@ -17,6 +18,7 @@ export default function Game({ building, stage }) {
     switch (building) {
         case Buildings.house.id: return <HouseGame />;
         case Buildings.tallBuilding.id: return <TallBuildingGame />;
+        case Buildings.elevator.id: return <ElevatorGame />;
 
         default: () => {
             console.error(`"${building}" は存在しない画面です.`);

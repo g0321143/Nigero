@@ -24,8 +24,6 @@ import Background2 from '../Assets/Images/office_stage_background.png';
 import Background3 from '../Assets/Images/Elevator_stage_background.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
-import * as xlsx from 'xlsx';
-
 // [問題文, 正解が〇ならture,×ならflase]
 
 const List = [[["If you feel a big tremor while cooking, you should turn off the fire as soon as possible.", false, "It is dangerous to approach a fire during a tremor. After the shaking stops, take care of the fire without panicking."],

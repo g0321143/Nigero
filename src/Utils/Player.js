@@ -5,7 +5,6 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import { useSphere } from '@react-three/cannon'
 import * as THREE from 'three';
 
-useGLTF.preload("./Models/RobotExpressive.glb");
 
 /**
  * ゲーム画面で使用するキャラクターを表示します
@@ -13,9 +12,11 @@ useGLTF.preload("./Models/RobotExpressive.glb");
  * @param {number} playerAngle プレイヤーの向き(ラジアン)
  * @param {boolean} isMove プレイヤーが動いているかどうか
  * @param {boolean} isLighting ライトを点灯させるかどうか
+ * @param {[number, number, number]} initPosition プレイヤーの初期座標
+ * @param {number} cameraPositionY カメラのy座標
  * @param {(callback: (value: Vector3) => void)} playerPositionCallback プレイヤーの座標を返すコールバック
  */
-export default function Player({ dragPos, playerAngle, isMove, isLighting, playerPositionCallback }) {
+export default function Player({ dragPos, playerAngle, isMove, isLighting, initPosition, cameraPositionY, playerPositionCallback }) {
 
     // キャラクターのモデルの読み込み
     const { scene, nodes, animations } = useGLTF("./Models/RobotExpressive.glb");
@@ -28,7 +29,7 @@ export default function Player({ dragPos, playerAngle, isMove, isLighting, playe
     // 当たり判定の設定
     const [physicsRef, api] = useSphere(() => ({
         args: [0.4], // 大きさ
-        position: [0, 0.4, 0], // 座標
+        position: initPosition, // 座標
         mass: 1, // 重さ
         material: { friction: 0 }, // 材質 {摩擦：0に設定 }
         fixedRotation: true, // 回転を固定
@@ -50,16 +51,16 @@ export default function Player({ dragPos, playerAngle, isMove, isLighting, playe
     useEffect(() => {
         const actionName = isMove ? 'Walking' : 'Idle';
         changeAction(actionName);
-    }, [isMove])
+    }, [isMove]);
 
     // アクションの切り替え
     const changeAction = (nextAction) => {
         actions[action].fadeOut(0.5);
         setAction(nextAction);
         actions[nextAction].reset().fadeIn(0.5).play();
-    }
+    };
 
-    const { camera } = useThree()
+    const { camera } = useThree();
     // 毎フレーム実行する関数
     useFrame(() => {
         // プレイヤーに速度を与える
@@ -68,7 +69,7 @@ export default function Player({ dragPos, playerAngle, isMove, isLighting, playe
         physicsRef.current.getWorldPosition(camera.position);
         // プレイヤーの座標を格納
         playerPositionCallback(camera.position);
-        camera.position.y = 10;
+        camera.position.y = cameraPositionY;
     });
 
     return (

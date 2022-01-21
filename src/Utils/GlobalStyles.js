@@ -18,7 +18,7 @@ export const Game_Canvas = styled.div`
     top: 0;
     left: 0;
     width: 100vw;
-    aspect-ratio: 16 / 9;
+    height: 56.25vw;
     background-color: ${Color.grayishYellowGreen};
 `;
 

@@ -1,12 +1,19 @@
 const COIN_KEY = "coin_data";
-const SCORE_KEY = "score_data";
+const BEST_SCORE_KEY = "best_score_data";
+const LATEST_SCORE_KEY = "latest_score_data";
 const BUILDINGS_KEY = "building_data";
 const ITEMS_KEY = "items_data";
 
 const coinData = 0;
 
 // スコアの初期設定
-const scoreData = {
+const bestScoreData = {
+    house: [false, false, false],
+    tallBuilding: [false, false, false],
+    elevator: [false, false, false],
+};
+
+const latestScoreData = {
     house: [false, false, false],
     tallBuilding: [false, false, false],
     elevator: [false, false, false],
@@ -59,10 +66,15 @@ export function initLocalStorage() {
     }
 
     // スコアの初期設定
-    const scoreList = JSON.parse(localStorage.getItem(SCORE_KEY));
-    if (scoreList == null) {
-        localStorage.setItem(SCORE_KEY, JSON.stringify(scoreData));
-        console.log('set default scoreData');
+    const bestScoreList = JSON.parse(localStorage.getItem(BEST_SCORE_KEY));
+    if (bestScoreList == null) {
+        localStorage.setItem(BEST_SCORE_KEY, JSON.stringify(bestScoreData));
+        console.log('set default bestScoreData');
+    }
+    const latestScoreList = JSON.parse(localStorage.getItem(LATEST_SCORE_KEY));
+    if (latestScoreList == null) {
+        localStorage.setItem(LATEST_SCORE_KEY, JSON.stringify(latestScoreData));
+        console.log('set default latestScoreData');
     }
 
     // 建物の初期設定
@@ -72,7 +84,7 @@ export function initLocalStorage() {
         console.log('set default buildingsData');
     }
 
-    // スコアの初期設定
+    // アイテムの初期設定
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
     if (itemsList == null) {
         localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
@@ -127,28 +139,32 @@ export function subCoin(subtract) {
 /**
  * スコアをローカルストレージに保存します.
  * @param {string} building 建物の名前
- * @param {boolean} star1 星1
- * @param {boolean} star2 星2
- * @param {boolean} star3 星3
+ * @param {[boolean, boolean, boolean]} score 星の状態
  */
-export function setScore(building, star1, star2, star3) {
-    const scoreList = JSON.parse(localStorage.getItem(SCORE_KEY));
+export function setScore(building, score) {
+    const bestScoreList = JSON.parse(localStorage.getItem(BEST_SCORE_KEY));
+    const latestScoreList = JSON.parse(localStorage.getItem(LATEST_SCORE_KEY));
 
-    scoreList[building][0] = star1;
-    scoreList[building][1] = star2;
-    scoreList[building][2] = star3;
+    for (let index = 0; index < score.length; index++) {
+        if (score[index] == true) {
+            bestScoreList[building][index] = score[index];
+        }
+        latestScoreList[building][index] = score[index];
+    }
 
-    localStorage.setItem(SCORE_KEY, JSON.stringify(scoreList));
-    console.log(`set score : ${building} (${star1},${star2},${star3})`);
+    localStorage.setItem(BEST_SCORE_KEY, JSON.stringify(bestScoreList));
+    localStorage.setItem(LATEST_SCORE_KEY, JSON.stringify(latestScoreList));
+    console.log(`set best score : ${building} ${bestScoreList[building]}`);
+    console.log(`set latest score : ${building} ${latestScoreList[building]}`);
 }
 
 /**
- * 現在のスコアを取得します．
+ * 一番新しく記録したスコアを取得します．
  * @param {string} building 建物の名前
  * @returns {[boolean, boolean, boolean]} 星の状態
  */
-export function getScore(building) {
-    const scoreList = JSON.parse(localStorage.getItem(SCORE_KEY));
+export function getLatestScore(building) {
+    const scoreList = JSON.parse(localStorage.getItem(LATEST_SCORE_KEY));
     const score = [];
 
     score.push(scoreList[building][0]);
@@ -159,40 +175,20 @@ export function getScore(building) {
 }
 
 /**
- * ミッションスコアをローカルストレージに保存します.
- * @param {string} building 建物の名前
- * @param {boolean} mission1 星1
- * @param {boolean} mission2 星2
- * @param {boolean} mission3 星3
- */
- export function setMissionScore(building, mission1, mission2, mission3) {
-    const missionList = JSON.parse(localStorage.getItem(SCORE_KEY));
-
-    missionList[building][0] = mission1;
-    missionList[building][1] = mission2;
-    missionList[building][2] = mission3;
-
-    localStorage.setItem(SCORE_KEY, JSON.stringify(missionList));
-    //console.log(`set mission score : ${building} (${mission1},${mission2},${mission3})`);
-}
-
-/**
- * 現在のミッションスコアを取得します．
+ * 現在のベストスコアを取得します．
  * @param {string} building 建物の名前
  * @returns {[boolean, boolean, boolean]} 星の状態
  */
-export function getMissionScore(building) {
-    const missionList = JSON.parse(localStorage.getItem(SCORE_KEY));
+ export function getScore(building) {
+    const scoreList = JSON.parse(localStorage.getItem(BEST_SCORE_KEY));
     const score = [];
 
-    score.push(missionList[building][0]);
-    score.push(missionList[building][1]);
-    score.push(missionList[building][2]);
+    score.push(scoreList[building][0]);
+    score.push(scoreList[building][1]);
+    score.push(scoreList[building][2]);
 
     return score;
 }
-
-
 
 
 /**
@@ -269,7 +265,8 @@ export function getItemBuy(itemCategory, itemName) {
  */
 export function resetAllData() {
     localStorage.setItem(COIN_KEY, coinData);
-    localStorage.setItem(SCORE_KEY, JSON.stringify(scoreData));
+    localStorage.setItem(BEST_SCORE_KEY, JSON.stringify(bestScoreData));
+    localStorage.setItem(LATEST_SCORE_KEY, JSON.stringify(latestScoreData));
     localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
     localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
 
