@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as THREE from 'three';
-import { Canvas, useLoader, useFrame } from '@react-three/fiber';
-import { useGLTF, CameraShake, Stats, Plane, Billboard, OrbitControls } from "@react-three/drei";
+import { Canvas, useLoader, useFrame, useThree } from '@react-three/fiber';
+import { useGLTF, CameraShake, Stats, Plane, Billboard, OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import { Physics, Debug, useBox, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
 
@@ -37,7 +37,7 @@ export default function ElevatorGameStage(props) {
 
     // 3Dモデルについての情報
     const [update, setUpdata] = useState(false);
-    const playerPosition = useRef(null);
+    const playerPosition = useRef([0, 0, 0]);
     const playerInitPosition = useRef([0.5, 0.4, 0]);
     const [playerAngle, setPlayerAngle] = useState(0);
     const isPlayerMove = useRef(false);
@@ -108,7 +108,6 @@ export default function ElevatorGameStage(props) {
     };
 
     useEffect(() => {
-        console.log(isHide)
         if (isPlayerMove.current == true) {
             hide(false);
         }
@@ -134,9 +133,10 @@ export default function ElevatorGameStage(props) {
             <Inventory
                 items={[]}
             />
-            <Canvas shadows camera={{ position: [0, 5, 0], fov: 45 }}>
+            <Canvas shadows camera={{ position: [0, 4, 0], fov: 45 }}>
                 <Stats />
-                <WobbleCamera isquakeTime={isquakeTime} isHide={isHide} />
+                <CameraControl isquakeTime={isquakeTime} isHide={isHide} cameraPosition={playerPosition.current}  />
+                <WobbleCamera isquakeTime={isquakeTime} isHide={isHide} cameraPosition={playerPosition.current} />
                 <ambientLight intensity={0.2} />
                 <directionalLight
                     castShadow
@@ -148,7 +148,7 @@ export default function ElevatorGameStage(props) {
                     position={[1, 5, 1]}
                     intensity={0.8}
                 />
-                <OrbitControls />
+                {/* <OrbitControls /> */}
                 <fog attach="fog" args={[Color.grayishYellowGreen, 10, 30]} />
                 <Structure isquakeTime={isquakeTime} time={props.time} />
                 <ElevatorButtonPanel isquakeTime={isquakeTime} buttonPanelRef={buttonPanelRef} onClick={() => clickButtonPanel()} />
@@ -175,15 +175,15 @@ export default function ElevatorGameStage(props) {
                 <Physics iterations={6}>
                     {/* <Debug scale={1.1} color="black"> */}
                     <group>
-                        {/* <Player
-                                dragPos={stickPosition.current}
-                                playerAngle={playerAngle}
-                                initPosition={[0, -2.9, 0]}
-                                cameraPositionY={4}
-                                isMove={isPlayerMove.current}
-                                isLighting={false}
-                                playerPositionCallback={p => playerPosition.current = p}
-                            /> */}
+                        {!isHide && <Player
+                            dragPos={stickPosition.current}
+                            playerAngle={playerAngle}
+                            initPosition={[0, -2.9, 0]}
+                            cameraPositionY={4}
+                            isMove={isPlayerMove.current}
+                            isLighting={false}
+                            playerPositionCallback={p => playerPosition.current = p}
+                        />}
                         <Elevator isquakeTime={isquakeTime} />
                         <EmergencySupplyBox isquakeTime={isquakeTime} emergencySupplyBoxRef={emergencySupplyBoxRef} onClick={(e) => console.log("click")} />
                         <EffectComposer multisampling={8} autoClear={false}>
@@ -252,20 +252,26 @@ function WobbleCamera(props) {
         decay: true, // should the intensity decay over time
         decayRate: 0.02, // if decay = true this is the rate at which intensity will reduce at
         additive: true, // this should be used when your scene has orbit controls
-    }
-
-    useFrame((state) => {
-        if (props.isHide == true) {
-            state.camera.lookAt(-0.5, -0.5, 0);
-            state.camera.position.set(2, -0.5, 0);
-        }
-    });
-
-
+    };
     if (props.isquakeTime == true)
         return <CameraShake {...config} />;
     else
         return null;
+}
+
+function CameraControl(props) {
+    useFrame((state) => {
+        if (props.isHide == true) {
+            state.camera.lookAt(-0.5, -0.5, 0);
+            state.camera.position.set(2, -0.5, 0);
+        } else {
+            //state.camera.position.set(...props.cameraPosition);
+            state.camera.lookAt(0,0,0);
+            state.camera.position.set(0,3,0);
+        }
+    });
+
+    return <PerspectiveCamera makeDefault />;
 }
 
 
