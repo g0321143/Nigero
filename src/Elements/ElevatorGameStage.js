@@ -42,7 +42,8 @@ export default function ElevatorGameStage(props) {
     const [playerAngle, setPlayerAngle] = useState(0);
     const isPlayerMove = useRef(false);
     const stickPosition = useRef({ x: 0, y: 0 });
-    const tableRef = useRef();
+    const buttonPanelRef = useRef();
+    const emergencySupplyBoxRef = useRef();
     const [isHide, hide] = useState(false);
 
     // ミッションの達成状況
@@ -69,8 +70,8 @@ export default function ElevatorGameStage(props) {
 
     useEffect(() => {
         if (isHide == true) {
-            playerInitPosition.current = [-0.5, 0.4, 4.6];
-            hide(false);
+            //playerInitPosition.current = [-0.5, 0.4, 4.6];
+            //hide(false);
         }
     }, [isquakeTime]);
 
@@ -86,6 +87,10 @@ export default function ElevatorGameStage(props) {
         stickPosition.current = { x: e.x / 20, y: e.y / 20 };
         isPlayerMove.current = false;
         setUpdata(!update);
+    };
+
+    const clickButtonPanel = () => {
+        hide(false);
     };
 
     // ゲーム終了時の処理
@@ -116,33 +121,70 @@ export default function ElevatorGameStage(props) {
                     position={[0.1, 5, 0.1]}
                     intensity={0.8}
                 />
-                {/* <OrbitControls /> */}
+                <directionalLight
+                    castShadow
+                    position={[1, 5, 1]}
+                    intensity={0.8}
+                />
+                <OrbitControls />
                 <fog attach="fog" args={[Color.grayishYellowGreen, 10, 30]} />
                 <Structure isquakeTime={isquakeTime} time={props.time} />
+                <ElevatorButtonPanel isquakeTime={isquakeTime} buttonPanelRef={buttonPanelRef} onClick={(e) => console.log("click")}/>
+
+                <ElevatorButton position={[-0.34, 0.12, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, 0.12, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+
+                <ElevatorButton position={[-0.34, 0, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, 0, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+
+                <ElevatorButton position={[-0.34, -0.12, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, -0.12, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+
+                <ElevatorButton position={[-0.34, -0.24, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, -0.24, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+
+                <ElevatorButton position={[-0.34, -0.36, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, -0.36, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
+                
+                <ElevatorButton position={[-0.34, -0.55, -0.34]} color={'#00ff00'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, -0.55, -0.45]} color={'#ff0000'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, -0.55, -0.56]} color={'#00ff00'} onClick={(e) => console.log("click")}/>
+
                 <Physics iterations={6}>
                     {/* <Debug scale={1.1} color="black"> */}
                     <group>
-                        <Player
-                            dragPos={stickPosition.current}
-                            playerAngle={playerAngle}
-                            initPosition={[0, -2.9, 0]}
-                            cameraPositionY={4}
-                            isMove={isPlayerMove.current}
-                            isLighting={false}
-                            playerPositionCallback={p => playerPosition.current = p}
-                        />
+                        {/* <Player
+                                dragPos={stickPosition.current}
+                                playerAngle={playerAngle}
+                                initPosition={[0, -2.9, 0]}
+                                cameraPositionY={4}
+                                isMove={isPlayerMove.current}
+                                isLighting={false}
+                                playerPositionCallback={p => playerPosition.current = p}
+                            /> */}
                         <Elevator isquakeTime={isquakeTime} />
+                        <EmergencySupplyBox isquakeTime={isquakeTime} emergencySupplyBoxRef={emergencySupplyBoxRef} onClick={(e) => console.log("click")}/>
                         <EffectComposer multisampling={8} autoClear={false}>
-                            {/* <Outline
-                                    blur
-                                    xRay={false}
-                                    pulseSpeed={0.5}
-                                    selection={glassDoorShelfRef}
-                                    selectionLayer={2}
-                                    visibleEdgeColor={isUseGlassFilm ? "white" : "red"}
-                                    edgeStrength={5}
-                                    width={500}
-                                /> */}
+                            <Outline
+                                blur
+                                xRay={false}
+                                pulseSpeed={0.5}
+                                selection={buttonPanelRef}
+                                selectionLayer={2}
+                                visibleEdgeColor={"white"}
+                                edgeStrength={5}
+                                width={500}
+                            />
+                            <Outline
+                                blur
+                                xRay={false}
+                                pulseSpeed={0.5}
+                                selection={emergencySupplyBoxRef}
+                                selectionLayer={3}
+                                visibleEdgeColor={"white"}
+                                edgeStrength={5}
+                                width={500}
+                            />
                         </EffectComposer>
                     </group>
                     {/* </ Debug> */}
@@ -198,7 +240,7 @@ function WobbleCamera(props) {
 
 
 function Elevator({ isquakeTime }) {
-    const { scene } = useGLTF("./Models/Elevator/Elevator.glb");
+    const { scene } = useGLTF("./Models/Elevator/Elevator1.glb");
 
     let Objects = [];
 
@@ -210,13 +252,7 @@ function Elevator({ isquakeTime }) {
                     objectColor = Color.deepRed;
                 } else if (object.name == 'Cube006_1') {
                     objectColor = Color.vividRed;
-                } else if (object.name == 'Cube006_2') {
-                    objectColor = Color.white;
-                } else if (object.name == 'Cube006_3') {
-                    objectColor = '#ff0000';
-                } else if (object.name == 'Cube006_4') {
-                    objectColor = '#00ff00';
-                } else if (object.name == 'Cube006_5') {
+                } else {
                     objectColor = Color.vividRed;;
                 }
             } else {
@@ -224,13 +260,7 @@ function Elevator({ isquakeTime }) {
                     objectColor = Color.dimGrayishGreen;
                 } else if (object.name == 'Cube006_1') {
                     objectColor = Color.grayishYellowGreen;
-                } else if (object.name == 'Cube006_2') {
-                    objectColor = Color.white;
-                } else if (object.name == 'Cube006_3') {
-                    objectColor = '#ff0000';
-                } else if (object.name == 'Cube006_4') {
-                    objectColor = '#00ff00';
-                } else if (object.name == 'Cube006_5') {
+                } else {
                     objectColor = Color.grayishYellowGreen;;
                 }
             }
@@ -255,7 +285,6 @@ function Elevator({ isquakeTime }) {
             { type: 'Box', position: [1, -0.8, -0.8], args: [2.5, 4, 0.2] },
             { type: 'Box', position: [2.3, -0.8, 0.6], args: [0.2, 4, 2.5] },
             { type: 'Box', position: [-0.5, -0.8, 0.6], args: [0.2, 4, 2.5] },
-            { type: 'Box', position: [1.8, -2.5, 1.5], args: [1, 1, 1] },
         ]
     }));
 
@@ -268,6 +297,63 @@ function Elevator({ isquakeTime }) {
                 <mesh
                     castShadow
                     receiveShadow
+                    position={[0.7, -0.5, 0.6]}
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+
+function EmergencySupplyBox({ isquakeTime, emergencySupplyBoxRef, onClick }) {
+    const { scene } = useGLTF("./Models/Elevator/EmergencySupplyBox.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            let objectColor;
+            if (isquakeTime == true) {
+                objectColor = Color.deepRed;
+            } else {
+                objectColor = Color.dimGrayishGreen;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+
+    const [ref] = useBox(() => ({
+        type: 'Static',
+        type: 'Box',
+        position: [1.5, -2.6, 1.2],
+        args: [0.5, 0.5, 0.5]
+    }));
+
+
+    return (
+        <group
+            ref={ref}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    onClick={onClick}
+                    ref={emergencySupplyBoxRef}
                     scale={object.scale}
                     rotation={object.rotation}
                     geometry={object.geometry}
@@ -337,6 +423,89 @@ function Structure(props) {
                 <mesh
                     castShadow
                     receiveShadow
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={object.color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+function ElevatorButton({ position, color, onClick }) {
+    const { scene } = useGLTF("./Models/Elevator/ElevatorButton.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                }
+            );
+        }
+    });
+
+    return (
+        <group
+            position={position}
+        >
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    onClick={onClick}
+                    scale={object.scale}
+                    rotation={object.rotation}
+                    geometry={object.geometry}
+                    key={index}
+                >
+                    <meshStandardMaterial color={color} />
+                </mesh>
+            ))}
+        </group>
+    )
+}
+
+function ElevatorButtonPanel({ isquakeTime, buttonPanelRef, onClick }) {
+    const { scene } = useGLTF("./Models/Elevator/ElevatorButtonPanel.glb");
+
+    let Objects = [];
+
+    scene.traverse((object) => {
+        if (object.isMesh) {
+            let objectColor;
+            if (isquakeTime == true) {
+                objectColor = Color.vividRed;
+            } else {
+                objectColor = Color.grayishYellowGreen;
+            }
+            Objects.push(
+                {
+                    scale: object.scale,
+                    rotation: [0, -Math.PI / 2, 0],
+                    geometry: object.geometry,
+                    color: objectColor
+                }
+            );
+        }
+    });
+
+    return (
+        <group>
+            {Objects.map((object, index) => (
+                <mesh
+                    castShadow
+                    receiveShadow
+                    onClick={onClick}
+                    position={[-0.36, -0.3, -0.45]}
+                    ref={buttonPanelRef}
                     scale={object.scale}
                     rotation={object.rotation}
                     geometry={object.geometry}
