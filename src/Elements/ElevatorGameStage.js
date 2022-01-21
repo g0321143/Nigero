@@ -45,6 +45,7 @@ export default function ElevatorGameStage(props) {
     const buttonPanelRef = useRef();
     const emergencySupplyBoxRef = useRef();
     const [isHide, hide] = useState(false);
+    const [click, setClick] = useState(false);
 
     // ミッションの達成状況
     const mission = useRef([false, false, false]);
@@ -131,7 +132,7 @@ export default function ElevatorGameStage(props) {
                 <Structure isquakeTime={isquakeTime} time={props.time} />
                 <ElevatorButtonPanel isquakeTime={isquakeTime} buttonPanelRef={buttonPanelRef} onClick={(e) => console.log("click")}/>
 
-                <ElevatorButton position={[-0.34, 0.12, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
+                <ElevatorButton position={[-0.34, 0.12, -0.38]} color={click ? 'red' : 'white'} onClick={(e) => setClick(true)}/>
                 <ElevatorButton position={[-0.34, 0.12, -0.52]} color={'white'} onClick={(e) => console.log("click")}/>
 
                 <ElevatorButton position={[-0.34, 0, -0.38]} color={'white'} onClick={(e) => console.log("click")}/>
