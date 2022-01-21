@@ -26,7 +26,7 @@ export default {
     {
         name: 'TallBuilding',
         id: 'tallBuilding',
-        price: 1000,
+        price: 3000,
         model: './Models/TallBuilding.glb',
         nameTagImage: TallBuildingTag,
         beforeTime: 30,
@@ -39,12 +39,13 @@ export default {
     {
         name: 'Elevator',
         id: 'elevator',
-        price: 1000,
+        price: 10000,
         model: './Models/Elevator.glb',
         nameTagImage: ElevatorTag,
         beforeTime: 10,
         quakeTime: 10,
-        afterTime: 120,
-        totalTime: 140,
+        afterTime: 60,
+        totalTime: 80,
+        gameOverTime: 70
     },
 };
