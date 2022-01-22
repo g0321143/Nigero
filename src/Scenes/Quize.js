@@ -51,33 +51,24 @@ const List = [[["If you feel a big tremor while cooking, you should turn off the
 export default function Quize({ building }) {
     // ステージで問題文を変更するための変数
     const [buildingNo, setBuildingNo] = useState(0);
-    
-    switch (building) {
-        case Buildings.house.id: setBuildingNo(0);
-        case Buildings.tallBuilding.id: setBuildingNo(1);
-        case Buildings.elevator.id: setBuildingNo(2);
-
-        default: () => {
-            console.error(`"${building}" は存在しない画面です.`);
-            return Store.setScene('title');
-        };
-    }
-    console.log(buildingNo, building);
-    //　背景の指定
+    const [flag, setflag] = useState(true);
     const [BackGroundImage, setBackGroundImage] = useState(Background1);
 
-    switch (building) {
-        case Buildings.house.id: setBackGroundImage(Background1);
-        case Buildings.tallBuilding.id: setBackGroundImage(Background2);
-        case Buildings.elevator.id: setBackGroundImage(Background3);
+    console.log(building);
 
-        default: () => {
-            console.error(`"${building}" は存在しない画面です.`);
-            return Store.setScene('title');
-        };
+    if(flag && building == Buildings.house.id){
+        setBuildingNo(0);
+        setBackGroundImage(Background1);
+        setflag(!flag);
+    }else if(flag && building == Buildings.tallBuilding.id){
+        setBuildingNo(1);
+        setBackGroundImage(Background2);
+        setflag(!flag);
+    }else if(flag && building == Buildings.elevator.id){
+        setBuildingNo(2);
+        setBackGroundImage(Background3);
+        setflag(!flag);
     }
-
-    
     
     return (
         <Game_Canvas>
@@ -122,11 +113,11 @@ const QuizeUI = ({buildingNo}) => {
     const batu = () => {
         if(List[buildingNo][No-1][1] == false){
             setSeikai(seikai+1);
-            setResult(Yesbutton);
+            setResult(Notbutton);
         }else if(seikai > seikai_max){
             setSeikai_max(seikai);
             setSeikai(0);
-            setResult(Notbutton);
+            setResult(Yesbutton);
         }
         setflag(!flag);
     }
@@ -139,12 +130,12 @@ const QuizeUI = ({buildingNo}) => {
     // コインが上手く加算されない!!!
     // 最後の答え合わせ画面に進んだときに最大連続正解数に応じてコインを加算
     useEffect(() => {
-        if(No == List.length && !flag){
+        if(No == List[buildingNo].length && !flag){
             if(seikai > seikai_max){
                 setSeikai_max(seikai);
                 setSeikai(0);
             }
-            addCoin(seikai_max);
+            addCoin(seikai_max*1000);
             console.log("addCoin");
             
         }
@@ -157,10 +148,10 @@ const QuizeUI = ({buildingNo}) => {
     })
 
 
-    console.log(No, seikai, seikai_max)
+    console.log(List[buildingNo].length, No, seikai, seikai_max)
 
     // 問題表示，回答表示，最後の回答表示（nextボタンを消失）
-    if(No <= List[0].length && flag){
+    if(No <= List[buildingNo].length && flag){
         return (
             <>
             <HedText>{"Quiz " + No + " !"}</HedText>
@@ -170,7 +161,7 @@ const QuizeUI = ({buildingNo}) => {
             
             </>
         );
-    }else if(No <= List[0].length && !flag){
+    }else if(No <= List[buildingNo].length && !flag){
         
         return (
             <>
@@ -187,8 +178,8 @@ const QuizeUI = ({buildingNo}) => {
             <>
                 <HedText>{"Result !"}</HedText>
                 <AnyText >{"YOU`VE GOT"}</AnyText>
-                <Setting src={CoinImage} top={"25vw"} left={"38%"} width={'10%'} height={'10%'} opacity={'0.9'} />
-                <CoinText>{coin}</CoinText>
+                <Setting src={CoinImage} top={"25vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'0.9'} />
+                <CoinText>{seikai*1000}</CoinText>
                 <UsedButton onClick={() => Store.resetStage()} src={Closebutton} top={"40vw"}/>
             </>
         );
@@ -206,14 +197,12 @@ const Setting = styled.div`
     margin: ${props => props.margin};
     top: ${(props) => props.top};
     left: ${(props) => props.left};
-
     background-image: url(${props => props.src});
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
     opacity: ${(props) => props.opacity};
     z-index: 999;
-
     :hover {
         cursor: pointer;
         opacity: 1;
@@ -223,65 +212,51 @@ const Setting = styled.div`
 
 
 const AnyText = styled.div`
-  position: absolute;
-
-  width: 50%;
-  height: 3vw;
-
-  top: 30%;
-  left: 25%;
-
-  font-size: 2vw;
-  color: ${Color.slightlyGrayishYellow};
-  font-weight: bold;
-  justify-content: flex-end;
-  text-align: center;
-
-  user-select: none;
-  user-drag: none;
+    position: absolute;
+    width: 50%;
+    height: 3vw;
+    top: 30%;
+    left: 25%;
+    font-size: 2vw;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
+    justify-content: flex-end;
+    text-align: center;
+    user-select: none;
+    user-drag: none;
   
-  z-index: 999;
+    z-index: 999;
 `;
 
 const CoinText = styled.div`
-position: absolute;
-
-width: 97%;
-height: 3vw;
-
-top: 43.5%;
-
-font-size: 6vw;
-color: ${Color.slightlyGrayishYellow};
-font-weight: bold;
-justify-content: flex-end;
-text-align: center;
-
-user-select: none;
-user-drag: none;
-
-z-index: 999;
+    position: absolute;
+    width: 100%;
+    height: 3vw;
+    top: 43.5%;
+    font-size: 6vw;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
+    justify-content: flex-end;
+    text-align: center;
+    user-select: none;
+    user-drag: none;
+    z-index: 999;
 `;
 
 
 const HedText = styled.div`
-position: absolute;
-
-width: 100%;
-height: 3vw;
-
-top: 10%;
-
-font-size: 3vw;
-color: ${Color.slightlyGrayishYellow};
-font-weight: bold;
-justify-content: flex-end;
-text-align: center;
-
-user-select: none;
-user-drag: none;
-
-z-index: 999;
+    position: absolute;
+    width: 100%;
+    height: 3vw;
+    top: 10%;
+    font-size: 3vw;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
+    justify-content: flex-end;
+    text-align: center;
+    user-select: none;
+    user-drag: none;
+    z-index: 999;
 `;
 
 
@@ -292,11 +267,9 @@ const UsedButton = styled.img`
     margin-top: ${(props) => props.top};
     margin-left: 43%;
     margin-bottom: 1vw;
-
     url(${(props) => props.src});
     z-index: 999;
     opacity: 0.9;
-
     :hover {
         cursor: pointer;
         opacity: 1;
