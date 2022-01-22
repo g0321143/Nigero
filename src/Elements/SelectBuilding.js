@@ -30,6 +30,7 @@ export default function SelectBuilding({ currentBuilding }) {
         Buildings.house.id,
     ];
 
+
     const [initBuilding] = useState(IDList.findIndex(e => e == currentBuilding));
 
     // 現在選択されている建物のインデックス

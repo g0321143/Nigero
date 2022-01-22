@@ -15,7 +15,7 @@ import { addCoin, getCoin } from '../Utils/LocalStorage';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import TexBox from '../Assets/Images/QUIZ_BOX.png';
-import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEWpng-33.png';
+import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-33.png';
 import Closebutton from '../Assets/Images/CLOSETAB-08.png';
 import Yesbutton from '../Assets/Images/1-05.png';
 import Notbutton from '../Assets/Images/1-06.png';
@@ -47,7 +47,12 @@ const List = [[["If you feel a big tremor while cooking, you should turn off the
     ["AA and AA batteries are the same length, just different in thickness.", true, "The only difference is the thickness, so you can wrap a piece of cloth around the AA battery and use it instead of the AA battery. When the diameter reaches 2.6 cm, fasten it with cellophane tape."],
     ["A [hazard map] is a map that shows the estimated damage areas, evacuation sites, evacuation routes, and other information for disaster mitigation and disaster prevention.", true, "Make sure to check the risk of flooding, landslides, and liquefaction in your area."]]]
     
-
+/**
+ * 選択された建物から，各ステージのモジュールへ分岐させます
+ * 
+ * @param {String} building 選択された建物ID 
+ * @param {String} stage 選択されたステージID ※現在使ってません
+ */
 export default function Quize({ building }) {
     // ステージで問題文を変更するための変数
     const [buildingNo, setBuildingNo] = useState(0);
@@ -62,6 +67,7 @@ export default function Quize({ building }) {
             return Store.setScene('title');
         };
     }
+    console.log(buildingNo, building);
     //　背景の指定
     const [BackGroundImage, setBackGroundImage] = useState(Background1);
 
