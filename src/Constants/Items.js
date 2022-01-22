@@ -16,7 +16,7 @@ import AntiSeismicGel_Image from '../Assets/Images/Items/AntiSeismicGel.jpg';
 import Tensionrod_Image from '../Assets/Images/Items/Tension rod.jpg';
 import PortableWaterPurifiers_Image from '../Assets/Images/Items/Portable Water Purifiers.jpg';
 import Portabletoiletst_Image from '../Assets/Images/Items/Portable toiletst.jpg';
-import EmergencyTablewareOrigami_Image from '../Assets/Images/Items/Emergency tableware origami.jpg';
+import TablewareOrigami_Image from '../Assets/Images/Items/Emergency tableware origami.jpg';
 import DisasterPreventionKit_Image from '../Assets/Images/Items/Disaster prevention kit.jpg';
 export const Light = {
     NightStarJP: {
@@ -65,7 +65,7 @@ export const Light = {
     TablewareOrigami: {
         name: 'Tableware origami',
         price: '2222',
-        image: EmergencyTablewareOrigami_Image,
+        image: TablewareOrigami_Image,
         info: 'this is light',
         url: 'https://www.amazon.co.jp/%E9%80%9A%E8%B2%A9%E3%83%91%E3%83%BC%E3%82%AF-%E9%9D%9E%E5%B8%B8%E7%94%A8%E9%A3%9F%E5%99%A8%E6%8A%98%E3%82%8A%E7%B4%99-3993/dp/B074JYFWX4/ref=sr_1_2?adgrpid=116162524036&hvadid=536185799672&hvdev=c&hvqmt=e&hvtargid=kwd-118663636866&hydadcr=26042_13446917&jp-ad-ap=0&keywords=%E9%9D%9E%E5%B8%B8%E7%94%A8%E9%A3%9F%E5%99%A8%E6%8A%98%E3%82%8A%E7%B4%99&qid=1642479132&sr=8-2'
     }
