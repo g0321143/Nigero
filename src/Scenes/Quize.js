@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import { Game_Canvas, Block_Right_End } from '../Utils/GlobalStyles';
 import Color from "../Constants/Color";
-import Money from '../Utils/Money'
 import Button from '../Utils/Button';
 import Store from '../Utils/Store';
 import Buildings from '../Constants/Buildings';
@@ -16,10 +15,6 @@ import { addCoin, getCoin } from '../Utils/LocalStorage';
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import TexBox from '../Assets/Images/QUIZ_BOX.png';
 import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-33.png';
-<<<<<<< HEAD
-=======
-//import nextButton from '../Assets/Images/CLOSETAB-08.png';
->>>>>>> b3770a1f60dab064316f3503284738070921b590
 import Closebutton from '../Assets/Images/CLOSETAB-08.png';
 import Yesbutton from '../Assets/Images/1-05.png';
 import Notbutton from '../Assets/Images/1-06.png';
@@ -27,6 +22,7 @@ import Background1 from '../Assets/Images/House_stage_background.png';
 import Background2 from '../Assets/Images/office_stage_background.png';
 import Background3 from '../Assets/Images/Elevator_stage_background.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
+
 
 // [問題文, 正解が〇ならture,×ならflase]
 
@@ -51,12 +47,7 @@ const List = [[["If you feel a big tremor while cooking, you should turn off the
     ["AA and AA batteries are the same length, just different in thickness.", true, "The only difference is the thickness, so you can wrap a piece of cloth around the AA battery and use it instead of the AA battery. When the diameter reaches 2.6 cm, fasten it with cellophane tape."],
     ["A [hazard map] is a map that shows the estimated damage areas, evacuation sites, evacuation routes, and other information for disaster mitigation and disaster prevention.", true, "Make sure to check the risk of flooding, landslides, and liquefaction in your area."]]]
     
-/**
- * 選択された建物から，各ステージのモジュールへ分岐させます
- * 
- * @param {String} building 選択された建物ID 
- * @param {String} stage 選択されたステージID ※現在使ってません
- */
+
 export default function Quize({ building }) {
     // ステージで問題文を変更するための変数
     const [buildingNo, setBuildingNo] = useState(0);
