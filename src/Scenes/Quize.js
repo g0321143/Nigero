@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import { Game_Canvas, Block_Right_End } from '../Utils/GlobalStyles';
 import Color from "../Constants/Color";
-import Money from '../Utils/Money'
 import Button from '../Utils/Button';
 import Store from '../Utils/Store';
 import Buildings from '../Constants/Buildings';
@@ -16,7 +15,6 @@ import { addCoin, getCoin } from '../Utils/LocalStorage';
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import TexBox from '../Assets/Images/QUIZ_BOX.png';
 import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-33.png';
-//import nextButton from '../Assets/Images/CLOSETAB-08.png';
 import Closebutton from '../Assets/Images/CLOSETAB-08.png';
 import Yesbutton from '../Assets/Images/1-05.png';
 import Notbutton from '../Assets/Images/1-06.png';
@@ -24,6 +22,7 @@ import Background1 from '../Assets/Images/House_stage_background.png';
 import Background2 from '../Assets/Images/office_stage_background.png';
 import Background3 from '../Assets/Images/Elevator_stage_background.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
+
 
 // [問題文, 正解が〇ならture,×ならflase]
 
@@ -63,6 +62,7 @@ export default function Quize({ building }) {
             return Store.setScene('title');
         };
     }
+    console.log(buildingNo, building);
     //　背景の指定
     const [BackGroundImage, setBackGroundImage] = useState(Background1);
 

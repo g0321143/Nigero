@@ -16,7 +16,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             scene: 'title',
-            building: 'house',
+            building: "",
             stage: 0,
         };
 
@@ -69,11 +69,11 @@ class App extends React.Component {
 
         switch (scene) {
             case 'title': return <Title />;
-            case 'select': return <Select currentBuilding={building}/>;
+            case 'select': return <Select />;
             case 'option': return <Option />;
             case 'itemShop': return <ItemShop />;
             case 'game': return <Game building={building} stage={stage} />;
-            case 'quize': return <Quize/>;
+            case 'quize': return <Quize building={building}/>;
             default: () => {
                 console.error(`"${scene}" は存在しない画面です.`);
                 return <Title />;
