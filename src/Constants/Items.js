@@ -62,8 +62,8 @@ export const Light = {
         info: 'this is light',
         url: 'https://www.amazon.co.jp/%E5%B1%B1%E5%96%84-YAMAZEN-%E9%81%BF%E9%9B%A3%E7%94%A8%E3%82%A2%E3%82%A4%E3%83%86%E3%83%A030%E7%82%B9%E5%85%A5%E3%82%8A-32%C3%9716%C3%9743cm-YBG-30R/dp/B07D28ZXP3?th=1'
     },
-    EmergencyTablewareOrigami: {
-        name: 'Emergency tableware origami',
+    TablewareOrigami: {
+        name: 'Tableware origami',
         price: '2222',
         image: EmergencyTablewareOrigami_Image,
         info: 'this is light',

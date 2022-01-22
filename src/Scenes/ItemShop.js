@@ -53,22 +53,22 @@ export default function ItemShop() {
             <ItemPanel onClick={() => clickItemPanel(Light.PortableWaterPurifiers)}>
                 <ItemPrice>{Light.PortableWaterPurifiers.price}</ItemPrice>
                 <ItemImage src={Light.PortableWaterPurifiers.image} />
-                <ItemName>{Light.PortableWaterPurifiers.name}</ItemName>
+                <ItemName2>{Light.PortableWaterPurifiers.name}</ItemName2>
             </ItemPanel>
             <ItemPanel onClick={() => clickItemPanel(Light.PortableToiletst)}>
                 <ItemPrice>{Light.PortableToiletst.price}</ItemPrice>
                 <ItemImage src={Light.PortableToiletst.image} />
-                <ItemName>{Light.PortableToiletst.name}</ItemName>
+                <ItemName2>{Light.PortableToiletst.name}</ItemName2>
             </ItemPanel>
             <ItemPanel onClick={() => clickItemPanel(Light.DisasterPreventionKit)}>
                 <ItemPrice>{Light.DisasterPreventionKit.price}</ItemPrice>
                 <ItemImage src={Light.DisasterPreventionKit.image} />
-                <ItemName>{Light.DisasterPreventionKit.name}</ItemName>
+                <ItemName3>{Light.DisasterPreventionKit.name}</ItemName3>
             </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(Light.EmergencyTablewareOrigami)}>
-                <ItemPrice>{Light.EmergencyTablewareOrigami.price}</ItemPrice>
-                <ItemImage src={Light.EmergencyTablewareOrigami.image} />
-                <ItemName>{Light.EmergencyTablewareOrigami.name}</ItemName>
+            <ItemPanel onClick={() => clickItemPanel(Light.TablewareOrigami)}>
+                <ItemPrice>{Light.TablewareOrigami.price}</ItemPrice>
+                <ItemImage src={Light.TablewareOrigami.image} />
+                <ItemName2>{Light.TablewareOrigami.name}</ItemName2>
             </ItemPanel>
             <ItemPanel />
             <ItemPanel />
@@ -80,12 +80,12 @@ export default function ItemShop() {
             <ItemPanel onClick={() => clickItemPanel(Food.Emergencyrations)}>
                 <ItemPrice>{Food.Emergencyrations.price}</ItemPrice>
                 <ItemImage src={Food.Emergencyrations.image} />
-                <ItemName>{Food.Emergencyrations.name}</ItemName>
+                <ItemName2>{Food.Emergencyrations.name}</ItemName2>
             </ItemPanel>
             <ItemPanel onClick={() => clickItemPanel(Food.Emergencyrations2)}>
                 <ItemPrice>{Food.Emergencyrations2.price}</ItemPrice>
                 <ItemImage src={Food.Emergencyrations2.image} />
-                <ItemName>{Food.Emergencyrations2.name}</ItemName>
+                <ItemName2>{Food.Emergencyrations2.name}</ItemName2>
             </ItemPanel>
             <ItemPanel />
             <ItemPanel />
@@ -101,7 +101,7 @@ export default function ItemShop() {
             <ItemPanel onClick={() => clickItemPanel(AntiSeismicMat.AntiSeismicGel)}>
                 <ItemPrice>{AntiSeismicMat.AntiSeismicGel.price}</ItemPrice>
                 <ItemImage src={AntiSeismicMat.AntiSeismicGel.image} />
-                <ItemName>{AntiSeismicMat.AntiSeismicGel.name}</ItemName>
+                <ItemName2>{AntiSeismicMat.AntiSeismicGel.name}</ItemName2>
             </ItemPanel>
             <ItemPanel onClick={() => clickItemPanel(AntiSeismicMat.Tensionrod)}>
                 <ItemPrice>{AntiSeismicMat.Tensionrod.price}</ItemPrice>
@@ -262,6 +262,33 @@ const ItemName = styled.div`
     display: flex;
     
     font-size: 2.5vw;
+    text-align: center;
+    color: ${Color.softYellow};
+    font-weight: bold;
+    
+    user-select: none;
+    user-drag: none;
+
+    z-index: 500;
+`;
+
+const ItemName2 = styled.div`
+    display: flex;
+    font-size: 1.78vw;
+    text-align: center;
+    color: ${Color.softYellow};
+    font-weight: bold;
+    
+    user-select: none;
+    user-drag: none;
+
+    z-index: 400;
+`;
+
+const ItemName3 = styled.div`
+    display: flex;
+    
+    font-size: 1.7vw;
     text-align: center;
     color: ${Color.softYellow};
     font-weight: bold;
