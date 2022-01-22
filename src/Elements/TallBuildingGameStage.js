@@ -19,6 +19,12 @@ const missionText = [
     "Apply protective film to the glass door shelf",
 ];
 
+// const missionText = [
+//     "ライトを使用する",
+//     "スリッパを使用する",
+//     "ガラス戸棚にガラス保護フィルムを貼る",
+// ];
+
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
 import lightIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
 import glassFilmIcon from '../Assets/Images/Items/Icon/tension_rod-37.png';

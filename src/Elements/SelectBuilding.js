@@ -1,6 +1,6 @@
 import React, { Suspense, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from '@react-three/fiber';
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useProgress } from "@react-three/drei";
 import styled from 'styled-components';
 
 import Store from '../Utils/Store';
@@ -67,7 +67,7 @@ export default function SelectBuilding({ currentBuilding }) {
     };
 
     return (
-        <Suspense fallback={"Loading"}>
+        <Suspense fallback={<Loader/>}>
             <HeaderText text={"SELECT BUILDING"} />
             <Money />
             <BlockBuildingButton>
@@ -104,7 +104,6 @@ export default function SelectBuilding({ currentBuilding }) {
             <ArrowRight handler={() => moveRightBuilding()} />
             <ArrowLeft handler={() => moveLeftBuilding()} />
             <Canvas camera={{ position: [0, 3, -10], fov: 90 }}>
-                <axesHelper />
                 <ambientLight intensity={1} />
                 <directionalLight
                     position={[-2.5, 8, 5]}
@@ -218,6 +217,17 @@ function TallBuilding(props) {
     );
 }
 
+function Loader() {
+    const { active, progress, errors, item, loaded, total } = useProgress();
+
+    return (
+        <LodingScene>
+            {Math.floor(progress * 100) / 100} % loaded
+            {item}
+        </LodingScene>
+    );
+}
+
 
 
 const BlockBuildingButton = styled(Block_Column_Top)`
@@ -295,4 +305,34 @@ const BuildingPrice = styled.div`
         margin-right: 1vw;
         vertical-align: middle;
     }
+`;
+
+
+const LodingScene = styled.div`
+    display:flex;
+    position: absolute;
+
+    width: 40vw;
+    height: 20vw;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+
+    user-select: none;
+    user-drag: none;
+
+    opacity: 1;
+    z-index: 500;
+
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    font-size: 3vw;
+    text-align: center;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
 `;

@@ -16,6 +16,10 @@ import { addCoin, getCoin } from '../Utils/LocalStorage';
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import TexBox from '../Assets/Images/QUIZ_BOX.png';
 import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-33.png';
+<<<<<<< HEAD
+=======
+//import nextButton from '../Assets/Images/CLOSETAB-08.png';
+>>>>>>> b3770a1f60dab064316f3503284738070921b590
 import Closebutton from '../Assets/Images/CLOSETAB-08.png';
 import Yesbutton from '../Assets/Images/1-05.png';
 import Notbutton from '../Assets/Images/1-06.png';
