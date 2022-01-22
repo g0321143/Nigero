@@ -69,7 +69,7 @@ class App extends React.Component {
 
         switch (scene) {
             case 'title': return <Title />;
-            case 'select': return <Select />;
+            case 'select': return <Select currentBuilding={building}/>;
             case 'option': return <Option />;
             case 'itemShop': return <ItemShop />;
             case 'game': return <Game building={building} stage={stage} />;
