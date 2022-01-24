@@ -142,6 +142,7 @@ export default function TallBuildingGameStage(props) {
     // 使用するアイテムのテクスチャ
     const glassFilmBillboardMap = useLoader(THREE.TextureLoader, glassFilmIcon);
     const hideIconBillboardMap = useLoader(THREE.TextureLoader, hideIcon);
+    const slippersBillboardMap = useLoader(THREE.TextureLoader, slippersIcon);
 
     // ゲーム終了時の処理
     useEffect(() =>
@@ -214,6 +215,11 @@ export default function TallBuildingGameStage(props) {
                     <UseItemBillboard
                         position={[4.5, 1.5, -5]}
                         url={glassFilmBillboardMap}
+                    />}
+                {isUseSlippers &&
+                    <UseItemBillboard
+                        position={[playerPosition.current.x, 0.1, playerPosition.current.z]}
+                        url={slippersBillboardMap}
                     />}
                 <Physics iterations={6}>
                     {/* <Debug scale={1.1} color="black"> */}
