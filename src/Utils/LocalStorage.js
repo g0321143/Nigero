@@ -1,10 +1,15 @@
 const COIN_KEY = "coin_data";
+const LANGUAGE_KEY = "language_data";
 const BEST_SCORE_KEY = "best_score_data";
 const LATEST_SCORE_KEY = "latest_score_data";
 const BUILDINGS_KEY = "building_data";
 const ITEMS_KEY = "items_data";
 
+// コインの初期設定
 const coinData = 0;
+
+// 言語の初期設定
+const languageData = 'en';
 
 // スコアの初期設定
 const bestScoreData = {
@@ -63,6 +68,13 @@ export function initLocalStorage() {
     if (coinValue == null) {
         localStorage.setItem(COIN_KEY, coinData);
         console.log('set default coinData');
+    }
+
+    // 言語の初期設定
+    const languageValue = localStorage.getItem(LANGUAGE_KEY);
+    if (languageValue == null) {
+        localStorage.setItem(LANGUAGE_KEY, languageData);
+        console.log('set default languageData');
     }
 
     // スコアの初期設定
@@ -137,6 +149,25 @@ export function subCoin(subtract) {
 }
 
 /**
+ * 言語を設定します.
+ * @param {String} 言語 'en' | 'ja'
+ */
+export function setLanguage(language) {
+    localStorage.setItem(LANGUAGE_KEY, language);
+
+    console.log(`set language : ${language}`);
+}
+
+/**
+ * 言語を取得します.
+ * @returns {String} 言語 'en' | 'ja'
+ */
+ export function getLanguage() {
+    return localStorage.getItem(LANGUAGE_KEY);
+}
+
+
+/**
  * スコアをローカルストレージに保存します.
  * @param {string} building 建物の名前
  * @param {[boolean, boolean, boolean]} score 星の状態
@@ -179,7 +210,7 @@ export function getLatestScore(building) {
  * @param {string} building 建物の名前
  * @returns {[boolean, boolean, boolean]} 星の状態
  */
- export function getScore(building) {
+export function getScore(building) {
     const scoreList = JSON.parse(localStorage.getItem(BEST_SCORE_KEY));
     const score = [];
 
@@ -264,11 +295,15 @@ export function getItemBuy(itemCategory, itemName) {
  * 全てのデータを初期化します
  */
 export function resetAllData() {
-    localStorage.setItem(COIN_KEY, coinData);
-    localStorage.setItem(BEST_SCORE_KEY, JSON.stringify(bestScoreData));
-    localStorage.setItem(LATEST_SCORE_KEY, JSON.stringify(latestScoreData));
-    localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
-    localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
+    const isDelete = confirm('Delete all user data?')
 
-    alert('All User Data is initialized.');
+    if (isDelete == true) {
+        localStorage.setItem(COIN_KEY, coinData);
+        localStorage.setItem(BEST_SCORE_KEY, JSON.stringify(bestScoreData));
+        localStorage.setItem(LATEST_SCORE_KEY, JSON.stringify(latestScoreData));
+        localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
+        localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
+
+        alert('All User Data is initialized.');
+    }
 }

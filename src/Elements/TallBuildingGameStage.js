@@ -11,19 +11,8 @@ import Player from "../Utils/Player";
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
 import VirtualStick from "../Utils/VirtualStick";
-import { setScore } from '../Utils/LocalStorage';
+import { setScore, getLanguage } from '../Utils/LocalStorage';
 
-const missionText = [
-    "Use the light",
-    "Use slippers",
-    "Apply protective film to the glass door shelf",
-];
-
-// const missionText = [
-//     "ライトを使用する",
-//     "スリッパを使用する",
-//     "ガラス戸棚にガラス保護フィルムを貼る",
-// ];
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
 import lightIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
@@ -54,6 +43,9 @@ export default function TallBuildingGameStage(props) {
 
     // ミッションの達成状況
     const mission = useRef([false, false, false]);
+
+    // ミッションのテキスト
+    const [missionText, setMissionText] = useState(['', '', '']);
 
     // アイテムの使用状況
     const [isUseLight, useLight] = useState(false);
@@ -102,10 +94,10 @@ export default function TallBuildingGameStage(props) {
     // ライトクリック時の動作
     const clickLight = (() => {
         useLight(!isUseLight);
-        mission.current = [true,  mission.current[1], mission.current[2]];
-        
+        mission.current = [true, mission.current[1], mission.current[2]];
+
     });
-    
+
     // スリッパクリック時の動作
     const clickSlippers = (() => {
         useSlippers(true);
@@ -156,6 +148,21 @@ export default function TallBuildingGameStage(props) {
         () => {
             setScore(Buildings.tallBuilding.id, mission.current);
         }, []);
+
+    // ゲーム開始時の処理
+    useEffect(() => {
+        const missionTextEN = [
+            "Use the light",
+            "Use slippers",
+            "Apply protective film to the glass door shelf",
+        ];
+        const missionTextJP = [
+            "ライトを使用する",
+            "スリッパを使用する",
+            "ガラス戸棚にガラス保護フィルムを貼る",
+        ];
+        setMissionText(getLanguage() == 'en' ? missionTextEN : missionTextJP);
+    }, []);
 
     return (
         <>

@@ -5,25 +5,15 @@ import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboa
 import { Physics, Debug, usePlane, useBox, useSphere, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
 
+
 import Color from "../Constants/Color";
 import Buildings from "../Constants/Buildings";
 import Player from "../Utils/Player";
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
 import VirtualStick from "../Utils/VirtualStick";
-import { setScore } from '../Utils/LocalStorage';
+import { setScore, getLanguage } from '../Utils/LocalStorage';
 
-const missionText = [
-    "Hiding behind a　 desk",
-    "Use a protruding　rod to fix a bookshelf",
-    "Use a gel mat to fix　 a lamp",
-];
-
-// const missionText = [
-//     "机の下に隠れる",
-//     "突っ張り棒を使用して本棚を固定する",
-//     "ジェルマットを使用してランプを固定する",
-// ];
 
 import gelMatIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
 import tensionRodIcon from '../Assets/Images/Items/Icon/tension_rod-37.png';
@@ -48,6 +38,9 @@ export default function HouseGameStage(props) {
     const cabinetRef = useRef();
     const tableRef = useRef();
     const [isHide, hide] = useState(false);
+
+    // ミッションのテキスト
+    const [missionText, setMissionText] = useState(['', '', '']);
 
     // ミッションの達成状況
     const mission = useRef([false, false, false]);
@@ -136,6 +129,22 @@ export default function HouseGameStage(props) {
                 setScore(Buildings.house.id, mission.current);
         }, []);
 
+    // ゲーム開始時の処理
+    useEffect(() => {
+        const missionTextEN = [
+            "Hiding behind a desk",
+            "Use a protruding rod to fix a bookshelf",
+            "Use a gel mat to fix a lamp",
+        ];
+
+        const missionTextJP = [
+            "机の下に隠れる",
+            "突っ張り棒を使用して本棚を固定する",
+            "ジェルマットを使用してランプを固定する",
+        ];
+        setMissionText(getLanguage() == 'en' ? missionTextEN : missionTextJP);
+    }, []);
+
 
     return (
         <>
@@ -159,7 +168,7 @@ export default function HouseGameStage(props) {
                 <ambientLight intensity={0.2} />
                 <directionalLight
                     castShadow
-                    position={[-2.5, 8, -5]}
+                    position={[-2.5, 8, -1]}
                     intensity={0.8}
                 />
                 {isUseGelMat &&

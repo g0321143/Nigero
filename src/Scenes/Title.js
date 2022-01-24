@@ -1,41 +1,48 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useState } from 'react'
 import { useGLTF, useProgress } from "@react-three/drei";
 import styled from 'styled-components';
 
 import Color from '../Constants/Color';
 import Store from '../Utils/Store';
-import { Game_Canvas, Block_Left_Top, Block_Column_End, Block_Left_End, Block_Right_End } from '../Utils/GlobalStyles';
-import { setBuilding } from '../Utils/LocalStorage';
+import { Game_Canvas, Block_Left_Top, Block_Column_End, Block_Left_End } from '../Utils/GlobalStyles';
+import { resetAllData, getLanguage, setLanguage } from '../Utils/LocalStorage';
 import Button from '../Utils/Button';
 import Money from '../Utils/Money'
 import TitleHouse from '../Elements/TitleHouse';
+import Tips from '../Utils/Tips';
 
 import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
-import optionButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-11.png';
-import homeButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-04.png';
+import gameTitle from '../Assets/Images/GAME_TITLE.png';
 import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
-import languageButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-09.png';
+import languageEN from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-09.png';
+import languageJP from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-09.png';
 import soundButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-07.png';
-import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
 import cautionButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-08.png';
 
 
 export default function Title() {
+     const [key, setKey] = useState();
+
+    const tipsTextJP = `このゲームでは地震発生時の行動を学習することができます．\n一部のアイテムショップで購入した便利な防災グッズをゲーム中に使用することができます\nゲームをプレイして，全ての防災グッズを揃えましょう\n\n※ゲームはフルスクリーンモードでプレイして下さい`;
+    const tipsTextEN = 'In this game, you can learn how to behave when an earthquake occurs. \n You can use useful disaster prevention goods purchased from some item stores in the game.\n Lets play the game and get all the disaster prevention goods! \n  \n The game should be played in full screen mode.';
+
+
+    const changeLanguage = () => {
+        if (getLanguage() == 'en') {
+            setLanguage('jp');
+        } else {
+            setLanguage('en');
+        }
+        setKey(!key);
+    };
 
     return (
-        <Game_Canvas className='GameCanvas'>
+        <Game_Canvas className='GameCanvas' key={key}>
             <Suspense fallback={<Loader />}>
                 <Block_Left_End>
                     <Button
                         handler={() => Store.setScene('itemShop')}
                         src={shopButton}
-                        width={'6%'}
-                        height={'10%'}
-                        margin={'1%'}
-                    />
-                    <Button
-                        handler={() => Store.setScene('buildingShop')}
-                        src={homeButton}
                         width={'6%'}
                         height={'10%'}
                         margin={'1%'}
@@ -47,24 +54,11 @@ export default function Title() {
                         src={playButton}
                         width={'20%'}
                         height={'10%'}
-                        margin={'1%'}
+                        margin={'8%'}
                     />
-                    <Button
-                        handler={() => Store.setScene('option')}
-                        src={optionButton}
-                        width={'20%'}
-                        height={'10%'}
-                        margin={'1%'}
-                    />
+                    <TitleLogo src={gameTitle} />
                 </Block_Column_End>
-                <Block_Right_End>
-                    <Button
-                        src={hintButton}
-                        width={'6%'}
-                        height={'10%'}
-                        margin={'1%'}
-                    />
-                </Block_Right_End>
+                <Tips text={getLanguage() == 'en' ? tipsTextEN : tipsTextJP} isLeft={false} />
                 <TitleHouse />
             </Suspense>
             <Money />
@@ -76,14 +70,15 @@ export default function Title() {
                     margin={'0.5%'}
                 />
                 <Button
+                    handler={() => resetAllData()}
                     src={cautionButton}
                     width={'3%'}
                     height={'5%'}
                     margin={'0.5%'}
                 />
                 <Button
-                    handler={() => setBuilding('tallBuilding', true)}
-                    src={languageButton}
+                    handler={() => changeLanguage()}
+                    src={getLanguage() == 'en' ? languageEN : languageJP}
                     width={'3%'}
                     height={'5%'}
                     margin={'0.5%'}
@@ -185,4 +180,19 @@ const LodingScene = styled.div`
     text-align: center;
     color: ${Color.slightlyGrayishYellow};
     font-weight: bold;
+`;
+
+
+const TitleLogo = styled.img`
+    display:flex;
+    position: absolute;
+
+    width: 27.3vw;
+    height: 14.95vw;
+
+    user-select: none;
+    user-drag: none;
+
+    margin-bottom 25vw;
+    z-index: 500;
 `;

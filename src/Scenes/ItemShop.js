@@ -304,7 +304,7 @@ const modalStyle = {
     overlay: {
         zIndex: 1000,
         width: "100vw",
-        aspectRatio: "16 / 9",
+        height: "56.25vw",
         position: "fixed",
         top: 0,
         left: 0,

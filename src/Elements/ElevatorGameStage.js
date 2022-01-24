@@ -10,19 +10,7 @@ import Buildings from "../Constants/Buildings";
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
 import VirtualStick from "../Utils/VirtualStick";
-import { setScore } from '../Utils/LocalStorage';
-
-const missionText = [
-    "Push buttons on all floors",
-    "Push the emergency button",
-    "Open the emergency stockpile set for elevators that is installed in the elevator",
-];
-
-// const missionText = [
-//     "すべての階のボタンを押す",
-//     "非常用ボタンを押す",
-//     "エレベーター内に設置されているエレベーター用非常備蓄セットを開ける",
-// ];
+import { setScore, getLanguage } from '../Utils/LocalStorage';
 
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
@@ -67,6 +55,9 @@ export default function ElevatorGameStage(props) {
 
     // ミッションの達成状況
     const mission = useRef([false, false, false]);
+
+    // ミッションのテキスト
+    const [missionText, setMissionText] = useState(['', '', '']);
 
 
     // 時間に関する状態
@@ -143,6 +134,22 @@ export default function ElevatorGameStage(props) {
         () => {
             setScore(Buildings.elevator.id, mission.current);
         }, []);
+
+    // ゲーム開始時の処理
+    useEffect(() => {
+        const missionTextEN = [
+            "Push buttons on all floors",
+            "Push the emergency button",
+            "Open the emergency stockpile set for elevators that is installed in the elevator",
+        ];
+    
+        const missionTextJP = [
+            "すべての階のボタンを押す",
+            "非常用ボタンを押す",
+            "エレベーター内に設置されているエレベーター用非常備蓄セットを開ける",
+        ];
+        setMissionText(getLanguage() == 'en' ? missionTextEN : missionTextJP);
+    }, []);
 
     return (
         <>

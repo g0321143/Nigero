@@ -62,7 +62,7 @@ const Mission = styled.div`
     display: flex;
     position: relative;
 
-    width: 68%;
+    width: 67%;
     left: 1.5vw;
     top: 15%;
 
