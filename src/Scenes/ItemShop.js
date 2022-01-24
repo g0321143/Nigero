@@ -150,7 +150,7 @@ export default function ItemShop() {
             </Wrap>
             <Modal isOpen={modalIsOpen} style={modalStyle} onRequestClose={() => setIsOpen(false)}>
                 <ModalDiv1>
-                    <ItemImage src={Light.NightStarJP.image} width={"10vw"} />
+                    <ItemImage src={item.image} width={"10vw"} />
                     <Button
                         handler={() => setIsOpen(false)}
                         src={buyButton}
