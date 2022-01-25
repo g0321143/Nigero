@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useState, useEffect } from 'react'
 import Countdown from 'react-countdown';
 import styled from 'styled-components';
 
@@ -11,6 +11,7 @@ import Buildings from '../Constants/Buildings';
 
 import HouseGameStage from './HouseGameStage';
 import GameResult from './GameResult';
+import { getLanguage } from '../Utils/LocalStorage';
 
 const tipsText = 'Fusce eu elit dignissim, malesuada est vel, iaculis eros. Praesent mi sapien, rutrum et mauris sed, vestibulum egestas felis. Nulla eu commodo leo. Pellentesque iaculis tempor venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed sit amet erat ac tortor interdum ultricies. Pellentesque et nisl eget nunc .';
 
@@ -34,6 +35,22 @@ export default function HouseGame() {
 
     // ゲームが完了したかどうか
     const [isComplete, completed] = useState(false);
+
+    // リザルトのテキスト
+    const [tipsText, setTipsText] = useState(['']);
+
+    // ゲーム開始時の処理
+    useEffect(() => {
+        if (getLanguage() == 'en' && !isGameOver) {
+            setTipsText('English text to be displayed on the game clear screen.');
+        } else if (getLanguage() == 'ja' && !isGameOver) {
+            setTipsText('ゲームクリア画面で表示する日本語のテキスト');
+        } else if (getLanguage() == 'ja' && isGameOver) {
+            setTipsText('English text displayed on the game over screen.');
+        } else if (getLanguage() == 'ja' && isGameOver) {
+            setTipsText('ゲームオーバー画面で表示する日本語のテキスト');
+        }
+    }, []);
 
     return (
         <Suspense fallback={"Loading"}>

@@ -15,15 +15,15 @@ import playButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-21.png';
 import gameTitle from '../Assets/Images/GAME_TITLE.png';
 import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
 import languageEN from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-09.png';
-import languageJP from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-09.png';
+import languageJP from '../Assets/Images/JP-48.png';
 import soundButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-07.png';
 import cautionButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-08.png';
 
 
 export default function Title() {
-     const [key, setKey] = useState();
+    const [key, setKey] = useState();
 
-    const tipsTextJP = `このゲームでは地震発生時の行動を学習することができます．\n一部のアイテムショップで購入した便利な防災グッズをゲーム中に使用することができます\nゲームをプレイして，全ての防災グッズを揃えましょう\n\n※ゲームはフルスクリーンモードでプレイして下さい`;
+    const tipsTextJP = 'このゲームでは地震発生時の行動を学習することができます．\n一部のアイテムショップで購入した便利な防災グッズをゲーム中に使用することができます\nゲームをプレイして，全ての防災グッズを揃えましょう\n\n※ゲームはフルスクリーンモードでプレイして下さい';
     const tipsTextEN = 'In this game, you can learn how to behave when an earthquake occurs. \n You can use useful disaster prevention goods purchased from some item stores in the game.\n Lets play the game and get all the disaster prevention goods! \n  \n The game should be played in full screen mode.';
 
 

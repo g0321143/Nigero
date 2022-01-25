@@ -62,14 +62,14 @@ const Mission = styled.div`
     display: flex;
     position: relative;
 
-    width: 67%;
+    width: 64%;
     left: 1.5vw;
     top: 15%;
 
     flex-direction: column;
     font-size: 1.5vw;
     
-    word-break: normal;
+    word-break: break-word;
     overflow-wrap: break-word;
     color: ${Color.slightlyGrayishYellow};
     

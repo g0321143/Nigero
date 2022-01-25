@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 import Store from '../Utils/Store';
 import Color from "../Constants/Color";
-import HeaderText from '../Utils/HeaderText';
 import Buildings from '../Constants/Buildings';
 import StarScore from "../Utils/StarScore";
 import Money from '../Utils/Money'
@@ -68,7 +67,6 @@ export default function SelectBuilding({ currentBuilding }) {
 
     return (
         <Suspense fallback={<Loader/>}>
-            <HeaderText text={"SELECT BUILDING"} />
             <Money />
             <BlockBuildingButton>
                 <BuildingButton src={Buildings[IDList[buildingNum]].nameTagImage} />
