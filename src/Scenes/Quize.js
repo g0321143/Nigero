@@ -129,6 +129,7 @@ const QuizeUI = ({buildingNo}) => {
 
     // コインが上手く加算されない!!!
     // 最後の答え合わせ画面に進んだときに最大連続正解数に応じてコインを加算
+    const [coin, setCoin] = useState(0);
     useEffect(() => {
         if(No == List[buildingNo].length && !flag){
             if(seikai > seikai_max){
@@ -137,15 +138,15 @@ const QuizeUI = ({buildingNo}) => {
             }
             addCoin(seikai_max*1000);
             console.log("addCoin");
-            
+            setCoin(seikai_max*1000);
         }
     });
     
-    const [coin, setCoin] = useState(0);
-    useEffect(() => {
-        const coin = getCoin();
-        console.log("getCoin", coin);
-    })
+    
+    // useEffect(() => {
+    //     const coin = getCoin();
+    //     console.log("getCoin", coin);
+    // })
 
 
     console.log(List[buildingNo].length, No, seikai, seikai_max)
@@ -179,7 +180,7 @@ const QuizeUI = ({buildingNo}) => {
                 <HedText>{"Result !"}</HedText>
                 <AnyText >{"YOU`VE GOT"}</AnyText>
                 <Setting src={CoinImage} top={"25vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'0.9'} />
-                <CoinText>{seikai*1000}</CoinText>
+                <CoinText>{coin}</CoinText>
                 <UsedButton onClick={() => Store.resetStage()} src={Closebutton} top={"40vw"}/>
             </>
         );
