@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import Store, { EV_SCENE_CHANGED } from './Utils/Store';
 import { initLocalStorage } from './Utils/LocalStorage';
@@ -16,7 +16,8 @@ class App extends React.Component {
         super(props);
         this.state = {
             scene: 'title',
-            building: "",
+            preScene: '',
+            building: '',
             stage: 0,
         };
 
@@ -61,6 +62,7 @@ class App extends React.Component {
      */
     renderComponent() {
         const scene = this.state.scene;
+        const preScene = this.state.preScene;
         const building = this.state.building;
         const stage = this.state.stage;
 
@@ -71,7 +73,7 @@ class App extends React.Component {
             case 'title': return <Title />;
             case 'select': return <Select currentBuilding={building}/>;
             case 'option': return <Option />;
-            case 'itemShop': return <ItemShop />;
+            case 'itemShop': return <ItemShop preScene={preScene}/>;
             case 'game': return <Game building={building} stage={stage} />;
             case 'quize': return <Quize building={building}/>;
             default: () => {

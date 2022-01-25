@@ -24,7 +24,7 @@ const itemType = {
     url: ''
 };
 
-export default function ItemShop() {
+export default function ItemShop({preScene}) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [item, setItem] = useState(itemType);
 
@@ -131,7 +131,7 @@ export default function ItemShop() {
             <Money />
             <Block_Right_End>
                 <Button
-                    handler={() => Store.setScene('title')}
+                    handler={() => Store.setScene(preScene)}
                     src={backButton}
                     width={'6%'}
                     height={'10%'}

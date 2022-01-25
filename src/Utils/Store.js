@@ -6,6 +6,7 @@ class Store extends EventEmitter {
 
     state = {
         scene: "title",
+        preScene: "",
         building: "house",
         stage: 0,
     }
@@ -25,7 +26,9 @@ class Store extends EventEmitter {
      * @param {string} scene 
      */
     setScene(scene) {
+        this.state.preScene = this.state.scene;
         this.state.scene = scene;
+
         console.log(`set scene : ${scene}`);
         this.emit(EV_SCENE_CHANGED);
     }
