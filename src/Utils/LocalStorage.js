@@ -162,7 +162,7 @@ export function setLanguage(language) {
  * 言語を取得します.
  * @returns {String} 言語 'en' | 'ja'
  */
- export function getLanguage() {
+export function getLanguage() {
     return localStorage.getItem(LANGUAGE_KEY);
 }
 
@@ -295,7 +295,7 @@ export function getItemBuy(itemCategory, itemName) {
  * 全てのデータを初期化します
  */
 export function resetAllData() {
-    const isDelete = confirm('Delete all user data?')
+    const isDelete = confirm(getLanguage() == 'en' ? 'Delete all user data?' : '全てのユーザーデータを削除しますか？')
 
     if (isDelete == true) {
         localStorage.setItem(COIN_KEY, coinData);
@@ -304,6 +304,6 @@ export function resetAllData() {
         localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
         localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
 
-        alert('All User Data is initialized.');
+        alert(getLanguage() == 'en' ? 'All User Data is initialized.' : '全てのユーザーデータを削除しました');
     }
 }
