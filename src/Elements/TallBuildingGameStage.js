@@ -50,7 +50,9 @@ export default function TallBuildingGameStage(props) {
     // アイテムの使用状況
     const [isUseLight, useLight] = useState(false);
     const [isUseSlippers, useSlippers] = useState(false);
+    //const [isPurchasedSlippers] =  useState(getItemState(Items.Slippers.id));
     const [isUseGlassFilm, useGlassFilm] = useState(false);
+    //const [isPurchasedeGlassFilm] =  useState(getItemState(Items.eGlassFilm.id));
 
     // 時間に関する状態
     const localTime = useRef(props.time);
