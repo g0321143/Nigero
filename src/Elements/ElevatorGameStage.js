@@ -163,8 +163,7 @@ export default function ElevatorGameStage(props) {
             <Inventory
                 items={[
                     isOpenBox ? <img src={emergencyBagIcon} /> : null,
-                    isOpenBox ? <img src={firstAidKidIcon} /> : null,
-                    isOpenBox ? <img src={glassFilmIcon} /> : null,
+                    isOpenBox ? <img src={firstAidKidIcon} /> : null
                 ]}
             />
             <Canvas shadows>
