@@ -15,8 +15,8 @@ import { setScore, getLanguage } from '../Utils/LocalStorage';
 
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
-import lightIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
-import glassFilmIcon from '../Assets/Images/Items/Icon/tension_rod-37.png';
+import lightIcon from '../Assets/Images/Items/Icon/Smartphone_Light.png';
+import glassFilmIcon from '../Assets/Images/Items/Icon/Glass_Protective_Film.png';
 import hideIcon from '../Assets/Images/HideImage.png';
 
 
