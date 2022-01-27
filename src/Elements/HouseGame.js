@@ -13,8 +13,6 @@ import HouseGameStage from './HouseGameStage';
 import GameResult from './GameResult';
 import { getLanguage } from '../Utils/LocalStorage';
 
-const tipsText = 'Fusce eu elit dignissim, malesuada est vel, iaculis eros. Praesent mi sapien, rutrum et mauris sed, vestibulum egestas felis. Nulla eu commodo leo. Pellentesque iaculis tempor venenatis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed sit amet erat ac tortor interdum ultricies. Pellentesque et nisl eget nunc .';
-
 
 /**
  * ハウスステージのゲーム部分です
@@ -41,14 +39,10 @@ export default function HouseGame() {
 
     // ゲーム開始時の処理
     useEffect(() => {
-        if (getLanguage() == 'en' && !isGameOver) {
-            setTipsText('English text to be displayed on the game clear screen.');
-        } else if (getLanguage() == 'ja' && !isGameOver) {
-            setTipsText('ゲームクリア画面で表示する日本語のテキスト');
-        } else if (getLanguage() == 'ja' && isGameOver) {
-            setTipsText('English text displayed on the game over screen.');
-        } else if (getLanguage() == 'ja' && isGameOver) {
-            setTipsText('ゲームオーバー画面で表示する日本語のテキスト');
+        if (getLanguage() == 'en') {
+            setTipsText('If you are suddenly struck by a large tremor, try to protect yourself safely first.\nShelves, items on shelves, TVs, etc. may fall, so move away and wait for the shaking to stop.\nIn recent years, 30-50% of all injuries caused by earthquakes are due to furniture falling or being moved. It is important to take measures in advance to prevent furniture from tipping over, falling, or moving.');
+        } else {
+            setTipsText('突然大きな揺れに襲われたときは、まずは自分の身を安全に守れるように心がけましょう。\n 棚や棚に乗せてあるもの、テレビなどが落ちてきたりするので、離れて揺れが収まるのを待ちましょう。\n 近年の地震による負傷者の30～50％は、家具類の転倒・落下・移動が原因です。事前に器具による家具類の転倒・落下・移動防止対策を行うことが大切です．');
         }
     }, []);
 
