@@ -185,7 +185,7 @@ export default function TallBuildingGameStage(props) {
                 ]}
             />
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
-                <Stats />
+                {/* <Stats /> */}
                 <WobbleCamera isquakeTime={isquakeTime} />
                 <ambientLight intensity={props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime ? 0.01 : 0.2} />
                 <directionalLight

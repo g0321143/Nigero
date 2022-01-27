@@ -167,7 +167,7 @@ export default function HouseGameStage(props) {
                 ]}
             />
             <Canvas shadows camera={{ position: [0, 6, 0], fov: 45 }}>
-                <Stats />
+                {/* <Stats /> */}
                 <WobbleCamera isquakeTime={isquakeTime} />
                 <ambientLight intensity={0.2} />
                 <directionalLight

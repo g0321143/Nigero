@@ -167,7 +167,7 @@ export default function ElevatorGameStage(props) {
                 ]}
             />
             <Canvas shadows>
-                <Stats />
+                {/* <Stats /> */}
                 <CameraControl isHide={isHide} />
                 <WobbleCamera isquakeTime={isquakeTime} isHide={isHide} cameraPosition={playerPosition.current} />
                 <ambientLight intensity={0.2} />
