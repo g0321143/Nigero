@@ -26,6 +26,7 @@ import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 // [問題文, 正解が〇ならture,×ならflase]
 
+
 const List_en = [[["If you feel a big tremor while cooking, you should turn off the fire as soon as possible.", false, "It is dangerous to approach a fire during a tremor. After the shaking stops, take care of the fire without panicking."],
     ["The danger of tsunami is only near the ocean, not in rivers.", false, "Tsunami is not only a threat near the ocean. Tsunamis come from downstream to upstream, so evacuate quickly and at right angles to the flow of the river."],
     [ "The most reliable way to prevent furniture from tipping over, falling, or moving during an earthquake is to screw it to the wall with L-shaped metal fittings.", true, "If screwing is difficult, the effect can be enhanced by combining a sticking rod with a stopper system or a sticking rod with an adhesive mat."],
@@ -86,41 +87,43 @@ export default function Quize({ building }) {
 
     console.log(building);
 
-    if(flag && building == Buildings.house.id){
+    if (flag && building == Buildings.house.id) {
         setBuildingNo(0);
         setBackGroundImage(Background1);
         setflag(!flag);
-    }else if(flag && building == Buildings.tallBuilding.id){
+    } else if (flag && building == Buildings.tallBuilding.id) {
         setBuildingNo(1);
         setBackGroundImage(Background2);
         setflag(!flag);
-    }else if(flag && building == Buildings.elevator.id){
+    } else if (flag && building == Buildings.elevator.id) {
         setBuildingNo(2);
         setBackGroundImage(Background3);
         setflag(!flag);
     }
-    
+
     return (
-        <Game_Canvas>
-            
+        <Game_Canvas>         
             <Setting src={BackGroundImage} top={"0%"} left={"0%"} width={'100%'} height={'100%'} opacity={'0.9'}/>
             <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'0.9'}/>
             <QuizeUI buildingNo={buildingNo} List = {List}/>
+
             <Block_Right_End>
                 <Button
-                    handler={() => Store.resetStage()}
+                    handler={() => Store.setScene('select')}
                     src={backButton}
                     width={'6%'}
                     height={'10%'}
                     margin={'1%'}
                 />
-            </Block_Right_End>       
+            </Block_Right_End>
         </Game_Canvas>
     );
 }
 
 
+
 const QuizeUI = ({buildingNo, List}) => {
+
 
     const [seikai, setSeikai] = useState(0);    // 現在の連続正解数
     const [seikai_max, setSeikai_max] = useState(0);    // 最大連続正解数
@@ -129,10 +132,10 @@ const QuizeUI = ({buildingNo, List}) => {
     const [result, setResult] = useState(Notbutton);
     // 〇を選択した場合
     const maru = () => {
-        if(List[buildingNo][No-1][1] == true){
-            setSeikai(seikai+1);
+        if (List[buildingNo][No - 1][1] == true) {
+            setSeikai(seikai + 1);
             setResult(Yesbutton);
-        }else if(seikai > seikai_max){
+        } else if (seikai > seikai_max) {
             setSeikai_max(seikai);
             setSeikai(0);
             setResult(Notbutton);
@@ -141,10 +144,10 @@ const QuizeUI = ({buildingNo, List}) => {
     };
     // ×を選択した場合
     const batu = () => {
-        if(List[buildingNo][No-1][1] == false){
-            setSeikai(seikai+1);
+        if (List[buildingNo][No - 1][1] == false) {
+            setSeikai(seikai + 1);
             setResult(Notbutton);
-        }else if(seikai > seikai_max){
+        } else if (seikai > seikai_max) {
             setSeikai_max(seikai);
             setSeikai(0);
             setResult(Yesbutton);
@@ -161,18 +164,18 @@ const QuizeUI = ({buildingNo, List}) => {
     // 最後の答え合わせ画面に進んだときに最大連続正解数に応じてコインを加算
     const [coin, setCoin] = useState(0);
     useEffect(() => {
-        if(No == List[buildingNo].length && !flag){
-            if(seikai > seikai_max){
+        if (No == List[buildingNo].length && !flag) {
+            if (seikai > seikai_max) {
                 setSeikai_max(seikai);
                 setSeikai(0);
             }
-            addCoin(seikai_max*1000);
+            addCoin(seikai_max * 1000);
             console.log("addCoin");
-            setCoin(seikai_max*1000);
+            setCoin(seikai_max * 1000);
         }
     });
-    
-    
+
+
     // useEffect(() => {
     //     const coin = getCoin();
     //     console.log("getCoin", coin);
@@ -182,36 +185,36 @@ const QuizeUI = ({buildingNo, List}) => {
     console.log(List[buildingNo].length, No, seikai, seikai_max)
 
     // 問題表示，回答表示，最後の回答表示（nextボタンを消失）
-    if(No <= List[buildingNo].length && flag){
+    if (No <= List[buildingNo].length && flag) {
         return (
             <>
-            <HedText>{"Quiz " + No + " !"}</HedText>
-            <AnyText >{List[buildingNo][No-1][0]}</AnyText>
-            <Setting onClick={() => maru()} src={Yesbutton} top={"30vw"} left={"40%"} width={'10%'} height={'10%'} opacity={'0.9'} />
-            <Setting onClick={() => batu()} src={Notbutton} top={"30vw"} left={"50%"} width={'10%'} height={'10%'} opacity={'0.9'} />
-            
+                <HedText>{"Quiz " + No + " !"}</HedText>
+                <AnyText >{List[buildingNo][No - 1][0]}</AnyText>
+                <Setting onClick={() => maru()} src={Yesbutton} top={"30vw"} left={"40%"} width={'10%'} height={'10%'} opacity={'0.9'} />
+                <Setting onClick={() => batu()} src={Notbutton} top={"30vw"} left={"50%"} width={'10%'} height={'10%'} opacity={'0.9'} />
+
             </>
         );
-    }else if(No <= List[buildingNo].length && !flag){
-        
+    } else if (No <= List[buildingNo].length && !flag) {
+
         return (
             <>
-                <HedText>{"Answer " + No + " !"}</HedText>      
-                <AnyText >{List[buildingNo][No-1][2]}</AnyText>
-                <Setting src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} opacity={'0.9'} />
-                <UsedButton onClick={() => next()} src={nextButton} top={"40vw"}/>
+                <HedText>{"Answer " + No + " !"}</HedText>
+                <AnyText >{List[buildingNo][No - 1][2]}</AnyText>
+                <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
+                <UsedButton onClick={() => next()} src={nextButton} top={"40vw"} />
                 <UsedButton onClick={() => Store.resetStage()} src={Closebutton} top={"45vw"} />
-                
+
             </>
         );
-    }else{
+    } else {
         return (
             <>
                 <HedText>{"Result !"}</HedText>
                 <AnyText >{"YOU`VE GOT"}</AnyText>
-                <Setting src={CoinImage} top={"25vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'0.9'} />
+                <Image src={CoinImage} top={"25vw"} left={"35%"} width={'10%'} height={'10%'} />
                 <CoinText>{coin}</CoinText>
-                <UsedButton onClick={() => Store.resetStage()} src={Closebutton} top={"40vw"}/>
+                <UsedButton onClick={() => Store.resetStage()} src={Closebutton} top={"40vw"} />
             </>
         );
     }
@@ -239,6 +242,23 @@ const Setting = styled.div`
         opacity: 1;
     }
 `;
+
+const Image = styled.div`
+    display:flex;
+    position: absolute;
+    width: ${props => props.width};
+    height: ${props => props.height};
+    
+    margin: ${props => props.margin};
+    top: ${(props) => props.top};
+    left: ${(props) => props.left};
+    background-image: url(${props => props.src});
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    z-index: 999;
+`;
+
 
 
 

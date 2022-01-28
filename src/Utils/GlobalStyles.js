@@ -4,7 +4,7 @@ import Color from '../Constants/Color';
 export default createGlobalStyle`
     @font-face{
         font-family: 'SW721KCI';
-    	src: url(/Font/SW721KCI.ttf);
+    	src: url(/Font/Swiss721BlackCondensedBT.ttf);
     }
 
     body {

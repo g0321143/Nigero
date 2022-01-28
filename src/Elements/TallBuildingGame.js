@@ -38,14 +38,10 @@ export default function TallBuildingGame() {
 
     // ゲーム開始時の処理
     useEffect(() => {
-        if (getLanguage() == 'en' && !isGameOver) {
-            setTipsText('English text to be displayed on the game clear screen.');
-        } else if (getLanguage() == 'ja' && !isGameOver) {
-            setTipsText('ゲームクリア画面で表示する日本語のテキスト');
-        } else if (getLanguage() == 'ja' && isGameOver) {
-            setTipsText('English text displayed on the game over screen.');
-        } else if (getLanguage() == 'ja' && isGameOver) {
-            setTipsText('ゲームオーバー画面で表示する日本語のテキスト');
+        if (getLanguage() == 'en') {
+            setTipsText('At work, protect yourself by staying away from cabinets, shelves, lockers, copy machines, etc., protect your head, and hide under a desk.\nStay away from windows as they may break.\nTo prevent injury from glass, wear slippers or put shatterproof film on the glass.\nWhen escaping outside, be careful of falling objects and avoid using elevators.');
+        } else {
+            setTipsText('職場ではキャビネットや棚、ロッカー、コピー機などから離れ、頭部を守り、机の下に隠れるなど身を守りましょう。\n窓ガラスが割れることがあるので、窓際から離れましょう。\nガラスによる怪我を防ぐには，スリッパを履くことや，ガラスに飛散防止フィルムを貼ることが有効です。\n外へ逃げるときは落下物などに注意し、エレベーターは使わないようにしましょう。');
         }
     }, []);
 

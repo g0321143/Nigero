@@ -1,9 +1,9 @@
 /**
  * アイテムの定数を保存するファイルです.
  * 使用方法は，使用するファイル上部で
- *      import {Light, AntiSeismicMat} from '../Contants/Items'
+ *      import Imtems from '../Contants/Items'
  * を記述し，
- *      Light.AQUMO_CANDLE.name や AntiSeismicMat.AntiSeismicGel.price
+ *      Imtems.AQUMO_CANDLE.name や Imtems['AntiSeismicMat'].price
  * などで定数を呼び出します
  */
 
@@ -18,9 +18,11 @@ import PortableWaterPurifiers_Image from '../Assets/Images/Items/Portable Water 
 import Portabletoiletst_Image from '../Assets/Images/Items/Portable toiletst.jpg';
 import TablewareOrigami_Image from '../Assets/Images/Items/Emergency tableware origami.jpg';
 import DisasterPreventionKit_Image from '../Assets/Images/Items/Disaster prevention kit.jpg';
-export const Light = {
+
+export default {
     NightStarJP: {
             name: 'NightStarJP',
+            id:'NightStarJP',
             price: '8,778',
             image: NightStarJP_Image,
             info: 'this is light',
@@ -28,6 +30,7 @@ export const Light = {
     },
     AQUMOCANDLE: {
         name: 'AQUMOCANDLE',
+        id:'AQUMOCANDLE',
         price: '1111',
         image: AQUMOCANDLE_Image,
         info: 'this is light',
@@ -35,6 +38,7 @@ export const Light = {
     },
     Helmet: {
         name: 'Helmet',
+        id:'Helmet',
         price: '2222',
         image: Helmet_Image,
         info: 'this is light',
@@ -43,6 +47,7 @@ export const Light = {
 
     PortableWaterPurifiers: {
         name: 'Portable water urifiers',
+        id:'PortableWaterUrifiers',
         price: '2222',
         image: PortableWaterPurifiers_Image,
         info: 'this is light',
@@ -50,6 +55,7 @@ export const Light = {
     },
     PortableToiletst: {
         name: 'Portable toiletst',
+        id:'PortableToiletst',
         price: '2222',
         image: Portabletoiletst_Image,
         info: 'this is light',
@@ -57,6 +63,7 @@ export const Light = {
     },
     DisasterPreventionKit: {
         name: 'Disaster prevention kit',
+        id:'DisasterPreventionKit',
         price: '2222',
         image: DisasterPreventionKit_Image,
         info: 'this is light',
@@ -64,18 +71,16 @@ export const Light = {
     },
     TablewareOrigami: {
         name: 'Tableware origami',
+        id:'TablewareOrigami',
         price: '2222',
         image: TablewareOrigami_Image,
         info: 'this is light',
         url: 'https://www.amazon.co.jp/%E9%80%9A%E8%B2%A9%E3%83%91%E3%83%BC%E3%82%AF-%E9%9D%9E%E5%B8%B8%E7%94%A8%E9%A3%9F%E5%99%A8%E6%8A%98%E3%82%8A%E7%B4%99-3993/dp/B074JYFWX4/ref=sr_1_2?adgrpid=116162524036&hvadid=536185799672&hvdev=c&hvqmt=e&hvtargid=kwd-118663636866&hydadcr=26042_13446917&jp-ad-ap=0&keywords=%E9%9D%9E%E5%B8%B8%E7%94%A8%E9%A3%9F%E5%99%A8%E6%8A%98%E3%82%8A%E7%B4%99&qid=1642479132&sr=8-2'
-    }
-    
-}
-
-export const Food = {
+    },
     Emergencyrations:
         {
             name: 'Emergency rations',
+            id:'EmergencyRations',
             price: '3333',
             image: Emergencyrations_Image,
             info: 'this is Food',
@@ -84,17 +89,16 @@ export const Food = {
     Emergencyrations2: 
         {
             name: 'Emergency rations2',
+            id:'EmergencyRations2',
             price: '4444',
             image: Emergencyrations2_Image,
             info: 'this is Food',
             url: 'https://www.amazon.co.jp/%E5%B0%BE%E8%A5%BF%E9%A3%9F%E5%93%81-%E3%82%A2%E3%83%AB%E3%83%95%E3%82%A1%E7%B1%B312%E7%A8%AE%E9%A1%9E%E5%85%A8%E9%83%A8%E3%82%BB%E3%83%83%E3%83%88-%E9%9D%9E%E5%B8%B8%E9%A3%9F-5%E5%B9%B4%E4%BF%9D%E5%AD%98-%E5%90%84%E5%91%B31%E9%A3%9F%C3%9712%E7%A8%AE%E9%A1%9E/dp/B06XZM1RGH/ref=bmx_dp_j0cf2awn_1/357-8989515-5541443?pd_rd_w=J84gw&pf_rd_p=c9208997-d62b-40d1-b790-570695bae1e7&pf_rd_r=6CV8SVD7JE9M3RZMRSST&pd_rd_r=05ffdc35-bfed-44da-a069-6a12bf1c0414&pd_rd_wg=oDbDf&pd_rd_i=B06XZM1RGH&th=1'
-        }
-}
-
-export const AntiSeismicMat = {
+        },
     AntiSeismicGel:
         {
             name: 'Anti-Seismic Gel',
+            id:'AntiSeismicGel',
             price: '5555',
             image: AntiSeismicGel_Image,
             info: 'this is Food',
@@ -103,6 +107,7 @@ export const AntiSeismicMat = {
     Tensionrod:
         {
             name: 'Tension rod',
+            id:'TensionRod',
             price: '5555',
             image: Tensionrod_Image,
             info: 'this is Food',

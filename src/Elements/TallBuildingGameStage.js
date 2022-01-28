@@ -15,8 +15,8 @@ import { setScore, getLanguage } from '../Utils/LocalStorage';
 
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
-import lightIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
-import glassFilmIcon from '../Assets/Images/Items/Icon/tension_rod-37.png';
+import lightIcon from '../Assets/Images/Items/Icon/Smartphone_Light.png';
+import glassFilmIcon from '../Assets/Images/Items/Icon/Glass_Protective_Film.png';
 import hideIcon from '../Assets/Images/HideImage.png';
 
 
@@ -50,7 +50,9 @@ export default function TallBuildingGameStage(props) {
     // アイテムの使用状況
     const [isUseLight, useLight] = useState(false);
     const [isUseSlippers, useSlippers] = useState(false);
+    //const [isPurchasedSlippers] =  useState(getItemState(Items.Slippers.id));
     const [isUseGlassFilm, useGlassFilm] = useState(false);
+    //const [isPurchasedeGlassFilm] =  useState(getItemState(Items.eGlassFilm.id));
 
     // 時間に関する状態
     const localTime = useRef(props.time);
@@ -183,7 +185,7 @@ export default function TallBuildingGameStage(props) {
                 ]}
             />
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
-                <Stats />
+                {/* <Stats /> */}
                 <WobbleCamera isquakeTime={isquakeTime} />
                 <ambientLight intensity={props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime ? 0.01 : 0.2} />
                 <directionalLight

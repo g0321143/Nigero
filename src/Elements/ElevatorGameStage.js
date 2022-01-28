@@ -13,9 +13,8 @@ import VirtualStick from "../Utils/VirtualStick";
 import { setScore, getLanguage } from '../Utils/LocalStorage';
 
 
-import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
-import lightIcon from '../Assets/Images/Items/Icon/GEL_MAT-37.png';
-import glassFilmIcon from '../Assets/Images/Items/Icon/tension_rod-37.png';
+import firstAidKidIcon from '../Assets/Images/Items/Icon/FIRST_AID KIT-37.png';
+import emergencyBagIcon from '../Assets/Images/Items/Icon/EMERGENCY_BAG-37.png';
 
 
 /**
@@ -163,13 +162,12 @@ export default function ElevatorGameStage(props) {
             />
             <Inventory
                 items={[
-                    isOpenBox ? <img src={lightIcon} /> : null,
-                    isOpenBox ? <img src={slippersIcon} /> : null,
-                    isOpenBox ? <img src={glassFilmIcon} /> : null,
+                    isOpenBox ? <img src={emergencyBagIcon} /> : null,
+                    isOpenBox ? <img src={firstAidKidIcon} /> : null
                 ]}
             />
             <Canvas shadows>
-                <Stats />
+                {/* <Stats /> */}
                 <CameraControl isHide={isHide} />
                 <WobbleCamera isquakeTime={isquakeTime} isHide={isHide} cameraPosition={playerPosition.current} />
                 <ambientLight intensity={0.2} />

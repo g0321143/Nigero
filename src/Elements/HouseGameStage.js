@@ -4,10 +4,12 @@ import { Canvas, useLoader, useFrame } from '@react-three/fiber';
 import { useGLTF, MapControls, OrbitControls, CameraShake, Stats, Plane, Billboard, useAnimations } from "@react-three/drei";
 import { Physics, Debug, usePlane, useBox, useSphere, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
+import { getItemState } from "../Utils/LocalStorage";
 
 
 import Color from "../Constants/Color";
 import Buildings from "../Constants/Buildings";
+import Items from "../Constants/Items";
 import Player from "../Utils/Player";
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
@@ -47,7 +49,9 @@ export default function HouseGameStage(props) {
 
     // アイテムの使用状況
     const [isUseGelMat, useGelMat] = useState(false);
+    const [isPurchasedGelMat] =  useState(getItemState(Items.AntiSeismicGel.id));
     const [isUseTensionRod, useTensionRod] = useState(false);
+    const [isPurchasedTensionRod] =  useState(getItemState(Items.Tensionrod.id));
 
     // 時間に関する状態
     const localTime = useRef(props.time);
@@ -158,12 +162,12 @@ export default function HouseGameStage(props) {
             />
             <Inventory
                 items={[
-                    isUseGelMat ? null : <img src={gelMatIcon} onClick={() => clickGelMat()} />,
-                    isUseTensionRod ? null : <img src={tensionRodIcon} onClick={() => clickTensionRod()} />,
+                    isUseGelMat || !isPurchasedGelMat ? null : <img src={gelMatIcon} onClick={() => clickGelMat()} />,
+                    isUseTensionRod || !isPurchasedTensionRod ? null : <img src={tensionRodIcon} onClick={() => clickTensionRod()} />,
                 ]}
             />
             <Canvas shadows camera={{ position: [0, 6, 0], fov: 45 }}>
-                <Stats />
+                {/* <Stats /> */}
                 <WobbleCamera isquakeTime={isquakeTime} />
                 <ambientLight intensity={0.2} />
                 <directionalLight

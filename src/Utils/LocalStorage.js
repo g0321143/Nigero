@@ -1,3 +1,5 @@
+import Items from "../Constants/Items";
+
 const COIN_KEY = "coin_data";
 const LANGUAGE_KEY = "language_data";
 const BEST_SCORE_KEY = "best_score_data";
@@ -40,23 +42,6 @@ const buildingsData = {
     },
 };
 
-// アイテムの初期設定
-const itemsData = {
-    light:
-    {
-        AQUMO_CANDLE:
-        {
-            isLock: false,
-            isBuy: false,
-        },
-        XXX_Light:
-        {
-            isLock: false,
-            isBuy: false,
-        }
-    }
-    ,
-};
 
 /**
  * ゲームの初回起動時に，LocalStorageにデータがなければ，
@@ -97,6 +82,8 @@ export function initLocalStorage() {
     }
 
     // アイテムの初期設定
+    const itemsData = {};
+    Object.keys(Items).forEach(item => itemsData[Items[item].id] = false);
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
     if (itemsList == null) {
         localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
@@ -250,43 +237,25 @@ export function getBuilding(building) {
 
 /**
  * アイテムの状態をローカルストレージに保存します.
- * @param {string} itemCategory アイテムの種類
- * @param {string} itemName アイテムの名前
- * @param {boolean} isLock ロックされているかどうか
- * @param {boolean} isBuy 購入済みかどうか
+ * @param {string} itemID アイテムのID(名前からスペース等を除いたもの)
  */
-export function setItem(itemCategory, itemName, isLock, isBuy) {
+export function purchaseItem(itemID) {
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
 
-    itemsList[itemCategory][itemName]['isLock'] = isLock;
-    itemsList[itemCategory][itemName]['isBuy'] = isBuy;
+
+    itemsList[itemID] = true;
 
     localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsList));
-    console.log(`set item : ${itemCategory}->${itemName} Lock=${isLock} Buy=${isBuy}`);
-}
-
-/**
- * アイテムがロックされているかどうかを取得します．
- * @param {string} itemCategory アイテムの種類
- * @param {string} itemName アイテムの名前
- * @returns {boolean} ロックされているかどうか
- */
-export function getItemLock(itemCategory, itemName) {
-    const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
-    const isLock = itemsList[itemCategory][itemName]['isLock'];
-
-    return isLock;
+    console.log(`set item : name=${itemID} Buy=${true}`);
 }
 
 /**
  * アイテムが購入済みかどうかを取得します．
- * @param {string} itemCategory アイテムの種類
- * @param {string} itemName アイテムの名前
- * @returns {boolean} 購入済みかどうか
+ * @param {string} itemID アイテムのID(名前からスペース等を除いたもの)
  */
-export function getItemBuy(itemCategory, itemName) {
+export function getItemState(itemID) {
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
-    const isBuy = itemsList[itemCategory][itemName]['isBuy'];
+    const isBuy = itemsList[itemID];
 
     return isBuy;
 }
@@ -302,6 +271,8 @@ export function resetAllData() {
         localStorage.setItem(BEST_SCORE_KEY, JSON.stringify(bestScoreData));
         localStorage.setItem(LATEST_SCORE_KEY, JSON.stringify(latestScoreData));
         localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
+        const itemsData = {};
+        Object.keys(Items).forEach(item => itemsData[Items[item].id] = false);
         localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
 
         alert(getLanguage() == 'en' ? 'All User Data is initialized.' : '全てのユーザーデータを削除しました');
