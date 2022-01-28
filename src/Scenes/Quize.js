@@ -10,7 +10,7 @@ import Store from '../Utils/Store';
 import Buildings from '../Constants/Buildings';
 
 //スコア
-import { addCoin, getCoin } from '../Utils/LocalStorage';
+import { addCoin, getCoin, getLanguage } from '../Utils/LocalStorage';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import TexBox from '../Assets/Images/QUIZ_BOX.png';
@@ -26,7 +26,7 @@ import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 
 // [問題文, 正解が〇ならture,×ならflase]
 
-const List = [[["If you feel a big tremor while cooking, you should turn off the fire as soon as possible.", false, "It is dangerous to approach a fire during a tremor. After the shaking stops, take care of the fire without panicking."],
+const List_en = [[["If you feel a big tremor while cooking, you should turn off the fire as soon as possible.", false, "It is dangerous to approach a fire during a tremor. After the shaking stops, take care of the fire without panicking."],
     ["The danger of tsunami is only near the ocean, not in rivers.", false, "Tsunami is not only a threat near the ocean. Tsunamis come from downstream to upstream, so evacuate quickly and at right angles to the flow of the river."],
     [ "The most reliable way to prevent furniture from tipping over, falling, or moving during an earthquake is to screw it to the wall with L-shaped metal fittings.", true, "If screwing is difficult, the effect can be enhanced by combining a sticking rod with a stopper system or a sticking rod with an adhesive mat."],
     ["It is good to buy a little more food and daily necessities on a daily basis.", true, "Until now, the idea of stockpiling for disasters has been taken for granted as a special kind of preparation that involves preparing items that are not normally used, such as dry bread. However, [daily stockpiling,] in which you buy a little extra food and daily necessities that you use on a regular basis, is an easy way to stockpile."],
@@ -46,13 +46,43 @@ const List = [[["If you feel a big tremor while cooking, you should turn off the
     ["Don't forget to pack batteries for the portable radio in your emergency kit.", false, "Leaving batteries in appliances that are not in regular use can cause them to leak or run out. Remove the dry batteries from your portable radio."],
     ["AA and AA batteries are the same length, just different in thickness.", true, "The only difference is the thickness, so you can wrap a piece of cloth around the AA battery and use it instead of the AA battery. When the diameter reaches 2.6 cm, fasten it with cellophane tape."],
     ["A [hazard map] is a map that shows the estimated damage areas, evacuation sites, evacuation routes, and other information for disaster mitigation and disaster prevention.", true, "Make sure to check the risk of flooding, landslides, and liquefaction in your area."]]]
+
+const List_ja = [[["料理中に大きな揺れを感じたら、\n\n一刻も早く火を消すべきである。", false, "揺れの最中に火に近づくのは危険です。揺れが収まってから、慌てずに火の始末をします。"],
+    ["津波の危険があるのは、海の近くだけであり、川では津波の心配は無い。", false, "津波の心配があるのは、海のそばだけではありません。津波は、川下から川上に向かって押し寄せてくるので、川の流れに対して直角方向に素早く避難しましょう。"],
+    [ "震災時の家具の転倒・落下・移動を防ぐための最も確実な方法は、壁にＬ字型の金具でネジ止めをすることである。", true, "ネジ止めが難しい場合は、突っ張り棒とストッパー式、突っ張り棒と粘着マットを組み合わせることで効果を高めることができます。"],
+    ["日頃から食料品や生活必需品などは少し多めに購入するのが良い。", true, "これまでの災害用備蓄は、乾パンなどの普段使わないものを用意する特別な準備という考え方が当たり前でした。しかし、日頃利用している食料品や生活必需品を少し多めに購入しておく「日常備蓄」なら簡単に備蓄ができます。"],
+    ["ライフライン被害や物資供給の停滞に備えて、日頃から災害時に必要なものを備えておくことが重要である。", true, "大規模な地震が起これば電気・水道・ガスなどのライフラインが使えなくなったり、食料品や生活必需品の供給が止まることが想定されます。日頃から自宅で生活する上で必要な物を備えておきましょう。"],
+    ["停電時に避難が必要なときは、ブレーカーを落としてから避難する。ating.", true, "倒れた家財の中にスイッチが入った状態の電気製品があると、通電が再開した後に火災のおそれがあります。"],
+    ["地震が発生した際、古い建物の２階にいるときは、すぐに１階に降りた方が良い。", false, "建物が倒壊して身体が押しつぶされる恐れがあるので、あわてて１階に降りてはいけません。耐震基準を満たしていない建物は、外に脱出すべきか状況をみて判断します。"]],
     
+    [["マンションにおいては、火災発生の時など、いざというときには玄関から避難する方法しか想定されていない。", false, "ベランダやバルコニーには、火災発生時など、いざというときに蹴破って移動できる隣戸との間にある「隔て板」、下階避難用のはしごを収納した「避難ハッチ」などが設けられています。"],
+    ["地震が発生したその瞬間、最優先で最初にやるべきことは避難経路の確保である。", false, "まず最初に、自分の命を守る行動をとりましょう。机の下など、物が「落ちてこない・倒れない・移動しない」安全な場所に移動しましょう。"],
+    ["地震で停電したときは、ブレーカーや電気のスイッチを入れない方が良い。", true, "ガスが漏れていた場合に火災や爆発の危険があるのでブレーカーや電気のスイッチには触らないようにしましょう。もちろん、ライターの使用も厳禁です。"],
+    ["避難時、家族や友人に安否連絡をする際は、相手の携帯電話に直接電話をかけ続けるしかない。", false, "回線がパンクし、電話が通じなクなることを想定し、連絡手段を複数用意しましょう。ＳＮＳも活用できます。"],
+    ["切れて垂れ下がっている電線は、電気が通っていないので、感電の危険はない。", false, "切れたり、垂れ下がっている電線は、電気が通っている場合があり、感電の危険があります。近づかず、絶対に触らないこと。また、電線に樹木や看板などが接触している場合も同様です。"],
+    ["人混みの中にいる場合、大きな揺れが起きたら一刻も早く人混みから離れた方が安全である。", false, "人混みで突然走り出す行為は集団パニックの原因となり、思わぬ事故になる危険があるので、まわりに配慮した行動を心がけましょう。"]],
+    
+    [["台風や大雨の時は、エレベーターを使わないようにする。", true, "暴風によって電線が切れると停電になり、エレベーターに閉じ込められるおそれがあります。台風や大雨のときは、なるべく階段を使うようにしましょう。"],
+    ["外国人は、災害時に配慮しなければならない「要配慮者」に含まれている。", true, "生活文化の違いや言葉を理解できずに、不安を抱える可能性があるので、きちんと情報を伝えるように配慮しましょう。"],
+    ["非常用持ち出し袋に入れる携帯ラジオには、忘れずに乾電池をセットしておく。", false, "普段から使用しない電化製品に電池を入れておくと、液漏れや消耗の原因になってしまいます。携帯ラジオの乾電池は外しておきましょう。"],
+    ["単三電池と単二電池は、太さが違うだけで長さは同じである。", true, "太さが違うだけなので、単三電池に布などを巻き付けて、単二電池の代わりとすることができます。直径が2.6cmになったらセロハンテープでとめます。"],
+    ["災害被害の軽減や防災対策のため、被害想定区域や避難場所、避難経路などの情報を表示した地図のことを「ハザードマップ」という。", true, "自分が住んでいる場所の浸水や土砂災害、液状化の危険性などを確認しておきましょう。"]]]
+        
 
 export default function Quize({ building }) {
     // ステージで問題文を変更するための変数
     const [buildingNo, setBuildingNo] = useState(0);
     const [flag, setflag] = useState(true);
     const [BackGroundImage, setBackGroundImage] = useState(Background1);
+    const [lang, setlang] = useState(getLanguage()); 
+    const [flag_lang, setflag_lang] = useState(true);
+    const [List, setList] = useState(List_en);
+    if(flag_lang){
+        if(lang == "jp"){
+            setList(List_ja);
+        }
+        setflag_lang(!flag_lang);
+    }
 
     console.log(building);
 
@@ -75,7 +105,7 @@ export default function Quize({ building }) {
             
             <Setting src={BackGroundImage} top={"0%"} left={"0%"} width={'100%'} height={'100%'} opacity={'0.9'}/>
             <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'0.9'}/>
-            <QuizeUI buildingNo={buildingNo}/>
+            <QuizeUI buildingNo={buildingNo} List = {List}/>
             <Block_Right_End>
                 <Button
                     handler={() => Store.resetStage()}
@@ -90,7 +120,7 @@ export default function Quize({ building }) {
 }
 
 
-const QuizeUI = ({buildingNo}) => {
+const QuizeUI = ({buildingNo, List}) => {
 
     const [seikai, setSeikai] = useState(0);    // 現在の連続正解数
     const [seikai_max, setSeikai_max] = useState(0);    // 最大連続正解数
