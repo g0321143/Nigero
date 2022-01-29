@@ -44,18 +44,69 @@ const buildingsData = {
 const itemsData = {
     light:
     {
-        AQUMO_CANDLE:
+        NightStarJP:
         {
             isLock: false,
             isBuy: false,
         },
-        XXX_Light:
+        AqumoCandle:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        Helmet: 
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        PortableWaterPurifiers: {
+            isLock: false,
+            isBuy: false,
+        },
+        PortableToiletst: {
+            isLock: false,
+            isBuy: false,
+        },
+        DisasterPreventionKit: {
+            isLock: false,
+            isBuy: false,
+        },
+        TablewareOrigami: {
+            isLock: false,
+            isBuy: false,
+        }
+    },
+    food:
+    {
+        Emergencyrations:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        Emergencyrations2: 
         {
             isLock: false,
             isBuy: false,
         }
-    }
-    ,
+    },
+    antiSeismicMat:
+    {
+        AntiSeismicGel:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        Tensionrod:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        AntiShatteringFilm:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+    },
 };
 
 /**
@@ -255,9 +306,9 @@ export function getBuilding(building) {
  * @param {boolean} isLock ロックされているかどうか
  * @param {boolean} isBuy 購入済みかどうか
  */
-export function setItem(itemCategory, itemName, isLock, isBuy) {
+export function setitem(itemCategory, itemName, isLock, isBuy) {
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
-
+    
     itemsList[itemCategory][itemName]['isLock'] = isLock;
     itemsList[itemCategory][itemName]['isBuy'] = isBuy;
 
