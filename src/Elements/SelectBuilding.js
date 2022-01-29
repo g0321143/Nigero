@@ -65,6 +65,7 @@ export default function SelectBuilding({ currentBuilding }) {
         }
     };
 
+
     return (
         <Suspense fallback={<Loader/>}>
             <Money />
@@ -72,6 +73,7 @@ export default function SelectBuilding({ currentBuilding }) {
                 <BuildingButton src={Buildings[IDList[buildingNum]].nameTagImage} />
                 {getBuilding(IDList[buildingNum]) && (
                     <UsedButton src={playButton} onClick={() => Store.setScene('game')} />
+                   
                 )}
                 {getScore(IDList[buildingNum])[0] == true &&
                     getScore(IDList[buildingNum])[1] == true &&
