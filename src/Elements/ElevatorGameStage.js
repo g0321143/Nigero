@@ -163,12 +163,11 @@ export default function ElevatorGameStage(props) {
             <Inventory
                 items={[
                     isOpenBox ? <img src={emergencyBagIcon} /> : null,
-                    isOpenBox ? <img src={firstAidKidIcon} /> : null,
-                    isOpenBox ? <img src={glassFilmIcon} /> : null,
+                    isOpenBox ? <img src={firstAidKidIcon} /> : null
                 ]}
             />
             <Canvas shadows>
-                <Stats />
+                {/* <Stats /> */}
                 <CameraControl isHide={isHide} />
                 <WobbleCamera isquakeTime={isquakeTime} isHide={isHide} cameraPosition={playerPosition.current} />
                 <ambientLight intensity={0.2} />

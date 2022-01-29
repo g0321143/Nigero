@@ -82,7 +82,11 @@ const GameResult = ({ keyhandler, isClear, getCoin, stageID, stageName, tipsText
             {!isClear &&
                 <>
                     <FailureResult >
-                        {tipsText}
+                        {tipsText.split("\n").map((text, index) => (
+                                <React.Fragment key={index}>
+                                    {text}<br />
+                                </React.Fragment>
+                            ))}
                     </FailureResult>
                     <ButtonDiv>
                         <Button
@@ -303,7 +307,7 @@ const FailureResult = styled.div`
     margin: auto;
 
     
-    padding-top: 15vw;
+    padding-top: 13vw;
     padding-left: 3vw;
     padding-right: 11vw;
 
@@ -323,7 +327,7 @@ const FailureResult = styled.div`
     justify-content: center;
     flex-direction: column;
 
-    font-size: 1.5vw;
+    font-size: 1vw;
     overflow-wrap: break-word;
     align-items: flex-start;
     justify-content: flex-start;

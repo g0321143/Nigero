@@ -38,14 +38,10 @@ export default function ElevatorGame() {
 
     // ゲーム開始時の処理
     useEffect(() => {
-        if (getLanguage() == 'en' && !isGameOver) {
-            setTipsText('English text to be displayed on the game clear screen.');
-        } else if (getLanguage() == 'ja' && !isGameOver) {
-            setTipsText('ゲームクリア画面で表示する日本語のテキスト');
-        } else if (getLanguage() == 'ja' && isGameOver) {
-            setTipsText('English text displayed on the game over screen.');
-        } else if (getLanguage() == 'ja' && isGameOver) {
-            setTipsText('ゲームオーバー画面で表示する日本語のテキスト');
+        if (getLanguage() == 'en') {
+            setTipsText('As a general rule, you should press the buttons on all floors and get off at the first floor that stops, but it is also important to assess the situation on the floor instead of rushing to get off at the floor that stops.During an earthquake, many people are expected to be trapped as well. They may not be able to rush to your rescue immediately.If you are trapped in an elevator, do not panic, but remain calm and make an effort to contact the elevator using the "emergency call button" or other means.\nThere may be an emergency stockpile box for elevators.If you are trapped in an elevator, emergency supplies such as drinking water, food, toilet kits, flashlights, radios, tissues, blankets, etc., which you will need until help arrives, are stored in the box, so make use of it in case of emergency.');
+        } else {
+            setTipsText('全ての階のボタンを押し、最初に停止した階でおりるのが原則ですが、停止した階で慌てておりるのではなく、階の状況を見極めるのも大切です。\n地震の時は同様に閉じこめられている人も大勢いると予想されます。救助にすぐに駆けつけてくれるとは限りません。\nエレベーターに閉じこめられても、焦らず冷静になって「非常用呼び出しボタン」等での連絡を取る努力をしましょう。\nエレベーター用防災備蓄ボックスがあることがあります。');
         }
     }, []);
 
