@@ -18,9 +18,9 @@ import nextButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_NEW-33.png';
 import Closebutton from '../Assets/Images/CLOSETAB-08.png';
 import Yesbutton from '../Assets/Images/YES-05.png';
 import Notbutton from '../Assets/Images/NO-15.png';
-import Background1 from '../Assets/Images/House_stage_background.png';
-import Background2 from '../Assets/Images/office_stage_background.png';
-import Background3 from '../Assets/Images/Elevator_stage_background.png';
+import Background1 from '../Assets/Images/Normalcolor.jpg';
+import Background2 from '../Assets/Images/TallBuilding.jpg';
+import Background3 from '../Assets/Images/Elevator.jpg';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
 import Result_No from '../Assets/Images/INCORRECT-04.png';
 import Result_Yes from '../Assets/Images/CORRECTANSWERrevised-08.png';
@@ -194,8 +194,8 @@ const QuizeUI = ({buildingNo, List}) => {
             <>
                 <HedText>{"Quiz " + No + " !"}</HedText>
                 <AnyText >{List[buildingNo][No - 1][0]}</AnyText>
-                <Setting onClick={() => maru()} src={Yesbutton} top={"30vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'1'} />
-                <Setting onClick={() => batu()} src={Notbutton} top={"30vw"} left={"55%"} width={'10%'} height={'10%'} opacity={'1'} />
+                <Setting onClick={() => maru()} src={Yesbutton} top={"30vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
+                <Setting onClick={() => batu()} src={Notbutton} top={"30vw"} left={"55%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
 
             </>
         );
@@ -255,7 +255,7 @@ const Setting = styled.div`
     opacity: ${(props) => props.opacity};
     z-index: 999;
     :hover {
-        cursor: pointer;
+        cursor: ${(props) => props.cursor};;
         opacity: 1;
     }
 `;
