@@ -107,7 +107,6 @@ export default function Quize({ building }) {
     return (
         <Game_Canvas>         
             <Setting src={BackGroundImage} top={"0%"} left={"0%"} width={'100%'} height={'100%'} opacity={'1.0'}/>
-            <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
             
             <QuizeUI buildingNo={buildingNo} List = {List}/>
             <Block_Right_End>
@@ -192,6 +191,7 @@ const QuizeUI = ({buildingNo, List}) => {
     if (No <= List[buildingNo].length && flag==0) {
         return (
             <>
+                <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Quiz " + No + " !"}</HedText>
                 <AnyText >{List[buildingNo][No - 1][0]}</AnyText>
                 <Setting onClick={() => maru()} src={Yesbutton} top={"30vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
@@ -215,6 +215,7 @@ const QuizeUI = ({buildingNo, List}) => {
 
         return (
             <>
+                <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Answer " + No + " !"}</HedText>
                 <AnyText >{List[buildingNo][No - 1][2]}</AnyText>
                 <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
@@ -227,6 +228,7 @@ const QuizeUI = ({buildingNo, List}) => {
         console.log("list7");
         return (
             <>
+                <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Answer " + No + " !"}</HedText>
                 <AnyText >{List[buildingNo][No - 1][2]}</AnyText>
                 <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
@@ -300,10 +302,10 @@ const AnyText = styled.div`
 
 const CoinText = styled.div`
     position: absolute;
-    width: 100%;
+    width: 10%;
     height: 8vw;
     top: 54%;
-    left: 4%;
+    left: 46%;
     font-size: 6vw;
     color: ${Color.slightlyGrayishYellow};
     font-weight: bold;
