@@ -11,7 +11,8 @@ import Button from '../Utils/Button';
 import Store from '../Utils/Store';
 import { purchaseItem, getItemState } from "../Utils/LocalStorage";
 import Tab from '../Elements/ItemShopTab';
-import Items from '../Constants/Items';
+import { Light,LightJp,LightEn, AntiSeismicMat, Food, FoodJp, AntiSeismicMatEn, AntiSeismicMatJp, FoodEn } from '../Constants/Items';
+import { setScore, getLanguage, getCoin, subCoin, setitem, getItemLock, getItemBuy } from '../Utils/LocalStorage';
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
@@ -20,6 +21,8 @@ import buyButton from '../Assets/Images/BUY_BOTTON-38.png';
 const itemType = {
     name: '',
     price: '',
+    id: '',
+    id2: '',
     image: '',
     info: '',
     url: ''
@@ -28,11 +31,117 @@ const itemType = {
 export default function ItemShop({preScene}) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [item, setItem] = useState(itemType);
+    const Category=[
+        'light',
+        'food',
+        'antiSeismicMat',
+    ];
+    const Itemlist=[
+        'NightStarJP',
+        'AqumoCandle',
+        'Helmet',
+        'PortableWaterPurifiers',
+        'PortableToiletst',
+        'DisasterPreventionKit',
+        'TablewareOrigami',
+        'Emergencyrations',
+        'Emergencyrations2',
+        'AntiSeismicGel',
+        'Tensionrod',
+        'AntiShatteringFilm',
 
+    ];
     const clickItemPanel = (item) => {
         setItem(item);
         setIsOpen(true);
     };
+    const BuyItem = (item) =>{
+        if(getCoin() >= item.ice){
+            //購入済みの場合
+            if(getItemBuy(Category[item.id],Itemlist[item.id2]) == true){
+                console.log('すでに購入済です。');
+            }else{
+                subCoin(item.price);
+                setitem(Category[item.id],Itemlist[item.id2],true,true);
+            }
+        }else{
+            console.log('購入出来ません');
+        }
+        setIsOpen(false);
+    }
+    if(getLanguage() == 'jp'){
+        Light.NightStarJP.name = LightJp.NightStarJP.name;
+        Light.NightStarJP.info = LightJp.NightStarJP.info;
+
+        Light.AQUMOCANDLE.name = LightJp.AQUMOCANDLE.name;
+        Light.AQUMOCANDLE.info = LightJp.AQUMOCANDLE.info;
+
+        Light.Helmet.name = LightJp.Helmet.name;
+        Light.Helmet.info = LightJp.Helmet.info;
+
+        Light.PortableWaterPurifiers.name = LightJp.PortableWaterPurifiers.name;
+        Light.PortableWaterPurifiers.info = LightJp.PortableWaterPurifiers.info;
+
+        Light.PortableToiletst.name = LightJp.PortableToiletst.name;
+        Light.PortableToiletst.info = LightJp.PortableToiletst.info;
+
+        Light.DisasterPreventionKit.name = LightJp.DisasterPreventionKit.name;
+        Light.DisasterPreventionKit.info = LightJp.DisasterPreventionKit.info;
+
+        Light.TablewareOrigami.name = LightJp.TablewareOrigami.name;
+        Light.TablewareOrigami.info = LightJp.TablewareOrigami.info;
+
+        Food.Emergencyrations.name = FoodJp.Emergencyrations.name;
+        Food.Emergencyrations.info = FoodJp.Emergencyrations.info;
+
+        Food.Emergencyrations2.name = FoodJp.Emergencyrations2.name;
+        Food.Emergencyrations2.info = FoodJp.Emergencyrations2.info;
+
+        AntiSeismicMat.AntiSeismicGel.name = AntiSeismicMatJp.AntiSeismicGel.name;
+        AntiSeismicMat.AntiSeismicGel.info = AntiSeismicMatJp.AntiSeismicGel.info;
+
+        AntiSeismicMat.Tensionrod.name = AntiSeismicMatJp.Tensionrod.name;
+        AntiSeismicMat.Tensionrod.info = AntiSeismicMatJp.Tensionrod.info;
+
+        AntiSeismicMat.AntiShatteringFilm.name = AntiSeismicMatJp.AntiShatteringFilm.name;
+        AntiSeismicMat.AntiShatteringFilm.info = AntiSeismicMatJp.AntiShatteringFilm.info;
+    }else{
+        Light.NightStarJP.name = LightEn.NightStarJP.name;
+        Light.NightStarJP.info = LightEn.NightStarJP.info;
+
+        Light.AQUMOCANDLE.name = LightEn.AQUMOCANDLE.name;
+        Light.AQUMOCANDLE.info = LightEn.AQUMOCANDLE.info;
+
+        Light.Helmet.name = LightEn.Helmet.name;
+        Light.Helmet.info = LightEn.Helmet.info;
+
+        Light.PortableWaterPurifiers.name = LightEn.PortableWaterPurifiers.name;
+        Light.PortableWaterPurifiers.info = LightEn.PortableWaterPurifiers.info;
+
+        Light.PortableToiletst.name = LightEn.PortableToiletst.name;
+        Light.PortableToiletst.info = LightEn.PortableToiletst.info;
+
+        Light.DisasterPreventionKit.name = LightEn.DisasterPreventionKit.name;
+        Light.DisasterPreventionKit.info = LightEn.DisasterPreventionKit.info;
+
+        Light.TablewareOrigami.name = LightEn.TablewareOrigami.name;
+        Light.TablewareOrigami.info = LightEn.TablewareOrigami.info;
+
+        Food.Emergencyrations.name = FoodEn.Emergencyrations.name;
+        Food.Emergencyrations.info = FoodEn.Emergencyrations.info;
+
+        Food.Emergencyrations2.name = FoodEn.Emergencyrations2.name;
+        Food.Emergencyrations2.info = FoodEn.Emergencyrations2.info;
+
+        AntiSeismicMat.AntiSeismicGel.name = AntiSeismicMatEn.AntiSeismicGel.name;
+        AntiSeismicMat.AntiSeismicGel.info = AntiSeismicMatEn.AntiSeismicGel.info;
+
+        AntiSeismicMat.Tensionrod.name = AntiSeismicMatEn.Tensionrod.name;
+        AntiSeismicMat.Tensionrod.info = AntiSeismicMatEn.Tensionrod.info;
+
+        AntiSeismicMat.AntiShatteringFilm.name = AntiSeismicMatEn.AntiShatteringFilm.name;
+        AntiSeismicMat.AntiShatteringFilm.info = AntiSeismicMatEn.AntiShatteringFilm.info;
+    }
 
     const LightTab = () => (
         <Panel>
@@ -104,12 +213,16 @@ export default function ItemShop({preScene}) {
                 <ItemImage src={Items.AntiSeismicGel.image} />
                 <ItemName2>{Items.AntiSeismicGel.name}</ItemName2>
             </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(Items.Tensionrod)}>
-                <ItemPrice>{Items.Tensionrod.price}</ItemPrice>
-                <ItemImage src={Items.Tensionrod.image} />
-                <ItemName>{Items.Tensionrod.name}</ItemName>
+            <ItemPanel onClick={() => clickItemPanel(AntiSeismicMat.Tensionrod)}>
+                <ItemPrice>{AntiSeismicMat.Tensionrod.price}</ItemPrice>
+                <ItemImage src={AntiSeismicMat.Tensionrod.image} />
+                <ItemName2>{AntiSeismicMat.Tensionrod.name}</ItemName2>
             </ItemPanel>
-            <ItemPanel />
+            <ItemPanel onClick={() => clickItemPanel(AntiSeismicMat.AntiShatteringFilm)}>
+                <ItemPrice>{AntiSeismicMat.AntiShatteringFilm.price}</ItemPrice>
+                <ItemImage src={AntiSeismicMat.AntiShatteringFilm.image} />
+                <ItemName2>{AntiSeismicMat.AntiShatteringFilm.name}</ItemName2>
+            </ItemPanel>
             <ItemPanel />
             <ItemPanel />
             <ItemPanel />
@@ -153,11 +266,7 @@ export default function ItemShop({preScene}) {
                 <ModalDiv1>
                     <ItemImage src={item.image} width={"10vw"} />
                     <Button
-                        handler={() => {
-                            // アイテムの購入
-                            purchaseItem(item.id);
-                            setIsOpen(false);
-                        }}
+                        handler={() => BuyItem(item)}
                         src={buyButton}
                         width={'12vw'}
                         height={'5vw'}
@@ -168,15 +277,13 @@ export default function ItemShop({preScene}) {
                     <ItemName>{item.name}</ItemName>
                     <ItemPrice>{item.price}</ItemPrice>
                     <ModalInfoBox>{item.info}</ModalInfoBox>
+                    <a href={item.url} target=" _blank">URL</a>
                 </ModalDiv2>
                 <Close onClick={() => setIsOpen(false)}/>
             </Modal>
         </Game_Canvas>
     );
 }
-
-
-
 
 
 const Wrap = styled.div`
@@ -351,6 +458,7 @@ const ModalInfoBox = styled.div`
     display: flex;
     position: relative;
     flex-direction: column;
+    font-size: 1.45vw;
     padding: 2vw 2vw;
     background: ${Color.softYellow};
     color: ${Color.slightlyGrayishYellow};

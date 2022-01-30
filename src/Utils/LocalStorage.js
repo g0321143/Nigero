@@ -42,6 +42,74 @@ const buildingsData = {
     },
 };
 
+// アイテムの初期設定
+const itemsData = {
+    light:
+    {
+        NightStarJP:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        AqumoCandle:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        Helmet: 
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        PortableWaterPurifiers: {
+            isLock: false,
+            isBuy: false,
+        },
+        PortableToiletst: {
+            isLock: false,
+            isBuy: false,
+        },
+        DisasterPreventionKit: {
+            isLock: false,
+            isBuy: false,
+        },
+        TablewareOrigami: {
+            isLock: false,
+            isBuy: false,
+        }
+    },
+    food:
+    {
+        Emergencyrations:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        Emergencyrations2: 
+        {
+            isLock: false,
+            isBuy: false,
+        }
+    },
+    antiSeismicMat:
+    {
+        AntiSeismicGel:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        Tensionrod:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+        AntiShatteringFilm:
+        {
+            isLock: false,
+            isBuy: false,
+        },
+    },
+};
 
 /**
  * ゲームの初回起動時に，LocalStorageにデータがなければ，
@@ -239,11 +307,11 @@ export function getBuilding(building) {
  * アイテムの状態をローカルストレージに保存します.
  * @param {string} itemID アイテムのID(名前からスペース等を除いたもの)
  */
-export function purchaseItem(itemID) {
+export function setitem(itemCategory, itemName, isLock, isBuy) {
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
-
-
-    itemsList[itemID] = true;
+    
+    itemsList[itemCategory][itemName]['isLock'] = isLock;
+    itemsList[itemCategory][itemName]['isBuy'] = isBuy;
 
     localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsList));
     console.log(`set item : name=${itemID} Buy=${true}`);
