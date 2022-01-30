@@ -11,8 +11,9 @@ import Button from '../Utils/Button';
 import Store from '../Utils/Store';
 import { purchaseItem, getItemState } from "../Utils/LocalStorage";
 import Tab from '../Elements/ItemShopTab';
-import { Light,LightJp,LightEn, AntiSeismicMat, Food, FoodJp, AntiSeismicMatEn, AntiSeismicMatJp, FoodEn } from '../Constants/Items';
-import { setScore, getLanguage, getCoin, subCoin, setitem, getItemLock, getItemBuy } from '../Utils/LocalStorage';
+//import { Light,LightJp,LightEn, AntiSeismicMat, Food, FoodJp, AntiSeismicMatEn, AntiSeismicMatJp, FoodEn } from '../Constants/Items';
+import { setScore, getLanguage, getCoin, subCoin, setitem, getItemLock } from '../Utils/LocalStorage';
+import Items from "../Constants/Items";
 
 import backButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-05.png';
 import CoinImage from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-12.png';
@@ -56,9 +57,11 @@ export default function ItemShop({preScene}) {
         setIsOpen(true);
     };
     const BuyItem = (item) =>{
-        if(getCoin() >= item.ice){
+        console.log(Itemlist[item.id2]);
+        if(getCoin() >= item.price){
+            console.log(getItemState(Itemlist[item.id2]));
             //購入済みの場合
-            if(getItemBuy(Category[item.id],Itemlist[item.id2]) == true){
+            if(getItemState(Itemlist[item.id2]) == true){
                 console.log('すでに購入済です。');
             }else{
                 subCoin(item.price);
@@ -70,95 +73,94 @@ export default function ItemShop({preScene}) {
         setIsOpen(false);
     }
     if(getLanguage() == 'jp'){
-        Light.NightStarJP.name = LightJp.NightStarJP.name;
-        Light.NightStarJP.info = LightJp.NightStarJP.info;
+        Items.NightStarJP.name = Items.NightStarJPJp.name;
+        Items.NightStarJP.info = Items.NightStarJPJp.info;
 
-        Light.AQUMOCANDLE.name = LightJp.AQUMOCANDLE.name;
-        Light.AQUMOCANDLE.info = LightJp.AQUMOCANDLE.info;
+        Items.AQUMOCANDLE.name = Items.AQUMOCANDLEJp.name;
+        Items.AQUMOCANDLE.info = Items.AQUMOCANDLEJp.info;
 
-        Light.Helmet.name = LightJp.Helmet.name;
-        Light.Helmet.info = LightJp.Helmet.info;
+        Items.Helmet.name = Items.HelmetJp.name;
+        Items.Helmet.info = Items.HelmetJp.info;
 
-        Light.PortableWaterPurifiers.name = LightJp.PortableWaterPurifiers.name;
-        Light.PortableWaterPurifiers.info = LightJp.PortableWaterPurifiers.info;
+        Items.PortableWaterPurifiers.name = Items.PortableWaterPurifiersJp.name;
+        Items.PortableWaterPurifiers.info = Items.PortableWaterPurifiersJp.info;
 
-        Light.PortableToiletst.name = LightJp.PortableToiletst.name;
-        Light.PortableToiletst.info = LightJp.PortableToiletst.info;
+        Items.PortableToiletst.name = Items.PortableToiletstJp.name;
+        Items.PortableToiletst.info = Items.PortableToiletstJp.info;
 
-        Light.DisasterPreventionKit.name = LightJp.DisasterPreventionKit.name;
-        Light.DisasterPreventionKit.info = LightJp.DisasterPreventionKit.info;
+        Items.DisasterPreventionKit.name = Items.DisasterPreventionKitJp.name;
+        Items.DisasterPreventionKit.info = Items.DisasterPreventionKitJp.info;
 
-        Light.TablewareOrigami.name = LightJp.TablewareOrigami.name;
-        Light.TablewareOrigami.info = LightJp.TablewareOrigami.info;
+        Items.TablewareOrigami.name = Items.TablewareOrigamiJp.name;
+        Items.TablewareOrigami.info = Items.TablewareOrigamiJp.info;
 
-        Food.Emergencyrations.name = FoodJp.Emergencyrations.name;
-        Food.Emergencyrations.info = FoodJp.Emergencyrations.info;
+        Items.Emergencyrations.name = Items.EmergencyrationsJp.name;
+        Items.Emergencyrations.info = Items.EmergencyrationsJp.info;
 
-        Food.Emergencyrations2.name = FoodJp.Emergencyrations2.name;
-        Food.Emergencyrations2.info = FoodJp.Emergencyrations2.info;
+        Items.Emergencyrations2.name = Items.Emergencyrations2Jp.name;
+        Items.Emergencyrations2.info = Items.Emergencyrations2Jp.info;
 
-        AntiSeismicMat.AntiSeismicGel.name = AntiSeismicMatJp.AntiSeismicGel.name;
-        AntiSeismicMat.AntiSeismicGel.info = AntiSeismicMatJp.AntiSeismicGel.info;
+        Items.AntiSeismicGel.name = Items.AntiSeismicGelJp.name;
+        Items.AntiSeismicGel.info = Items.AntiSeismicGelJp.info;
 
-        AntiSeismicMat.Tensionrod.name = AntiSeismicMatJp.Tensionrod.name;
-        AntiSeismicMat.Tensionrod.info = AntiSeismicMatJp.Tensionrod.info;
+        Items.Tensionrod.name = Items.TensionrodJp.name;
+        Items.Tensionrod.info = Items.TensionrodJp.info;
 
-        AntiSeismicMat.AntiShatteringFilm.name = AntiSeismicMatJp.AntiShatteringFilm.name;
-        AntiSeismicMat.AntiShatteringFilm.info = AntiSeismicMatJp.AntiShatteringFilm.info;
+        Items.AntiShatteringFilm.name = Items.AntiShatteringFilmJp.name;
+        Items.AntiShatteringFilm.info = Items.AntiShatteringFilmJp.info;
     }else{
-        Light.NightStarJP.name = LightEn.NightStarJP.name;
-        Light.NightStarJP.info = LightEn.NightStarJP.info;
+        Items.NightStarJP.name = Items.NightStarJPEn.name;
+        Items.NightStarJP.info = Items.NightStarJPEn.info;
 
-        Light.AQUMOCANDLE.name = LightEn.AQUMOCANDLE.name;
-        Light.AQUMOCANDLE.info = LightEn.AQUMOCANDLE.info;
+        Items.AQUMOCANDLE.name = Items.AQUMOCANDLEEn.name;
+        Items.AQUMOCANDLE.info = Items.AQUMOCANDLEEn.info;
 
-        Light.Helmet.name = LightEn.Helmet.name;
-        Light.Helmet.info = LightEn.Helmet.info;
+        Items.Helmet.name = Items.HelmetEn.name;
+        Items.Helmet.info = Items.HelmetEn.info;
 
-        Light.PortableWaterPurifiers.name = LightEn.PortableWaterPurifiers.name;
-        Light.PortableWaterPurifiers.info = LightEn.PortableWaterPurifiers.info;
+        Items.PortableWaterPurifiers.name = Items.PortableWaterPurifiersEn.name;
+        Items.PortableWaterPurifiers.info = Items.PortableWaterPurifiersEn.info;
 
-        Light.PortableToiletst.name = LightEn.PortableToiletst.name;
-        Light.PortableToiletst.info = LightEn.PortableToiletst.info;
+        Items.PortableToiletst.name = Items.PortableToiletstEn.name;
+        Items.PortableToiletst.info = Items.PortableToiletstEn.info;
 
-        Light.DisasterPreventionKit.name = LightEn.DisasterPreventionKit.name;
-        Light.DisasterPreventionKit.info = LightEn.DisasterPreventionKit.info;
+        Items.DisasterPreventionKit.name = Items.DisasterPreventionKitEn.name;
+        Items.DisasterPreventionKit.info = Items.DisasterPreventionKitEn.info;
 
-        Light.TablewareOrigami.name = LightEn.TablewareOrigami.name;
-        Light.TablewareOrigami.info = LightEn.TablewareOrigami.info;
+        Items.TablewareOrigami.name = Items.TablewareOrigamiEn.name;
+        Items.TablewareOrigami.info = Items.TablewareOrigamiEn.info;
 
-        Food.Emergencyrations.name = FoodEn.Emergencyrations.name;
-        Food.Emergencyrations.info = FoodEn.Emergencyrations.info;
+        Items.Emergencyrations.name = Items.EmergencyrationsEn.name;
+        Items.Emergencyrations.info = Items.EmergencyrationsEn.info;
 
-        Food.Emergencyrations2.name = FoodEn.Emergencyrations2.name;
-        Food.Emergencyrations2.info = FoodEn.Emergencyrations2.info;
+        Items.Emergencyrations2.name = Items.Emergencyrations2En.name;
+        Items.Emergencyrations2.info = Items.Emergencyrations2En.info;
 
-        AntiSeismicMat.AntiSeismicGel.name = AntiSeismicMatEn.AntiSeismicGel.name;
-        AntiSeismicMat.AntiSeismicGel.info = AntiSeismicMatEn.AntiSeismicGel.info;
+        Items.AntiSeismicGel.name = Items.AntiSeismicGelEn.name;
+        Items.AntiSeismicGel.info = Items.AntiSeismicGelEn.info;
 
-        AntiSeismicMat.Tensionrod.name = AntiSeismicMatEn.Tensionrod.name;
-        AntiSeismicMat.Tensionrod.info = AntiSeismicMatEn.Tensionrod.info;
+        Items.Tensionrod.name = Items.TensionrodEn.name;
+        Items.Tensionrod.info = Items.TensionrodEn.info;
 
-        AntiSeismicMat.AntiShatteringFilm.name = AntiSeismicMatEn.AntiShatteringFilm.name;
-        AntiSeismicMat.AntiShatteringFilm.info = AntiSeismicMatEn.AntiShatteringFilm.info;
+        Items.AntiShatteringFilm.name = Items.AntiShatteringFilmEn.name;
+        Items.AntiShatteringFilm.info = Items.AntiShatteringFilmEn.info;
     }
-
     const LightTab = () => (
         <Panel>
             <ItemPanel onClick={() => clickItemPanel(Items.NightStarJP)}>
-                <ItemPrice>{Items.NightStarJP.price}</ItemPrice>
+                <ItemPrice>{Items['NightStarJP'].price}</ItemPrice>
                 <ItemImage src={Items.NightStarJP.image} />
-                <ItemName>{Items.NightStarJP.name}</ItemName>
+                <ItemName2>{Items.NightStarJP.name}</ItemName2>
             </ItemPanel>
             <ItemPanel onClick={() => clickItemPanel(Items.AQUMOCANDLE)}>
                 <ItemPrice>{Items.AQUMOCANDLE.price}</ItemPrice>
                 <ItemImage src={Items.AQUMOCANDLE.image} />
-                <ItemName>{Items.AQUMOCANDLE.name}</ItemName>
+                <ItemName2>{Items.AQUMOCANDLE.name}</ItemName2>
             </ItemPanel>
             <ItemPanel onClick={() => clickItemPanel(Items.Helmet)}>
                 <ItemPrice>{Items.Helmet.price}</ItemPrice>
                 <ItemImage src={Items.Helmet.image} />
-                <ItemName>{Items.Helmet.name}</ItemName>
+                <ItemName2>{Items.Helmet.name}</ItemName2>
             </ItemPanel>
             <ItemPanel onClick={() => clickItemPanel(Items.PortableWaterPurifiers)}>
                 <ItemPrice>{Items.PortableWaterPurifiers.price}</ItemPrice>
@@ -213,15 +215,15 @@ export default function ItemShop({preScene}) {
                 <ItemImage src={Items.AntiSeismicGel.image} />
                 <ItemName2>{Items.AntiSeismicGel.name}</ItemName2>
             </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(AntiSeismicMat.Tensionrod)}>
-                <ItemPrice>{AntiSeismicMat.Tensionrod.price}</ItemPrice>
-                <ItemImage src={AntiSeismicMat.Tensionrod.image} />
-                <ItemName2>{AntiSeismicMat.Tensionrod.name}</ItemName2>
+            <ItemPanel onClick={() => clickItemPanel(Items.Tensionrod)}>
+                <ItemPrice>{Items.Tensionrod.price}</ItemPrice>
+                <ItemImage src={Items.Tensionrod.image} />
+                <ItemName2>{Items.Tensionrod.name}</ItemName2>
             </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(AntiSeismicMat.AntiShatteringFilm)}>
-                <ItemPrice>{AntiSeismicMat.AntiShatteringFilm.price}</ItemPrice>
-                <ItemImage src={AntiSeismicMat.AntiShatteringFilm.image} />
-                <ItemName2>{AntiSeismicMat.AntiShatteringFilm.name}</ItemName2>
+            <ItemPanel onClick={() => clickItemPanel(Items.AntiShatteringFilm)}>
+                <ItemPrice>{Items.AntiShatteringFilm.price}</ItemPrice>
+                <ItemImage src={Items.AntiShatteringFilm.image} />
+                <ItemName2>{Items.AntiShatteringFilm.name}</ItemName2>
             </ItemPanel>
             <ItemPanel />
             <ItemPanel />

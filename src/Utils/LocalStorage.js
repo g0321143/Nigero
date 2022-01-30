@@ -44,8 +44,6 @@ const buildingsData = {
 
 // アイテムの初期設定
 const itemsData = {
-    light:
-    {
         NightStarJP:
         {
             isLock: false,
@@ -76,10 +74,7 @@ const itemsData = {
         TablewareOrigami: {
             isLock: false,
             isBuy: false,
-        }
-    },
-    food:
-    {
+        },
         Emergencyrations:
         {
             isLock: false,
@@ -89,10 +84,7 @@ const itemsData = {
         {
             isLock: false,
             isBuy: false,
-        }
-    },
-    antiSeismicMat:
-    {
+        },
         AntiSeismicGel:
         {
             isLock: false,
@@ -108,7 +100,6 @@ const itemsData = {
             isLock: false,
             isBuy: false,
         },
-    },
 };
 
 /**
@@ -150,8 +141,8 @@ export function initLocalStorage() {
     }
 
     // アイテムの初期設定
-    const itemsData = {};
-    Object.keys(Items).forEach(item => itemsData[Items[item].id] = false);
+    //const itemsData = {};
+    //Object.keys(Items).forEach(item => itemsData[Items[item].id] = false);
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
     if (itemsList == null) {
         localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
@@ -286,7 +277,6 @@ export function setBuilding(building, isBuy) {
     const buildingsList = JSON.parse(localStorage.getItem(BUILDINGS_KEY));
 
     buildingsList[building]['isBuy'] = isBuy;
-
     localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsList));
     console.log(`set building : ${building} isBuy=${isBuy}`);
 }
@@ -309,12 +299,14 @@ export function getBuilding(building) {
  */
 export function setitem(itemCategory, itemName, isLock, isBuy) {
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
-    
-    itemsList[itemCategory][itemName]['isLock'] = isLock;
-    itemsList[itemCategory][itemName]['isBuy'] = isBuy;
+
+    console.log(itemsList);
+
+    itemsList[itemName]['isLock'] = isLock;
+    itemsList[itemName]['isBuy'] = isBuy;
 
     localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsList));
-    console.log(`set item : name=${itemID} Buy=${true}`);
+    //console.log(`set item : name=${itemID} Buy=${true}`);
 }
 
 /**
@@ -323,8 +315,7 @@ export function setitem(itemCategory, itemName, isLock, isBuy) {
  */
 export function getItemState(itemID) {
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
-    const isBuy = itemsList[itemID];
-
+    const isBuy = itemsList[itemID]['isBuy'];
     return isBuy;
 }
 
@@ -339,8 +330,8 @@ export function resetAllData() {
         localStorage.setItem(BEST_SCORE_KEY, JSON.stringify(bestScoreData));
         localStorage.setItem(LATEST_SCORE_KEY, JSON.stringify(latestScoreData));
         localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
-        const itemsData = {};
-        Object.keys(Items).forEach(item => itemsData[Items[item].id] = false);
+        //const itemsData = {};
+        //Object.keys(itemsData).forEach(item => itemsData[Items[item].id] = false);
         localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
 
         alert(getLanguage() == 'en' ? 'All User Data is initialized.' : '全てのユーザーデータを削除しました');
