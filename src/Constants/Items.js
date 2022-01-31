@@ -132,7 +132,7 @@ export default {
         {
             name: 'anti-shattering film',
             price: '50',
-            id: '2',
+            id: 'AntiShatteringFilm',
             id2: '11',
             image: AntiShatteringFilm_Image,
             info: 'A film that prevents glass from flying apart when it breaks during typhoons, earthquakes, etc. This film can prevent secondary disasters and unexpected injuries caused by broken glass fragments.',

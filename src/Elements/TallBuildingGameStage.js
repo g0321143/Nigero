@@ -6,12 +6,13 @@ import { Physics, Debug, useBox, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
 
 import Color from "../Constants/Color";
+import Items from "../Constants/Items";
 import Buildings from "../Constants/Buildings";
 import Player from "../Utils/Player";
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
 import VirtualStick from "../Utils/VirtualStick";
-import { setScore, getLanguage } from '../Utils/LocalStorage';
+import { setScore, getLanguage,getItemState } from '../Utils/LocalStorage';
 
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
@@ -50,9 +51,8 @@ export default function TallBuildingGameStage(props) {
     // アイテムの使用状況
     const [isUseLight, useLight] = useState(false);
     const [isUseSlippers, useSlippers] = useState(false);
-    //const [isPurchasedSlippers] =  useState(getItemState(Items.Slippers.id));
     const [isUseGlassFilm, useGlassFilm] = useState(false);
-    //const [isPurchasedeGlassFilm] =  useState(getItemState(Items.eGlassFilm.id));
+    const [isPurchasedeGlassFilm] =  useState(getItemState(Items.AntiShatteringFilm.id));
 
     // 時間に関する状態
     const localTime = useRef(props.time);
@@ -181,7 +181,7 @@ export default function TallBuildingGameStage(props) {
                 items={[
                     <img src={lightIcon} onClick={() => clickLight()} />,
                     isUseSlippers ? null : <img src={slippersIcon} onClick={() => clickSlippers()} />,
-                    isUseGlassFilm ? null : <img src={glassFilmIcon} onClick={() => clickGlassFilm()} />,
+                    !isPurchasedeGlassFilm || isUseGlassFilm ? null : <img src={glassFilmIcon} onClick={() => clickGlassFilm()} />,
                 ]}
             />
             <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
