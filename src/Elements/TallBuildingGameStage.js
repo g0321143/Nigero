@@ -184,13 +184,19 @@ export default function TallBuildingGameStage(props) {
                     !isPurchasedeGlassFilm || isUseGlassFilm ? null : <img src={glassFilmIcon} onClick={() => clickGlassFilm()} />,
                 ]}
             />
-            <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
+            <Canvas shadows camera={{ position: [0, 8, 0.5], fov: 45 }}>
                 {/* <Stats /> */}
                 <WobbleCamera isquakeTime={isquakeTime} />
                 <ambientLight intensity={props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime ? 0.01 : 0.2} />
                 <directionalLight
                     castShadow
                     position={[-2.5, 8, 0]}
+                    shadow-mapSize-width={2048}
+                    shadow-mapSize-height={2048}
+                    shadow-camera-left={-10}
+                    shadow-camera-right={10}
+                    shadow-camera-top={10}
+                    shadow-camera-bottom={-10}
                     intensity={props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime ? 0 : 0.8}
                 />
                 {/* <OrbitControls /> */}
@@ -673,8 +679,9 @@ function GlassDoorShelf({ time, isquakeTime, position, glassDoorShelfRef }) {
         mass: 20,
     }));
 
-    if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime + 1) {
-        api.applyLocalImpulse([-1, 0, 0], [0.5, 1, 0]);
+    if (time == Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime + 1) {
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
+        api.applyLocalImpulse([-10, 0, 0], [0.5, 2, 0]);
     }
 
     return (

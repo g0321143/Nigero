@@ -166,14 +166,20 @@ export default function HouseGameStage(props) {
                     isUseTensionRod || !isPurchasedTensionRod ? null : <img src={tensionRodIcon} onClick={() => clickTensionRod()} />,
                 ]}
             />
-            <Canvas shadows camera={{ position: [0, 6, 0], fov: 45 }}>
+            <Canvas shadows camera={{ position: [0, 6, 0.5], fov: 45 }}>
                 {/* <Stats /> */}
                 <WobbleCamera isquakeTime={isquakeTime} />
                 <ambientLight intensity={0.2} />
                 <directionalLight
                     castShadow
-                    position={[-2.5, 8, -1]}
-                    intensity={0.8}
+                    position={[2.5, 8, -1]}
+                    intensity={0.6}
+                    shadow-mapSize-width={2048}
+                    shadow-mapSize-height={2048}
+                    shadow-camera-left={-10}
+                    shadow-camera-right={10}
+                    shadow-camera-top={10}
+                    shadow-camera-bottom={-10}
                 />
                 {isUseGelMat &&
                     <UseItemBillboard
@@ -557,7 +563,7 @@ function Lamp({ isquakeTime, time, impulse, lampRef }) {
         mass: 50,
     }));
 
-    if (time < Buildings.house.totalTime - Buildings.house.gameOverTime + 1) {
+    if (time == Buildings.house.totalTime - Buildings.house.gameOverTime + 1) {
         api.applyLocalImpulse([0, 0, impulse], [0, 1, -0.5]);
     }
 
@@ -618,7 +624,7 @@ function Cabinet({ isquakeTime, time, impulse, cabinetRef }) {
         mass: 50,
     }));
 
-    if (time < Buildings.house.totalTime - Buildings.house.gameOverTime + 1) {
+    if (time == Buildings.house.totalTime - Buildings.house.gameOverTime + 1) {
         api.applyLocalImpulse([impulse, 0, 0], [0, 1, 0]);
     }
 
