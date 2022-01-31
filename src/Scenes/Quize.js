@@ -51,7 +51,7 @@ const List_en = [[["If you feel a big tremor while cooking, \n you should turn o
     ["AA and AA batteries are the same length, \n just different in thickness.", true, "The only difference is the thickness, so you can wrap a piece of cloth \n around the AA battery and use it instead of the AA battery. \n When the diameter reaches 2.6 cm, fasten it with cellophane tape."],
     ["A [hazard map] is a map that shows the estimated damage areas, \n evacuation sites, evacuation routes, and other information for \n disaster mitigation and disaster prevention.", true, "Make sure to check the risk of flooding, landslides, \n and liquefaction in your area."]]]
 
-const List_ja = [[['料理中に大きな揺れを感じたら、一刻も早く火を消すべきである。', false, "揺れの最中に火に近づくのは危険です。\n揺れが収まってから、慌てずに火の始末をします。"],
+const List_jp = [[['料理中に大きな揺れを感じたら、一刻も早く火を消すべきである。', false, "揺れの最中に火に近づくのは危険です。\n揺れが収まってから、慌てずに火の始末をします。"],
     ["津波の危険があるのは、\n海の近くだけであり、川では津波の心配は無い。", false, "津波の心配があるのは、海のそばだけではありません。\n津波は、川下から川上に向かって押し寄せてくるので、\n川の流れに対して直角方向に素早く避難しましょう。"],
     [ "震災時の家具の転倒・落下・移動を防ぐための最も確実な方法は、\n壁にＬ字型の金具でネジ止めをすることである。", true, "ネジ止めが難しい場合は、突っ張り棒とストッパー式、\n突っ張り棒と粘着マットを組み合わせることで\n効果を高めることができます。"],
     ["日頃から食料品や生活必需品などは\n少し多めに購入するのが良い。", true, "これまでの災害用備蓄は、乾パンなどの普段使わないものを\n用意する特別な準備という考え方が当たり前でした。\nしかし、日頃利用している食料品や生活必需品を\n少し多めに購入しておく「日常備蓄」なら簡単に備蓄ができます。"],
@@ -80,30 +80,38 @@ export default function Quize({ building }) {
     const [BackGroundImage, setBackGroundImage] = useState(Background1);
     const [lang, setlang] = useState(getLanguage()); 
     const [flag_lang, setflag_lang] = useState(true);
-    const [List, setList] = useState(List_en);
-    if(flag_lang){
-        if(lang == "jp"){
-            setList(List_ja);
-        }
-        setflag_lang(!flag_lang);
-    }
+    const [List, setList] = useState(List_en[0]);
+    
 
-    console.log(building);
-
-    if (flag && building == Buildings.house.id) {
+    if (flag && building == Buildings.house.id && lang=="en") {
         setBuildingNo(0);
         setBackGroundImage(Background1);
-        setList(shuffle(List[0]));
+        setList(shuffle(List_en[0]));
         setflag(!flag);    
-    } else if (flag && building == Buildings.tallBuilding.id) {
+    } else if (flag && building == Buildings.tallBuilding.id && lang=="en") {
         setBuildingNo(1);
         setBackGroundImage(Background2);
-        setList(shuffle(List[1]));
+        setList(shuffle(List_en[1]));
         setflag(!flag);
-    } else if (flag && building == Buildings.elevator.id) {
+    } else if (flag && building == Buildings.elevator.id && lang=="en") {
         setBuildingNo(2);
         setBackGroundImage(Background3);
-        setList(shuffle(List[2]));        
+        setList(shuffle(List_en[2]));        
+        setflag(!flag);
+    }else if (flag && building == Buildings.house.id && lang=="jp") {
+        setBuildingNo(0);
+        setBackGroundImage(Background1);
+        setList(shuffle(List_jp[0]));
+        setflag(!flag);    
+    } else if (flag && building == Buildings.tallBuilding.id && lang=="jp") {
+        setBuildingNo(1);
+        setBackGroundImage(Background2);
+        setList(shuffle(List_jp[1]));
+        setflag(!flag);
+    } else if (flag && building == Buildings.elevator.id && lang=="jp") {
+        setBuildingNo(2);
+        setBackGroundImage(Background3);
+        setList(shuffle(List_jp[2]));        
         setflag(!flag);
     }
 
