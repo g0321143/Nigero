@@ -46,58 +46,46 @@ const buildingsData = {
 const itemsData = {
         NightStarJP:
         {
-            isLock: false,
             isBuy: false,
         },
         AqumoCandle:
         {
-            isLock: false,
             isBuy: false,
         },
         Helmet: 
         {
-            isLock: false,
             isBuy: false,
         },
         PortableWaterPurifiers: {
-            isLock: false,
             isBuy: false,
         },
         PortableToiletst: {
-            isLock: false,
             isBuy: false,
         },
         DisasterPreventionKit: {
-            isLock: false,
             isBuy: false,
         },
         TablewareOrigami: {
-            isLock: false,
             isBuy: false,
         },
         Emergencyrations:
         {
-            isLock: false,
             isBuy: false,
         },
         Emergencyrations2: 
         {
-            isLock: false,
             isBuy: false,
         },
         AntiSeismicGel:
         {
-            isLock: false,
             isBuy: false,
         },
         Tensionrod:
         {
-            isLock: false,
             isBuy: false,
         },
         AntiShatteringFilm:
         {
-            isLock: false,
             isBuy: false,
         },
 };
@@ -135,6 +123,7 @@ export function initLocalStorage() {
 
     // 建物の初期設定
     const buildingsList = JSON.parse(localStorage.getItem(BUILDINGS_KEY));
+    console.log(buildingsList);
     if (buildingsList == null) {
         localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsData));
         console.log('set default buildingsData');
@@ -144,6 +133,7 @@ export function initLocalStorage() {
     //const itemsData = {};
     //Object.keys(Items).forEach(item => itemsData[Items[item].id] = false);
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
+    console.log(itemsList);
     if (itemsList == null) {
         localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsData));
         console.log('set default itemsData');
@@ -276,6 +266,7 @@ export function getScore(building) {
 export function setBuilding(building, isBuy) {
     const buildingsList = JSON.parse(localStorage.getItem(BUILDINGS_KEY));
 
+    console.log(buildingsList);
     buildingsList[building]['isBuy'] = isBuy;
     localStorage.setItem(BUILDINGS_KEY, JSON.stringify(buildingsList));
     console.log(`set building : ${building} isBuy=${isBuy}`);
@@ -296,17 +287,21 @@ export function getBuilding(building) {
 /**
  * アイテムの状態をローカルストレージに保存します.
  * @param {string} itemID アイテムのID(名前からスペース等を除いたもの)
+ * @param {boolean} isBuy
  */
-export function setitem(itemCategory, itemName, isLock, isBuy) {
+export function setitem(itemID, isBuy) {
     const itemsList = JSON.parse(localStorage.getItem(ITEMS_KEY));
 
+    itemsList[itemID]['isBuy'] = isBuy;
+    localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsList));
+    
     console.log(itemsList);
 
-    itemsList[itemName]['isLock'] = isLock;
-    itemsList[itemName]['isBuy'] = isBuy;
+    //itemsList[itemName]['isLock'] = isLock;
+    //itemsList[itemName]['isBuy'] = isBuy;
 
     localStorage.setItem(ITEMS_KEY, JSON.stringify(itemsList));
-    //console.log(`set item : name=${itemID} Buy=${true}`);
+    console.log(`set item : name=${itemID} Buy=${true}`);
 }
 
 /**

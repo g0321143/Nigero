@@ -57,15 +57,13 @@ export default function ItemShop({preScene}) {
         setIsOpen(true);
     };
     const BuyItem = (item) =>{
-        console.log(Itemlist[item.id2]);
         if(getCoin() >= item.price){
-            console.log(getItemState(Itemlist[item.id2]));
             //購入済みの場合
             if(getItemState(Itemlist[item.id2]) == true){
                 console.log('すでに購入済です。');
             }else{
                 subCoin(item.price);
-                setitem(Category[item.id],Itemlist[item.id2],true,true);
+                setitem(Itemlist[item.id2],true);
             }
         }else{
             console.log('購入出来ません');
