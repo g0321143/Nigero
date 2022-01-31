@@ -93,14 +93,17 @@ export default function Quize({ building }) {
     if (flag && building == Buildings.house.id) {
         setBuildingNo(0);
         setBackGroundImage(Background1);
-        setflag(!flag);
+        setList(shuffle(List[0]));
+        setflag(!flag);    
     } else if (flag && building == Buildings.tallBuilding.id) {
         setBuildingNo(1);
         setBackGroundImage(Background2);
+        setList(shuffle(List[1]));
         setflag(!flag);
     } else if (flag && building == Buildings.elevator.id) {
         setBuildingNo(2);
         setBackGroundImage(Background3);
+        setList(shuffle(List[2]));        
         setflag(!flag);
     }
 
@@ -134,10 +137,10 @@ const QuizeUI = ({buildingNo, List}) => {
     const [coin, setCoin] = useState(0);
     const [coin_flag, setCoin_flag] = useState(false);
 
-    console.log(List[buildingNo].length, No, flag, seikai)
+    console.log(List.length, No, flag, seikai)
     // 〇を選択した場合
     const maru = () => {
-        if (List[buildingNo][No - 1][1] == true) {
+        if (List[No - 1][1] == true) {
             setSeikai(seikai + 1);
             setResult(Yesbutton);
             setResult_Image(Result_Yes);
@@ -152,7 +155,7 @@ const QuizeUI = ({buildingNo, List}) => {
     };
     // ×を選択した場合
     const batu = () => {
-        if (List[buildingNo][No - 1][1] == false) {
+        if (List[No - 1][1] == false) {
             setSeikai(seikai + 1);
             setResult(Notbutton);
             setResult_Image(Result_Yes);
@@ -178,7 +181,7 @@ const QuizeUI = ({buildingNo, List}) => {
 
     useEffect(() => {
         if(coin_flag){
-            console.log(List[buildingNo].length, No, flag, seikai)
+            console.log(List.length, No, flag, seikai)
             addCoin(seikai * 100);
             setCoin(seikai * 100);
             setCoin_flag(!coin_flag);
@@ -188,18 +191,18 @@ const QuizeUI = ({buildingNo, List}) => {
    
 
     // 問題表示，回答表示，最後の回答表示（nextボタンを消失）
-    if (No <= List[buildingNo].length && flag==0) {
+    if (No <= List.length && flag==0) {
         return (
             <>
                 <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Quiz " + No + " !"}</HedText>
-                <AnyText >{List[buildingNo][No - 1][0]}</AnyText>
+                <AnyText >{List[No - 1][0]}</AnyText>
                 <Setting onClick={() => maru()} src={Yesbutton} top={"30vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
                 <Setting onClick={() => batu()} src={Notbutton} top={"30vw"} left={"55%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
 
             </>
         );
-    } else if (No <= List[buildingNo].length && flag==1) {
+    } else if (No <= List.length && flag==1 && result_Image==Result_Yes) {
 
         return (
             <>
@@ -211,26 +214,36 @@ const QuizeUI = ({buildingNo, List}) => {
 
             </>
         );
-    }else if (No < List[buildingNo].length && flag==2) {
+    } else if (No <= List.length && flag==1 && result_Image==Result_No) {
+
+        return (
+            <>
+                <HedText>{"Quiz " + No + " !"}</HedText>
+                <Setting src={result_Image} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
+                <UsedButton onClick={() => next()} src={nextButton} top={"40vw"} />
+
+            </>
+        );
+    }else if (No < List.length && flag==2) {
 
         return (
             <>
                 <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Answer " + No + " !"}</HedText>
-                <AnyText >{List[buildingNo][No - 1][2]}</AnyText>
+                <AnyText >{List[No - 1][2]}</AnyText>
                 <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
                 <UsedButton onClick={() => next()} src={nextButton} top={"40vw"} />
                 
 
             </>
         );
-    }else if (No == List[buildingNo].length && flag==2) {
+    }else if (No == List.length && flag==2) {
         console.log("list7");
         return (
             <>
                 <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Answer " + No + " !"}</HedText>
-                <AnyText >{List[buildingNo][No - 1][2]}</AnyText>
+                <AnyText >{List[No - 1][2]}</AnyText>
                 <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
                 
 
@@ -239,6 +252,16 @@ const QuizeUI = ({buildingNo, List}) => {
     }
 }
 
+function shuffle(array) {
+    const out = Array.from(array);
+    for (let i = out.length - 1; i > 0; i--) {
+      const r = Math.floor(Math.random() * (i + 1));
+      const tmp = out[i];
+      out[i] = out[r];
+      out[r] = tmp;
+    }
+    return out;
+}
 
 
 const Setting = styled.div`
@@ -294,7 +317,7 @@ const AnyText = styled.div`
     text-align: center;
     user-select: none;
     user-drag: none;
-    background-color: ${Color.dimGrayishGreen};
+    background-color: #b8b078;
     white-space: pre-wrap;
   
     z-index: 999;
