@@ -88,7 +88,7 @@ export default function ItemShop({preScene}) {
             if(getLanguage() == 'jp'){
                 alert('コインが足りません');
             }else{
-                alert('Not enough coins.');
+                alert('you don\'t have enough coins');
             }
             console.log('購入出来ません');
         }
