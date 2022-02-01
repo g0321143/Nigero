@@ -31,12 +31,16 @@ const itemType = {
 
 export default function ItemShop({preScene}) {
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [coinISOpen, setOpen] = useState(false);
     const [item, setItem] = useState(itemType);
-    const Category=[
-        'light',
-        'food',
-        'antiSeismicMat',
+    const CoinNot=[
+        'コインが足りません。',
+        'Not enough coins.',
     ];
+    const URL =[
+        '購入ページのURL',
+        'Purchase page URL',
+    ]
     const Itemlist=[
         'NightStarJP',
         'AqumoCandle',
@@ -52,20 +56,42 @@ export default function ItemShop({preScene}) {
         'AntiShatteringFilm',
 
     ];
+    const CoinJadge = (CoinNot) =>{
+        if(getLanguage() == 'jp'){
+            return CoinNot[0];
+        }else{
+            return CoinNot[1];
+        }
+    }
+    const URLJadge = (URL) =>{
+        if(getLanguage() == 'jp'){
+            return URL[0];
+        }else{
+            return URL[1];
+        }
+    }
     const clickItemPanel = (item) => {
-        setItem(item);
-        setIsOpen(true);
+        if(getItemState(Itemlist[item.id2]) == true){
+            setItem(item);
+            setIsOpen(true);
+            
+        }else{
+            setItem(item);
+            setIsOpen(true);
+        }
     };
     const BuyItem = (item) =>{
         if(getCoin() >= item.price){
             //購入済みの場合
             if(getItemState(Itemlist[item.id2]) == true){
-                console.log('すでに購入済です。');
+                console.log('もうすでに購入済です。');
             }else{
                 subCoin(item.price);
                 setitem(Itemlist[item.id2],true);
             }
         }else{
+            setItem(item);
+            setOpen(true);
             console.log('購入出来ません');
         }
         setIsOpen(false);
@@ -155,31 +181,10 @@ export default function ItemShop({preScene}) {
                 <ItemImage src={Items.AQUMOCANDLE.image} />
                 <ItemName2>{Items.AQUMOCANDLE.name}</ItemName2>
             </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(Items.Helmet)}>
-                <ItemPrice>{Items.Helmet.price}</ItemPrice>
-                <ItemImage src={Items.Helmet.image} />
-                <ItemName2>{Items.Helmet.name}</ItemName2>
-            </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(Items.PortableWaterPurifiers)}>
-                <ItemPrice>{Items.PortableWaterPurifiers.price}</ItemPrice>
-                <ItemImage src={Items.PortableWaterPurifiers.image} />
-                <ItemName2>{Items.PortableWaterPurifiers.name}</ItemName2>
-            </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(Items.PortableToiletst)}>
-                <ItemPrice>{Items.PortableToiletst.price}</ItemPrice>
-                <ItemImage src={Items.PortableToiletst.image} />
-                <ItemName2>{Items.PortableToiletst.name}</ItemName2>
-            </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(Items.DisasterPreventionKit)}>
-                <ItemPrice>{Items.DisasterPreventionKit.price}</ItemPrice>
-                <ItemImage src={Items.DisasterPreventionKit.image} />
-                <ItemName3>{Items.DisasterPreventionKit.name}</ItemName3>
-            </ItemPanel>
-            <ItemPanel onClick={() => clickItemPanel(Items.TablewareOrigami)}>
-                <ItemPrice>{Items.TablewareOrigami.price}</ItemPrice>
-                <ItemImage src={Items.TablewareOrigami.image} />
-                <ItemName2>{Items.TablewareOrigami.name}</ItemName2>
-            </ItemPanel>
+            <ItemPanel />
+            <ItemPanel />
+            <ItemPanel />
+            <ItemPanel />
             <ItemPanel />
             <ItemPanel />
         </Panel>
@@ -238,6 +243,42 @@ export default function ItemShop({preScene}) {
             <ItemPanel />
         </Panel>
     );
+    const UsefulItem = () => (
+        <Panel>
+            <ItemPanel onClick={() => clickItemPanel(Items.Helmet)}>
+                <ItemPrice>{Items.Helmet.price}</ItemPrice>
+                <ItemImage src={Items.Helmet.image} />
+                <ItemName2>{Items.Helmet.name}</ItemName2>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Items.PortableWaterPurifiers)}>
+                <ItemPrice>{Items.PortableWaterPurifiers.price}</ItemPrice>
+                <ItemImage src={Items.PortableWaterPurifiers.image} />
+                <ItemName2>{Items.PortableWaterPurifiers.name}</ItemName2>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Items.PortableToiletst)}>
+                <ItemPrice>{Items.PortableToiletst.price}</ItemPrice>
+                <ItemImage src={Items.PortableToiletst.image} />
+                <ItemName2>{Items.PortableToiletst.name}</ItemName2>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Items.DisasterPreventionKit)}>
+                <ItemPrice>{Items.DisasterPreventionKit.price}</ItemPrice>
+                <ItemImage src={Items.DisasterPreventionKit.image} />
+                <ItemName3>{Items.DisasterPreventionKit.name}</ItemName3>
+            </ItemPanel>
+            <ItemPanel onClick={() => clickItemPanel(Items.TablewareOrigami)}>
+                <ItemPrice>{Items.TablewareOrigami.price}</ItemPrice>
+                <ItemImage src={Items.TablewareOrigami.image} />
+                <ItemName2>{Items.TablewareOrigami.name}</ItemName2>
+            </ItemPanel>
+            <ItemPanel />
+            <ItemPanel />
+            <ItemPanel />
+            <ItemPanel />
+            <ItemPanel />
+            <ItemPanel />
+            <ItemPanel />
+        </Panel>
+    );
 
     return (
         <Game_Canvas>
@@ -254,18 +295,30 @@ export default function ItemShop({preScene}) {
             </Block_Right_End>
             <Wrap>
                 <Tab
-                    title={['LIGHT', 'FOOD', 'Anti-tumble']}
+                    title={['LIGHT', 'FOOD', 'Anti-tumble', 'Useful Items']}
                     content={[
                         <LightTab />,
                         <FoodTab />,
-                        <AntiTumble />
+                        <AntiTumble />,
+                        <UsefulItem/>,   
+                        
                     ]}
                 />
             </Wrap>
+            <Modal isOpen={coinISOpen} style={modalStyle} onRequestClose={() => setOpen(false)}>
+                <ModalDiv1>
+                    <ItemImage src={item.image} width={"10vw"} />
+                </ModalDiv1>
+                <ModalDiv2>
+                    <ModalInfoBox>{CoinJadge(CoinNot)}</ModalInfoBox>
+                </ModalDiv2>
+                <Close onClick={() => setOpen(false)}/>
+            </Modal>
             <Modal isOpen={modalIsOpen} style={modalStyle} onRequestClose={() => setIsOpen(false)}>
                 <ModalDiv1>
                     <ItemImage src={item.image} width={"10vw"} />
                     <Button
+                        id = "target2"
                         handler={() => BuyItem(item)}
                         src={buyButton}
                         width={'12vw'}
@@ -277,10 +330,11 @@ export default function ItemShop({preScene}) {
                     <ItemName>{item.name}</ItemName>
                     <ItemPrice>{item.price}</ItemPrice>
                     <ModalInfoBox>{item.info}</ModalInfoBox>
-                    <a href={item.url} target=" _blank">URL</a>
+                    <a href={item.url} target=" _blank">{URLJadge(URL)}</a>
                 </ModalDiv2>
                 <Close onClick={() => setIsOpen(false)}/>
             </Modal>
+            
         </Game_Canvas>
     );
 }
