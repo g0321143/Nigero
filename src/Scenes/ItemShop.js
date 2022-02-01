@@ -33,10 +33,7 @@ export default function ItemShop({preScene}) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [coinISOpen, setOpen] = useState(false);
     const [item, setItem] = useState(itemType);
-    const CoinNot=[
-        'コインが足りません。',
-        'Not enough coins.',
-    ];
+    const [buy_flag, setbuy_flag] = useState(false);
     const URL =[
         '購入ページのURL',
         'Purchase page URL',
@@ -56,13 +53,6 @@ export default function ItemShop({preScene}) {
         'AntiShatteringFilm',
 
     ];
-    const CoinJadge = (CoinNot) =>{
-        if(getLanguage() == 'jp'){
-            return CoinNot[0];
-        }else{
-            return CoinNot[1];
-        }
-    }
     const URLJadge = (URL) =>{
         if(getLanguage() == 'jp'){
             return URL[0];
@@ -75,10 +65,13 @@ export default function ItemShop({preScene}) {
             //買っている場合の処理
             setItem(item);
             setIsOpen(true);
+            setbuy_flag(true);
             
         }else{
             setItem(item);
             setIsOpen(true);
+            setbuy_flag(false);
+            
         }
     };
     const BuyItem = (item) =>{
@@ -89,13 +82,17 @@ export default function ItemShop({preScene}) {
             }else{
                 subCoin(item.price);
                 setitem(Itemlist[item.id2],true);
+                setIsOpen(false);
             }
         }else{
-            setItem(item);
-            setOpen(true);
+            if(getLanguage() == 'jp'){
+                alert('コインが足りません');
+            }else{
+                alert('Not enough coins.');
+            }
             console.log('購入出来ません');
         }
-        setIsOpen(false);
+        
     }
     if(getLanguage() == 'jp'){
         Items.NightStarJP.name = Items.NightStarJPJp.name;
@@ -227,21 +224,14 @@ export default function ItemShop({preScene}) {
             <ItemPanel onClick={() => clickItemPanel(Items.AntiShatteringFilm)}>
                 <ItemPrice>{Items.AntiShatteringFilm.price}</ItemPrice>
                 <ItemImage src={Items.AntiShatteringFilm.image} />
-                <ItemName2>{Items.AntiShatteringFilm.name}</ItemName2>
+                <ItemName3>{Items.AntiShatteringFilm.name}</ItemName3>
             </ItemPanel>
             <ItemPanel />
             <ItemPanel />
             <ItemPanel />
             <ItemPanel />
             <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
+            
         </Panel>
     );
     const UsefulItem = () => (
@@ -249,7 +239,7 @@ export default function ItemShop({preScene}) {
             <ItemPanel onClick={() => clickItemPanel(Items.Helmet)}>
                 <ItemPrice>{Items.Helmet.price}</ItemPrice>
                 <ItemImage src={Items.Helmet.image} />
-                <ItemName2>{Items.Helmet.name}</ItemName2>
+                <ItemName3>{Items.Helmet.name}</ItemName3>
             </ItemPanel>
             <ItemPanel onClick={() => clickItemPanel(Items.PortableWaterPurifiers)}>
                 <ItemPrice>{Items.PortableWaterPurifiers.price}</ItemPrice>
@@ -274,70 +264,98 @@ export default function ItemShop({preScene}) {
             <ItemPanel />
             <ItemPanel />
             <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
-            <ItemPanel />
         </Panel>
     );
-
-    return (
-        <Game_Canvas>
-            <HeaderText text={"ITEM SHOP"} />
-            <Money />
-            <Block_Right_End>
-                <Button
-                    handler={() => Store.setScene(preScene)}
-                    src={backButton}
-                    width={'6%'}
-                    height={'10%'}
-                    margin={'1%'}
-                />
-            </Block_Right_End>
-            <Wrap>
-                <Tab
-                    title={['LIGHT', 'FOOD', 'Anti-tumble', 'Useful Items']}
-                    content={[
-                        <LightTab />,
-                        <FoodTab />,
-                        <AntiTumble />,
-                        <UsefulItem/>,   
-                        
-                    ]}
-                />
-            </Wrap>
-            <Modal isOpen={coinISOpen} style={modalStyle} onRequestClose={() => setOpen(false)}>
-                <ModalDiv1>
-                    <ItemImage src={item.image} width={"10vw"} />
-                </ModalDiv1>
-                <ModalDiv2>
-                    <ModalInfoBox>{CoinJadge(CoinNot)}</ModalInfoBox>
-                </ModalDiv2>
-                <Close onClick={() => setOpen(false)}/>
-            </Modal>
-            <Modal isOpen={modalIsOpen} style={modalStyle} onRequestClose={() => setIsOpen(false)}>
-                <ModalDiv1>
-                    <ItemImage src={item.image} width={"10vw"} />
+    if(!buy_flag){
+        return (
+            <Game_Canvas>
+                <HeaderText text={"ITEM SHOP"} />
+                <Money />
+                <Block_Right_End>
                     <Button
-                        id = "target2"
-                        handler={() => BuyItem(item)}
-                        src={buyButton}
-                        width={'12vw'}
-                        height={'5vw'}
-                        margin={'0%'}
+                        handler={() => Store.setScene(preScene)}
+                        src={backButton}
+                        width={'6%'}
+                        height={'10%'}
+                        margin={'1%'}
                     />
-                </ModalDiv1>
-                <ModalDiv2>
-                    <ItemName>{item.name}</ItemName>
-                    <ItemPrice>{item.price}</ItemPrice>
-                    <ModalInfoBox>{item.info}</ModalInfoBox>
-                    <a href={item.url} target=" _blank">{URLJadge(URL)}</a>
-                </ModalDiv2>
-                <Close onClick={() => setIsOpen(false)}/>
-            </Modal>
-            
-        </Game_Canvas>
-    );
+                </Block_Right_End>
+                <Wrap>
+                    <Tab
+                        title={['LIGHT', 'FOOD', 'Anti-tumble', 'Useful Items']}
+                        content={[
+                            <LightTab />,
+                            <FoodTab />,
+                            <AntiTumble />,
+                            <UsefulItem/>,   
+                            
+                        ]}
+                    />
+                </Wrap>
+                <Modal isOpen={modalIsOpen} style={modalStyle} onRequestClose={() => setIsOpen(false)}>
+                    <ModalDiv1>
+                        <ItemImage src={item.image} width={"10vw"} />
+                        <Button
+                            id = "target2"
+                            handler={() => BuyItem(item)}
+                            src={buyButton}
+                            width={'12vw'}
+                            height={'5vw'}
+                            margin={'0%'}
+                        />
+                    </ModalDiv1>
+                    <ModalDiv2>
+                        <ItemName>{item.name}</ItemName>
+                        <ItemPrice>{item.price}</ItemPrice>
+                        <ModalInfoBox>{item.info}</ModalInfoBox>
+                        <a href={item.url} target=" _blank">{URLJadge(URL)}</a>
+                    </ModalDiv2>
+                    <Close onClick={() => setIsOpen(false)}/>
+                </Modal>
+                
+            </Game_Canvas>
+        );
+    }else{
+        return (
+            <Game_Canvas>
+                <HeaderText text={"ITEM SHOP"} />
+                <Money />
+                <Block_Right_End>
+                    <Button
+                        handler={() => Store.setScene(preScene)}
+                        src={backButton}
+                        width={'6%'}
+                        height={'10%'}
+                        margin={'1%'}
+                    />
+                </Block_Right_End>
+                <Wrap>
+                    <Tab
+                        title={['LIGHT', 'FOOD', 'Anti-tumble', 'Useful Items']}
+                        content={[
+                            <LightTab />,
+                            <FoodTab />,
+                            <AntiTumble />,
+                            <UsefulItem/>,   
+                        ]}
+                    />
+                </Wrap>
+                <Modal isOpen={modalIsOpen} style={modalStyle} onRequestClose={() => setIsOpen(false)}>
+                    <ModalDiv1>
+                        <ItemImage src={item.image} width={"10vw"} />
+                    </ModalDiv1>
+                    <ModalDiv2>
+                        <ItemName>{item.name}</ItemName>
+                        <ItemPrice>{item.price}</ItemPrice>
+                        <ModalInfoBox>{item.info}</ModalInfoBox>
+                        <a href={item.url} target=" _blank">{URLJadge(URL)}</a>
+                    </ModalDiv2>
+                    <Close onClick={() => setIsOpen(false)}/>
+                </Modal>
+                
+            </Game_Canvas>
+        );
+    }
 }
 
 
@@ -455,7 +473,7 @@ const ItemName2 = styled.div`
 const ItemName3 = styled.div`
     display: flex;
     
-    font-size: 1.7vw;
+    font-size: 1.5vw;
     text-align: center;
     color: ${Color.softYellow};
     font-weight: bold;
