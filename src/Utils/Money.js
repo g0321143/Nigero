@@ -22,7 +22,7 @@ const BuildingCoin = styled.div`
     right: 3%;
     margin: auto;
 
-    z-index: 1200;
+    z-index: 999;
 
     &::before{
         content: "";
