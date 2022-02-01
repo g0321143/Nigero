@@ -14,7 +14,7 @@ function VirtualStick({ onStopJoystick, onChangeJoystick }) {
     return (
         <JoystickCanvas>
             <Joystick
-                size={80}
+                size={document.body.clientWidth / 12}
                 baseColor={Color.slightlyGrayishYellow}
                 stickColor={Color.grayishYellowGreen}
                 stop={onStopJoystick}
