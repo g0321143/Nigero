@@ -8,6 +8,7 @@ import Color from "../Constants/Color";
 import Button from '../Utils/Button';
 import Store from '../Utils/Store';
 import Buildings from '../Constants/Buildings';
+import Tips from '../Utils/Tips';
 
 //スコア
 import { addCoin, getCoin, getLanguage } from '../Utils/LocalStorage';
@@ -83,6 +84,10 @@ export default function Quize({ building }) {
     const [List, setList] = useState(List_en[0]);
     
 
+    const tipsTextJP = '問題文の内容が正しいと思った場合はYesを，\n 間違っていると思った場合はNoのボタンをクリックしてください．';
+    const tipsTextEN = 'Click on the Yes button if you think the question is correct, \n or click on the No button if you think it is wrong.';
+    
+
     if (flag && building == Buildings.house.id && lang=="en") {
         setBuildingNo(0);
         setBackGroundImage(Background1);
@@ -118,8 +123,9 @@ export default function Quize({ building }) {
     return (
         <Game_Canvas>         
             <Setting src={BackGroundImage} top={"0%"} left={"0%"} width={'100%'} height={'100%'} opacity={'1.0'}/>
-            
             <QuizeUI buildingNo={buildingNo} List = {List}/>
+            <Tips text={getLanguage() == 'en' ? tipsTextEN : tipsTextJP} isLeft={true} />
+            
             <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('select')}
@@ -129,8 +135,18 @@ export default function Quize({ building }) {
                     margin={'1%'}
                 />
             </Block_Right_End>
+            
         </Game_Canvas>
     );
+}
+
+const Money = () => {
+    const [money, setMoney] = useState(getCoin());
+
+    useEffect(() => {
+        setMoney(getCoin());
+    });
+    return (<BuildingCoin>{money.toLocaleString()}</BuildingCoin>);
 }
 
 
@@ -202,12 +218,13 @@ const QuizeUI = ({buildingNo, List}) => {
     if (No <= List.length && flag==0) {
         return (
             <>
+                
                 <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Quiz " + No + " !"}</HedText>
                 <AnyText >{List[No - 1][0]}</AnyText>
                 <Setting onClick={() => maru()} src={Yesbutton} top={"30vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
                 <Setting onClick={() => batu()} src={Notbutton} top={"30vw"} left={"55%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
-
+                <Money />
             </>
         );
     } else if (No <= List.length && flag==1 && result_Image==Result_Yes) {
@@ -219,7 +236,7 @@ const QuizeUI = ({buildingNo, List}) => {
                 <UsedButton onClick={() => next()} src={nextButton} top={"40vw"} />
                 <Image src={CoinImage} top={"31vw"} left={"38%"} width={'10%'} height={'10%'} />
                 <CoinText>{"+" + coin}</CoinText>
-
+                <Money />
             </>
         );
     } else if (No <= List.length && flag==1 && result_Image==Result_No) {
@@ -229,7 +246,7 @@ const QuizeUI = ({buildingNo, List}) => {
                 <HedText>{"Quiz " + No + " !"}</HedText>
                 <Setting src={result_Image} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <UsedButton onClick={() => next()} src={nextButton} top={"40vw"} />
-
+                <Money />
             </>
         );
     }else if (No < List.length && flag==2) {
@@ -241,7 +258,7 @@ const QuizeUI = ({buildingNo, List}) => {
                 <AnyText >{List[No - 1][2]}</AnyText>
                 <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
                 <UsedButton onClick={() => next()} src={nextButton} top={"40vw"} />
-                
+                <Money />
 
             </>
         );
@@ -253,7 +270,7 @@ const QuizeUI = ({buildingNo, List}) => {
                 <HedText>{"Answer " + No + " !"}</HedText>
                 <AnyText >{List[No - 1][2]}</AnyText>
                 <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
-                
+                <Money />
 
             </>
         );
@@ -270,6 +287,37 @@ function shuffle(array) {
     }
     return out;
 }
+
+
+
+const BuildingCoin = styled.div`
+    position: absolute;
+    top: 3%;
+    left: 0;
+    right: 3%;
+    margin: auto;
+    font-size: 3vw;
+    color: ${Color.slightlyGrayishYellow};
+    font-weight: bold;
+    justify-content: flex-end;
+    text-align: end;
+    user-select: none;
+    user-drag: none;
+    z-index: 999;
+ 
+    &::before{
+    content: "";
+    display: inline-block;
+    background: url(${CoinImage});
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 4vw;
+    height: 4vw;
+    margin-right: 1vw;
+    vertical-align: middle;
+}
+`;
 
 
 const Setting = styled.div`
