@@ -62,7 +62,7 @@ export default function HouseGame() {
                                     setkey(!key);
                                 }}
                                 isClear={!isGameOver}
-                                getCoin={3000}
+                                getCoin={3800}
                                 stageID={Buildings.house.id}
                                 stageName={Buildings.house.name}
                                 tipsText={tipsText}

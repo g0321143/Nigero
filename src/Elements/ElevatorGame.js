@@ -61,7 +61,7 @@ export default function ElevatorGame() {
                                     setkey(!key);
                                 }}
                                 isClear={!isGameOver}
-                                getCoin={3000}
+                                getCoin={4500}
                                 stageID={Buildings.elevator.id}
                                 stageName={Buildings.elevator.name}
                                 tipsText={tipsText}

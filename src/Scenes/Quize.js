@@ -84,8 +84,8 @@ export default function Quize({ building }) {
     const [List, setList] = useState(List_en[0]);
     
 
-    const tipsTextJP = '問題文の内容が正しいと思った場合はYesを，\n 間違っていると思った場合はNoのボタンをクリックしてください．';
-    const tipsTextEN = 'Click on the Yes button if you think the question is correct, \n or click on the No button if you think it is wrong.';
+    const tipsTextJP = '問題文の内容が正しいと思った場合はYesを，\n 間違っていると思った場合はNoのボタンをクリックしてください．\n 連続正解すると獲得できるコインが増えます．';
+    const tipsTextEN = 'Click on the Yes button if you think the question is correct, \n or click on the No button if you think it is wrong.\nThe more coins you answer correctly in a row, the more coins you earn.';
     
 
     if (flag && building == Buildings.house.id && lang=="en") {
@@ -206,8 +206,8 @@ const QuizeUI = ({buildingNo, List}) => {
     useEffect(() => {
         if(coin_flag){
             console.log(List.length, No, flag, seikai)
-            addCoin(seikai * 100);
-            setCoin(seikai * 100);
+            addCoin(seikai * 300);
+            setCoin(seikai * 300);
             setCoin_flag(!coin_flag);
         }
     });

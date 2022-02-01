@@ -61,7 +61,7 @@ export default function TallBuildingGame() {
                                     setkey(!key);
                                 }}
                                 isClear={!isGameOver}
-                                getCoin={3000}
+                                getCoin={4000}
                                 stageID={Buildings.tallBuilding.id}
                                 stageName={Buildings.tallBuilding.name}
                                 tipsText={tipsText}
