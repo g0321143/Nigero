@@ -51,7 +51,7 @@ const List_en = [[["If you feel a big tremor while cooking, \n you should turn o
     ["AA and AA batteries are the same length, \n just different in thickness.", true, "The only difference is the thickness, so you can wrap a piece of cloth \n around the AA battery and use it instead of the AA battery. \n When the diameter reaches 2.6 cm, fasten it with cellophane tape."],
     ["A [hazard map] is a map that shows the estimated damage areas, \n evacuation sites, evacuation routes, and other information for \n disaster mitigation and disaster prevention.", true, "Make sure to check the risk of flooding, landslides, \n and liquefaction in your area."]]]
 
-const List_ja = [[['料理中に大きな揺れを感じたら、一刻も早く火を消すべきである。', false, "揺れの最中に火に近づくのは危険です。\n揺れが収まってから、慌てずに火の始末をします。"],
+const List_jp = [[['料理中に大きな揺れを感じたら、一刻も早く火を消すべきである。', false, "揺れの最中に火に近づくのは危険です。\n揺れが収まってから、慌てずに火の始末をします。"],
     ["津波の危険があるのは、\n海の近くだけであり、川では津波の心配は無い。", false, "津波の心配があるのは、海のそばだけではありません。\n津波は、川下から川上に向かって押し寄せてくるので、\n川の流れに対して直角方向に素早く避難しましょう。"],
     [ "震災時の家具の転倒・落下・移動を防ぐための最も確実な方法は、\n壁にＬ字型の金具でネジ止めをすることである。", true, "ネジ止めが難しい場合は、突っ張り棒とストッパー式、\n突っ張り棒と粘着マットを組み合わせることで\n効果を高めることができます。"],
     ["日頃から食料品や生活必需品などは\n少し多めに購入するのが良い。", true, "これまでの災害用備蓄は、乾パンなどの普段使わないものを\n用意する特別な準備という考え方が当たり前でした。\nしかし、日頃利用している食料品や生活必需品を\n少し多めに購入しておく「日常備蓄」なら簡単に備蓄ができます。"],
@@ -80,27 +80,38 @@ export default function Quize({ building }) {
     const [BackGroundImage, setBackGroundImage] = useState(Background1);
     const [lang, setlang] = useState(getLanguage()); 
     const [flag_lang, setflag_lang] = useState(true);
-    const [List, setList] = useState(List_en);
-    if(flag_lang){
-        if(lang == "jp"){
-            setList(List_ja);
-        }
-        setflag_lang(!flag_lang);
-    }
+    const [List, setList] = useState(List_en[0]);
+    
 
-    console.log(building);
-
-    if (flag && building == Buildings.house.id) {
+    if (flag && building == Buildings.house.id && lang=="en") {
         setBuildingNo(0);
         setBackGroundImage(Background1);
-        setflag(!flag);
-    } else if (flag && building == Buildings.tallBuilding.id) {
+        setList(shuffle(List_en[0]));
+        setflag(!flag);    
+    } else if (flag && building == Buildings.tallBuilding.id && lang=="en") {
         setBuildingNo(1);
         setBackGroundImage(Background2);
+        setList(shuffle(List_en[1]));
         setflag(!flag);
-    } else if (flag && building == Buildings.elevator.id) {
+    } else if (flag && building == Buildings.elevator.id && lang=="en") {
         setBuildingNo(2);
         setBackGroundImage(Background3);
+        setList(shuffle(List_en[2]));        
+        setflag(!flag);
+    }else if (flag && building == Buildings.house.id && lang=="jp") {
+        setBuildingNo(0);
+        setBackGroundImage(Background1);
+        setList(shuffle(List_jp[0]));
+        setflag(!flag);    
+    } else if (flag && building == Buildings.tallBuilding.id && lang=="jp") {
+        setBuildingNo(1);
+        setBackGroundImage(Background2);
+        setList(shuffle(List_jp[1]));
+        setflag(!flag);
+    } else if (flag && building == Buildings.elevator.id && lang=="jp") {
+        setBuildingNo(2);
+        setBackGroundImage(Background3);
+        setList(shuffle(List_jp[2]));        
         setflag(!flag);
     }
 
@@ -134,10 +145,10 @@ const QuizeUI = ({buildingNo, List}) => {
     const [coin, setCoin] = useState(0);
     const [coin_flag, setCoin_flag] = useState(false);
 
-    console.log(List[buildingNo].length, No, flag, seikai)
+    console.log(List.length, No, flag, seikai)
     // 〇を選択した場合
     const maru = () => {
-        if (List[buildingNo][No - 1][1] == true) {
+        if (List[No - 1][1] == true) {
             setSeikai(seikai + 1);
             setResult(Yesbutton);
             setResult_Image(Result_Yes);
@@ -152,7 +163,7 @@ const QuizeUI = ({buildingNo, List}) => {
     };
     // ×を選択した場合
     const batu = () => {
-        if (List[buildingNo][No - 1][1] == false) {
+        if (List[No - 1][1] == false) {
             setSeikai(seikai + 1);
             setResult(Notbutton);
             setResult_Image(Result_Yes);
@@ -178,7 +189,7 @@ const QuizeUI = ({buildingNo, List}) => {
 
     useEffect(() => {
         if(coin_flag){
-            console.log(List[buildingNo].length, No, flag, seikai)
+            console.log(List.length, No, flag, seikai)
             addCoin(seikai * 100);
             setCoin(seikai * 100);
             setCoin_flag(!coin_flag);
@@ -188,18 +199,18 @@ const QuizeUI = ({buildingNo, List}) => {
    
 
     // 問題表示，回答表示，最後の回答表示（nextボタンを消失）
-    if (No <= List[buildingNo].length && flag==0) {
+    if (No <= List.length && flag==0) {
         return (
             <>
                 <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Quiz " + No + " !"}</HedText>
-                <AnyText >{List[buildingNo][No - 1][0]}</AnyText>
+                <AnyText >{List[No - 1][0]}</AnyText>
                 <Setting onClick={() => maru()} src={Yesbutton} top={"30vw"} left={"35%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
                 <Setting onClick={() => batu()} src={Notbutton} top={"30vw"} left={"55%"} width={'10%'} height={'10%'} opacity={'1'} cursor={"pointer"}/>
 
             </>
         );
-    } else if (No <= List[buildingNo].length && flag==1) {
+    } else if (No <= List.length && flag==1 && result_Image==Result_Yes) {
 
         return (
             <>
@@ -211,26 +222,36 @@ const QuizeUI = ({buildingNo, List}) => {
 
             </>
         );
-    }else if (No < List[buildingNo].length && flag==2) {
+    } else if (No <= List.length && flag==1 && result_Image==Result_No) {
+
+        return (
+            <>
+                <HedText>{"Quiz " + No + " !"}</HedText>
+                <Setting src={result_Image} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
+                <UsedButton onClick={() => next()} src={nextButton} top={"40vw"} />
+
+            </>
+        );
+    }else if (No < List.length && flag==2) {
 
         return (
             <>
                 <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Answer " + No + " !"}</HedText>
-                <AnyText >{List[buildingNo][No - 1][2]}</AnyText>
+                <AnyText >{List[No - 1][2]}</AnyText>
                 <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
                 <UsedButton onClick={() => next()} src={nextButton} top={"40vw"} />
                 
 
             </>
         );
-    }else if (No == List[buildingNo].length && flag==2) {
+    }else if (No == List.length && flag==2) {
         console.log("list7");
         return (
             <>
                 <Setting src={TexBox} top={"20%"} left={"0%"} width={'100%'} height={'50%'} opacity={'1.0'}/>
                 <HedText>{"Answer " + No + " !"}</HedText>
-                <AnyText >{List[buildingNo][No - 1][2]}</AnyText>
+                <AnyText >{List[No - 1][2]}</AnyText>
                 <Image src={result} top={"30vw"} left={"45%"} width={'10%'} height={'10%'} />
                 
 
@@ -239,6 +260,16 @@ const QuizeUI = ({buildingNo, List}) => {
     }
 }
 
+function shuffle(array) {
+    const out = Array.from(array);
+    for (let i = out.length - 1; i > 0; i--) {
+      const r = Math.floor(Math.random() * (i + 1));
+      const tmp = out[i];
+      out[i] = out[r];
+      out[r] = tmp;
+    }
+    return out;
+}
 
 
 const Setting = styled.div`
@@ -294,7 +325,7 @@ const AnyText = styled.div`
     text-align: center;
     user-select: none;
     user-drag: none;
-    background-color: ${Color.dimGrayishGreen};
+    background-color: #b8b078;
     white-space: pre-wrap;
   
     z-index: 999;
