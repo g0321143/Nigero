@@ -96,7 +96,7 @@ const TipsContent = styled.div`
     background-repeat: no-repeat;
     background-position: center center;
 
-    z-index: 500;
+    z-index: 1000;
 
     align-items: center;
     justify-content: center;
@@ -116,7 +116,7 @@ const TipsText = styled.div`
     user-select: none;
     user-drag: none;
 
-    z-index: 500;
+    z-index: 1000;
 
     align-items: center;
     justify-content: center;
