@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-Modal.setAppElement("#root");
 import styled from 'styled-components';
 import Color from '../Constants/Color';
 import { Block_Left_Top, Block_Right_End } from '../Utils/GlobalStyles';
