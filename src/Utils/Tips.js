@@ -129,38 +129,3 @@ const TipsText = styled.div`
     justify-content: flex-start;
     color: ${Color.slightlyGrayishYellow};
 `;
-
-
-const Close = styled.div`
-display:flex;
-    position: relative;
-    top: 8%;
-    right: 13%;
-    width: 5vw;
-    height: 5vw;
-    cursor: pointer;
-    z-index: 1000;
-
-    &::before, &::after{
-        content: "";
-        position: absolute;
-        border-radius: 1vw;
-        top: 50%;
-        left: 50%;
-        width: 0.5vw;
-        height: 3vw;
-        background: #808080;
-    }
-    &::before{
-        transform: translate(-50%,-50%) rotate(45deg);
-    }
-    &::after{
-        transform: translate(-50%,-50%) rotate(-45deg);
-    }
-
-    :hover{
-        background: #e6e6e6;
-        border-radius: 50%;
-
-    }
-`;
