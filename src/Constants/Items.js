@@ -22,6 +22,7 @@ import AntiShatteringFilm_Image from '../Assets/Images/Items/anti-shattering fil
 import ItemShop from '../Scenes/ItemShop';
 
 
+
 export default {
     NightStarJP: {
         name: 'NightStarJP',
@@ -132,7 +133,7 @@ export default {
         {
             name: 'anti-shattering film',
             price: '50',
-            id: '2',
+            id: 'AntiShatteringFilm',
             id2: '11',
             image: AntiShatteringFilm_Image,
             info: 'A film that prevents glass from flying apart when it breaks during typhoons, earthquakes, etc. This film can prevent secondary disasters and unexpected injuries caused by broken glass fragments.',

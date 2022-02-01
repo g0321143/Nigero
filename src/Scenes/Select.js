@@ -13,11 +13,11 @@ import shopButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-03.png';
 
 export default function Select({ currentBuilding }) {
 
-    const tipsTextJP = 'ゲームで使用する建物を選択して下さい．\nそれぞれのステージで星3つを獲得すると，クイズステージに調整することができます．';
-    const tipsTextEN = 'Select a building to use in the game.\nIf you get 3 stars in each stage, you can adjust to the quiz stage.';
+    const tipsTextJP = 'ゲームで使用する建物を選択して下さい．\n\nゲーム中には，達成すべきミッションが表示されます． \nミッションの達成状況によって報酬のコイン獲得量が変わります． \n\nそれぞれのステージで全てのミッションを達成すると，クイズステージに挑戦することができます．';
+    const tipsTextEN = 'Select a building to use in the game. \n\nDuring the game, you will be shown missions to complete. \nThe amount of coins you get as a reward will change depending on how many missions you complete. \n\nOnce you have completed all the missions in each stage, you will be able to challenge the quiz stage.';
     return (
         <Game_Canvas>
-             <HeaderText text={"SELECT BUILDING"} />
+            <HeaderText text={"SELECT BUILDING"} />
             <Block_Right_End>
                 <Button
                     handler={() => Store.setScene('title')}

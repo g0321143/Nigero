@@ -6,12 +6,13 @@ import { Physics, Debug, useBox, useCompoundBody } from '@react-three/cannon'
 import { EffectComposer, Outline } from '@react-three/postprocessing'
 
 import Color from "../Constants/Color";
+import Items from "../Constants/Items";
 import Buildings from "../Constants/Buildings";
 import Player from "../Utils/Player";
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
 import VirtualStick from "../Utils/VirtualStick";
-import { setScore, getLanguage } from '../Utils/LocalStorage';
+import { setScore, getLanguage,getItemState } from '../Utils/LocalStorage';
 
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
@@ -50,9 +51,8 @@ export default function TallBuildingGameStage(props) {
     // アイテムの使用状況
     const [isUseLight, useLight] = useState(false);
     const [isUseSlippers, useSlippers] = useState(false);
-    //const [isPurchasedSlippers] =  useState(getItemState(Items.Slippers.id));
     const [isUseGlassFilm, useGlassFilm] = useState(false);
-    //const [isPurchasedeGlassFilm] =  useState(getItemState(Items.eGlassFilm.id));
+    const [isPurchasedeGlassFilm] =  useState(getItemState(Items.AntiShatteringFilm.id));
 
     // 時間に関する状態
     const localTime = useRef(props.time);
@@ -181,16 +181,22 @@ export default function TallBuildingGameStage(props) {
                 items={[
                     <img src={lightIcon} onClick={() => clickLight()} />,
                     isUseSlippers ? null : <img src={slippersIcon} onClick={() => clickSlippers()} />,
-                    isUseGlassFilm ? null : <img src={glassFilmIcon} onClick={() => clickGlassFilm()} />,
+                    !isPurchasedeGlassFilm || isUseGlassFilm ? null : <img src={glassFilmIcon} onClick={() => clickGlassFilm()} />,
                 ]}
             />
-            <Canvas shadows camera={{ position: [0, 8, 0], fov: 45 }}>
+            <Canvas shadows camera={{ position: [0, 8, 0.5], fov: 45 }}>
                 {/* <Stats /> */}
                 <WobbleCamera isquakeTime={isquakeTime} />
                 <ambientLight intensity={props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime ? 0.01 : 0.2} />
                 <directionalLight
                     castShadow
                     position={[-2.5, 8, 0]}
+                    shadow-mapSize-width={2048}
+                    shadow-mapSize-height={2048}
+                    shadow-camera-left={-10}
+                    shadow-camera-right={10}
+                    shadow-camera-top={10}
+                    shadow-camera-bottom={-10}
                     intensity={props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime ? 0 : 0.8}
                 />
                 {/* <OrbitControls /> */}
@@ -673,8 +679,9 @@ function GlassDoorShelf({ time, isquakeTime, position, glassDoorShelfRef }) {
         mass: 20,
     }));
 
-    if (time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime + 1) {
-        api.applyLocalImpulse([-1, 0, 0], [0.5, 1, 0]);
+    if (time == Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime + 1) {
+            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
+        api.applyLocalImpulse([-10, 0, 0], [0.5, 2, 0]);
     }
 
     return (

@@ -8,7 +8,7 @@ import Color from "../Constants/Color";
 import Buildings from '../Constants/Buildings';
 import StarScore from "../Utils/StarScore";
 import Money from '../Utils/Money'
-import { getBuilding, getCoin, getScore, setBuilding, subCoin } from "../Utils/LocalStorage";
+import { getBuilding, getCoin, getScore, setBuilding, subCoin, getLanguage } from "../Utils/LocalStorage";
 import { Block_Column_Top } from "../Utils/GlobalStyles";
 import { ArrowRight, ArrowLeft } from '../Utils/ArrowStyles';
 
@@ -62,6 +62,8 @@ export default function SelectBuilding({ currentBuilding }) {
             setBuilding(IDList[buildingNum], true);
             subCoin(Buildings[IDList[buildingNum]].price);
             Store.setScene('select');
+        }else{
+            alert(getLanguage() == 'en' ? 'you don\'t have enough coins' : 'コインが不足しています');
         }
     };
 

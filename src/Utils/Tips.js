@@ -12,7 +12,7 @@ import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
 /**
  * Tipsを表示します
  * @param {String} text 表示するテキスト
- * @param {boolean} isLeft ヒントアイコンの位置 trueなら左上に表示，falseなら左下に表示
+ * @param {boolean} isLeft ヒントアイコンの位置 trueなら左上に表示，falseなら右下に表示
  */
 export default function Tips({ text, isLeft }) {
     const [modalIsOpen, setIsOpen] = useState(false);
@@ -96,7 +96,7 @@ const TipsContent = styled.div`
     background-repeat: no-repeat;
     background-position: center center;
 
-    z-index: 500;
+    z-index: 1000;
 
     align-items: center;
     justify-content: center;
@@ -116,7 +116,7 @@ const TipsText = styled.div`
     user-select: none;
     user-drag: none;
 
-    z-index: 500;
+    z-index: 1000;
 
     align-items: center;
     justify-content: center;
@@ -128,39 +128,4 @@ const TipsText = styled.div`
     align-items: flex-start;
     justify-content: flex-start;
     color: ${Color.slightlyGrayishYellow};
-`;
-
-
-const Close = styled.div`
-display:flex;
-    position: relative;
-    top: 8%;
-    right: 13%;
-    width: 5vw;
-    height: 5vw;
-    cursor: pointer;
-    z-index: 1000;
-
-    &::before, &::after{
-        content: "";
-        position: absolute;
-        border-radius: 1vw;
-        top: 50%;
-        left: 50%;
-        width: 0.5vw;
-        height: 3vw;
-        background: #808080;
-    }
-    &::before{
-        transform: translate(-50%,-50%) rotate(45deg);
-    }
-    &::after{
-        transform: translate(-50%,-50%) rotate(-45deg);
-    }
-
-    :hover{
-        background: #e6e6e6;
-        border-radius: 50%;
-
-    }
 `;
