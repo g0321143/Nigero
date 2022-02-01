@@ -12,7 +12,7 @@ import hintButton from '../Assets/Images/BUTTONS_EARTHQUAKE_GAME_3-06.png';
 /**
  * Tipsを表示します
  * @param {String} text 表示するテキスト
- * @param {boolean} isLeft ヒントアイコンの位置 trueなら左上に表示，falseなら左下に表示
+ * @param {boolean} isLeft ヒントアイコンの位置 trueなら左上に表示，falseなら右下に表示
  */
 export default function Tips({ text, isLeft }) {
     const [modalIsOpen, setIsOpen] = useState(false);
