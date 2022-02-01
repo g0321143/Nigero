@@ -72,6 +72,7 @@ export default function ItemShop({preScene}) {
     }
     const clickItemPanel = (item) => {
         if(getItemState(Itemlist[item.id2]) == true){
+            //買っている場合の処理
             setItem(item);
             setIsOpen(true);
             
