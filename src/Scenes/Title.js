@@ -49,6 +49,7 @@ export default function Title() {
                     />
                 </Block_Left_End>
                 <Block_Column_End>
+                    <TitleLogo src={gameTitle} />
                     <Button
                         handler={() => Store.setScene('select')}
                         src={playButton}
@@ -56,7 +57,6 @@ export default function Title() {
                         height={'10%'}
                         margin={'8%'}
                     />
-                    <TitleLogo src={gameTitle} />
                 </Block_Column_End>
                 <Tips text={getLanguage() == 'en' ? tipsTextEN : tipsTextJP} isLeft={false} />
                 <TitleHouse />
@@ -185,7 +185,6 @@ const LodingScene = styled.div`
 
 const TitleLogo = styled.img`
     display:flex;
-    position: absolute;
 
     width: 27.3vw;
     height: 14.95vw;
@@ -193,6 +192,6 @@ const TitleLogo = styled.img`
     user-select: none;
     user-drag: none;
 
-    margin-bottom 25vw;
+    margin-bottom 2vw;
     z-index: 500;
 `;
