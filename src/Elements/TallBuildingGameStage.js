@@ -12,7 +12,7 @@ import Player from "../Utils/Player";
 import Inventory from '../Utils/Inventory';
 import MissionBox from '../Utils/MissionBox';
 import VirtualStick from "../Utils/VirtualStick";
-import { setScore, getLanguage,getItemState } from '../Utils/LocalStorage';
+import { setScore, getLanguage, getItemState } from '../Utils/LocalStorage';
 
 
 import slippersIcon from '../Assets/Images/Items/Icon/slipper-37.png';
@@ -52,7 +52,7 @@ export default function TallBuildingGameStage(props) {
     const [isUseLight, useLight] = useState(false);
     const [isUseSlippers, useSlippers] = useState(false);
     const [isUseGlassFilm, useGlassFilm] = useState(false);
-    const [isPurchasedeGlassFilm] =  useState(getItemState(Items.AntiShatteringFilm.id));
+    const [isPurchasedeGlassFilm] = useState(getItemState(Items.AntiShatteringFilm.id));
 
     // 時間に関する状態
     const localTime = useRef(props.time);
@@ -200,20 +200,20 @@ export default function TallBuildingGameStage(props) {
                     intensity={props.time < Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime ? 0 : 0.8}
                 />
                 {/* <OrbitControls /> */}
-                <fog attach="fog" args={[Color.grayishYellowGreen, 10, 30]} />
-                <Ground />
-                <Building position={[-10, -5, 4]} />
-                <Building position={[-10, -3, -3]} />
-                <Building position={[-3.5, -10, 11]} />
-                <Building position={[3.5, -7, 11]} />
-                <Building position={[-10, -10, 11]} />
-                <Building position={[11, -8, 11]} />
-                <Building position={[11, -10, 4]} />
-                <Building position={[11, -7, -3]} />
-                <Building position={[-3.5, -10, -9]} />
-                <Building position={[3.5, -7, -9]} />
-                <Building position={[-10, -10, -9]} />
-                <Building position={[11, -8, -9]} />
+                <fog attach="fog" args={[isquakeTime ? Color.deepRed : Color.grayishYellowGreen, 10, 30]} />
+                <Ground isquakeTime={isquakeTime} />
+                <Building position={[-10, -5, 4]} isquakeTime={isquakeTime} />
+                <Building position={[-10, -3, -3]} isquakeTime={isquakeTime} />
+                <Building position={[-3.5, -10, 11]} isquakeTime={isquakeTime} />
+                <Building position={[3.5, -7, 11]} isquakeTime={isquakeTime} />
+                <Building position={[-10, -10, 11]} isquakeTime={isquakeTime} />
+                <Building position={[11, -8, 11]} isquakeTime={isquakeTime} />
+                <Building position={[11, -10, 4]} isquakeTime={isquakeTime} />
+                <Building position={[11, -7, -3]} isquakeTime={isquakeTime} />
+                <Building position={[-3.5, -10, -9]} isquakeTime={isquakeTime} />
+                <Building position={[3.5, -7, -9]} isquakeTime={isquakeTime} />
+                <Building position={[-10, -10, -9]} isquakeTime={isquakeTime} />
+                <Building position={[11, -8, -9]} isquakeTime={isquakeTime} />
                 {isHide &&
                     <UseItemBillboard
                         position={[-0.5, 4, 5.2]}
@@ -680,7 +680,7 @@ function GlassDoorShelf({ time, isquakeTime, position, glassDoorShelfRef }) {
     }));
 
     if (time == Buildings.tallBuilding.totalTime - Buildings.tallBuilding.gameOverTime + 1) {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAA");
         api.applyLocalImpulse([-10, 0, 0], [0.5, 2, 0]);
     }
 
@@ -1203,9 +1203,17 @@ function Building(props) {
         if (object.isMesh) {
             let objectColor;
             if (object.name == 'Cube050') {
-                objectColor = Color.darkGrayishGreen;
+                if (props.isquakeTime == true) {
+                    objectColor = Color.deepRed;
+                } else {
+                    objectColor = Color.darkGrayishGreen;
+                }
             } else {
-                objectColor = Color.white;
+                if (props.isquakeTime == true) {
+                    objectColor = Color.vividRed;
+                } else {
+                    objectColor = Color.white;
+                }
             }
             Objects.push(
                 {
@@ -1235,7 +1243,7 @@ function Building(props) {
     )
 }
 
-function Ground(props) {
+function Ground({ isquakeTime }) {
 
     return (
         <mesh
@@ -1244,7 +1252,7 @@ function Ground(props) {
             receiveShadow
         >
             <planeBufferGeometry attach="geometry" args={[100, 100]} />
-            <meshBasicMaterial color={Color.darkGrayishGreen} />
+            <meshStandardMaterial color={isquakeTime ? Color.deepRed : Color.grayishYellowGreen} />
         </mesh>
     )
 }

@@ -70,7 +70,10 @@ export default function Title() {
                     margin={'0.5%'}
                 />
                 <Button
-                    handler={() => resetAllData()}
+                    handler={() => {
+                        resetAllData();
+                        setKey(!key);
+                    }}
                     src={cautionButton}
                     width={'3%'}
                     height={'5%'}

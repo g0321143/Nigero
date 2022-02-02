@@ -49,9 +49,9 @@ export default function HouseGameStage(props) {
 
     // アイテムの使用状況
     const [isUseGelMat, useGelMat] = useState(false);
-    const [isPurchasedGelMat] =  useState(getItemState(Items.AntiSeismicGel.id));
+    const [isPurchasedGelMat] = useState(getItemState(Items.AntiSeismicGel.id));
     const [isUseTensionRod, useTensionRod] = useState(false);
-    const [isPurchasedTensionRod] =  useState(getItemState(Items.Tensionrod.id));
+    const [isPurchasedTensionRod] = useState(getItemState(Items.Tensionrod.id));
 
     // 時間に関する状態
     const localTime = useRef(props.time);
@@ -200,7 +200,7 @@ export default function HouseGameStage(props) {
                 <Physics iterations={6}>
                     {/* <Debug scale={1.1} color="black"> */}
                     <group>
-                        <Ground />
+                        <Ground isquakeTime={isquakeTime} />
                         {!isHide && <Player
                             dragPos={stickPosition.current}
                             playerAngle={playerAngle}
@@ -870,7 +870,7 @@ function Chair({ isquakeTime }) {
     )
 }
 
-function Ground(props) {
+function Ground({ isquakeTime }) {
     const [ref] = usePlane(() => ({
         type: 'Static',
         rotation: [-Math.PI / 2, 0, 0],
@@ -885,7 +885,7 @@ function Ground(props) {
             ref={ref}
         >
             <planeBufferGeometry attach="geometry" args={[100, 100]} />
-            <shadowMaterial attach="material" transparent opacity={0.4} />
+            <meshStandardMaterial color={isquakeTime ? Color.deepRed : Color.grayishYellowGreen} />
         </mesh>
     )
 }

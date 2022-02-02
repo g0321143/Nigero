@@ -182,7 +182,7 @@ export default function ElevatorGameStage(props) {
                     intensity={0.8}
                 />
                 {/* <OrbitControls /> */}
-                <fog attach="fog" args={[Color.grayishYellowGreen, 10, 30]} />
+                <fog attach="fog" args={[isquakeTime ? Color.deepRed : Color.grayishYellowGreen, 10, 30]} />
                 <Structure isquakeTime={isquakeTime} time={props.time} />
                 <ElevatorButtonPanel isquakeTime={isquakeTime} buttonPanelRef={buttonPanelRef} onClick={() => clickButtonPanel()} />
 
