@@ -1,6 +1,5 @@
 import React, { Suspense, useRef, useEffect, useState } from "react";
 import Modal from "react-modal";
-Modal.setAppElement("#root");
 import styled from 'styled-components';
 
 import { Game_Canvas, Block_Right_End } from '../Utils/GlobalStyles';
